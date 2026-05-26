@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stack — LeetCode Notes</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────── -->
+<header class="site-header">
+  <a href="../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../index.html">Home</a>
+    <a href="index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="stack.html" class="sidebar-item active">
+        <span class="icon">📚</span> Stack
+        <span class="sidebar-badge badge-active">Ready</span>
+      </a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;">
+        <span class="icon">🔗</span> Linked List
+        <span class="sidebar-badge badge-soon">Soon</span>
+      </a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;">
+        <span class="icon">🌳</span> Trees
+        <span class="sidebar-badge badge-soon">Soon</span>
+      </a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;">
+        <span class="icon">🗺️</span> Graphs
+        <span class="sidebar-badge badge-soon">Soon</span>
+      </a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;">
+        <span class="icon">🔍</span> Binary Search
+        <span class="sidebar-badge badge-soon">Soon</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <!-- ── Title ──── -->
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+      <h1 id="intro" style="margin:0;">📚 Stack</h1>
+      <button class="btn" onclick="downloadMarkdown()" title="Export this page as Markdown">↓ Export .md</button>
+    </div>
+    <p class="topic-subtitle">
+      A LIFO (Last In, First Out) data structure — essential for matching, history tracking, and "next greater" problems.
+      <br><span style="color:var(--text-muted);font-size:13px;">栈 — 后进先出，面试高频数据结构</span>
+    </p>
+
+    <!-- ── Core Concept ──── -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Core Idea 核心思路</div>
+      Think of a stack as a <strong>pile of plates</strong> — you always add to and remove from the top.
+      The key insight: <em>whatever you pushed last is the first thing you'll process next.</em>
+      In Python, a plain <code>list</code> is a perfect stack.
+    </div>
+
+    <div style="display:flex;gap:32px;flex-wrap:wrap;margin:20px 0;">
+      <div>
+        <h4>Core Operations</h4>
+        <div class="code-block">
+          <div class="code-block-header"><span>Python</span></div>
+          <pre><code><span class="var">stack</span> = []
+
+stack.<span class="fn">append</span>(<span class="num">1</span>)   <span class="cm"># push  →  [1]</span>
+stack.<span class="fn">append</span>(<span class="num">2</span>)   <span class="cm"># push  →  [1, 2]</span>
+stack.<span class="fn">append</span>(<span class="num">3</span>)   <span class="cm"># push  →  [1, 2, 3]</span>
+
+<span class="var">top</span> = stack[<span class="num">-1</span>]   <span class="cm"># peek  →  3  (no remove)</span>
+<span class="var">val</span> = stack.<span class="fn">pop</span>() <span class="cm"># pop   →  val=3, stack=[1,2]</span>
+
+<span class="bi">bool</span>(stack)        <span class="cm"># isEmpty check → True if non-empty</span></code></pre>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:6px;">
+          All operations are <strong>O(1)</strong> time, <strong>O(n)</strong> space.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── Interactive Demo ──── -->
+    <h3>Interactive Demo — Try it yourself</h3>
+    <div class="stack-demo">
+      <!-- Stack visual -->
+      <div>
+        <div class="stack-visual-label">stack = []</div>
+        <div class="stack-visual" id="stackViz"></div>
+        <div class="stack-base"></div>
+      </div>
+      <!-- Controls -->
+      <div class="stack-controls">
+        <div class="stack-input-row">
+          <input class="stack-input" id="pushInput" type="text" placeholder="val" maxlength="3" />
+          <button class="btn btn-push" onclick="demoPush()">push()</button>
+          <button class="btn btn-pop"  onclick="demoPop()">pop()</button>
+          <button class="btn btn-peek" onclick="demoPeek()">peek()</button>
+        </div>
+        <div class="stack-log" id="stackLog"><span class="log-info">— ready —</span></div>
+      </div>
+    </div>
+
+    <!-- ── Patterns ──── -->
+    <h2 id="patterns">Problem Patterns</h2>
+    <p class="section-intro">
+      Stack problems fall into five recognisable patterns. Learning to <em>identify the pattern from the problem description</em>
+      is the real skill. <span style="color:var(--text-muted)">（看到关键词，立刻想到对应模式）</span>
+    </p>
+
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <div class="pattern-icon">🔢</div>
+        <div class="pattern-title">Bracket / Pair Matching</div>
+        <div class="pattern-zh">括号匹配</div>
+        <div class="pattern-desc">
+          Push opening elements; when a closing element arrives, pop and verify it matches.
+        </div>
+        <div class="pattern-keywords">
+          <span class="kchip">valid</span><span class="kchip">balanced</span>
+          <span class="kchip">matching</span><span class="kchip">parentheses</span>
+        </div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-icon">📈</div>
+        <div class="pattern-title">Monotonic Stack</div>
+        <div class="pattern-zh">单调栈</div>
+        <div class="pattern-desc">
+          Maintain a stack that stays increasing or decreasing. When a new element breaks the order,
+          pop and record answers for the popped elements.
+        </div>
+        <div class="pattern-keywords">
+          <span class="kchip">next greater</span><span class="kchip">daily temperatures</span>
+          <span class="kchip">histogram</span><span class="kchip">span</span>
+        </div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-icon">⬇️</div>
+        <div class="pattern-title">Stack + Auxiliary Info</div>
+        <div class="pattern-zh">辅助栈</div>
+        <div class="pattern-desc">
+          Track extra state (min, max, running total) in a second parallel stack so you can retrieve it in O(1).
+        </div>
+        <div class="pattern-keywords">
+          <span class="kchip">O(1) min</span><span class="kchip">design</span>
+          <span class="kchip">getMin()</span>
+        </div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-icon">🔁</div>
+        <div class="pattern-title">Stack Simulation</div>
+        <div class="pattern-zh">栈模拟</div>
+        <div class="pattern-desc">
+          Some operations naturally map to push/pop — building a queue from two stacks,
+          evaluating expressions, or decoding nested structures.
+        </div>
+        <div class="pattern-keywords">
+          <span class="kchip">implement queue</span><span class="kchip">evaluate</span>
+          <span class="kchip">decode string</span>
+        </div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-icon">🧮</div>
+        <div class="pattern-title">Expression Evaluation</div>
+        <div class="pattern-zh">表达式运算</div>
+        <div class="pattern-desc">
+          Use the stack to preserve outer context while resolving inner sub-expressions.
+          Postfix (RPN): operators pop two operands and push the result.
+          Infix: push running state on <code>(</code>, restore on <code>)</code>.
+        </div>
+        <div class="pattern-keywords">
+          <span class="kchip">calculator</span><span class="kchip">evaluate</span>
+          <span class="kchip">reverse polish</span><span class="kchip">nested</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         PATTERN 1 — Bracket Matching
+         ════════════════════════════════════════ -->
+    <h2 id="bracket">Pattern 1 — Bracket / Pair Matching</h2>
+
+    <div class="callout callout-yellow">
+      <div class="callout-label">Trigger Keywords 触发关键词</div>
+      "valid parentheses", "balanced brackets", "matching tags", "valid string" —
+      any problem where you need to confirm opening/closing elements pair up correctly.
+    </div>
+
+    <h3>Core Template</h3>
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Bracket Matching</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">isValid</span>(<span class="var">s</span>):
+    <span class="var">stack</span> = []
+    <span class="var">pairs</span> = { <span class="str">')'</span>: <span class="str">'('</span>, <span class="str">'}'</span>: <span class="str">'{'</span>, <span class="str">']'</span>: <span class="str">'['</span> }
+
+    <span class="kw">for</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">s</span>:
+        <span class="kw">if</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">pairs</span>:            <span class="cm"># closing bracket</span>
+            <span class="var">top</span> = stack.<span class="fn">pop</span>() <span class="kw">if</span> stack <span class="kw">else</span> <span class="str">'#'</span>
+            <span class="kw">if</span> <span class="var">pairs</span>[<span class="var">ch</span>] != <span class="var">top</span>:
+                <span class="kw">return</span> <span class="bi">False</span>
+        <span class="kw">else</span>:                        <span class="cm"># opening bracket → push</span>
+            stack.<span class="fn">append</span>(<span class="var">ch</span>)
+
+    <span class="kw">return</span> <span class="bi">len</span>(stack) == <span class="num">0</span>       <span class="cm"># stack must be empty at end</span></code></pre>
+    </div>
+
+    <h3>Step-by-step Walkthrough — <code>( [ { } ] )</code></h3>
+    <div class="walkthrough" id="bracketWalkthrough">
+      <div class="walkthrough-title">Trace through Valid Parentheses</div>
+      <div class="wt-row">
+        <div class="wt-col">
+          <div class="wt-col-label">Input string</div>
+          <div class="char-row" id="bwChars"></div>
+        </div>
+        <div class="wt-col" style="max-width:120px;">
+          <div class="wt-col-label">Stack state</div>
+          <div class="mini-stack" id="bwStack"></div>
+          <div class="mini-base"></div>
+        </div>
+      </div>
+      <div class="wt-msg" id="bwMsg">Press <strong>Next Step</strong> to begin.</div>
+      <div class="walkthrough-controls">
+        <button class="btn btn-step" id="bwPrev" onclick="bwStep(-1)" disabled>◀ Prev</button>
+        <button class="btn btn-step" id="bwNext" onclick="bwStep(1)">Next ▶</button>
+        <button class="btn btn-play" id="bwPlay" onclick="bwAutoPlay()">▶ Auto</button>
+        <button class="btn btn-step" onclick="bwReset()">↺ Reset</button>
+        <span class="step-counter" id="bwCounter">0 / 8</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         PATTERN 2 — Monotonic Stack
+         ════════════════════════════════════════ -->
+    <h2 id="monotonic">Pattern 2 — Monotonic Stack</h2>
+
+    <div class="callout callout-yellow">
+      <div class="callout-label">Trigger Keywords 触发关键词</div>
+      "next greater element", "previous smaller", "daily temperatures", "largest rectangle",
+      "stock span" — any problem asking for the nearest element larger/smaller than the current one.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Core Insight 核心思路</div>
+      Maintain a stack of <strong>indices</strong> whose corresponding values are in decreasing order.
+      When <code>nums[i] &gt; nums[stack.top()]</code>, the current element is the "next greater" answer
+      for the element at the top — pop and record it. Repeat until the stack is monotone again.
+    </div>
+
+    <h3>Core Template</h3>
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Monotonic Stack (Next Greater)</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">nextGreater</span>(<span class="var">nums</span>):
+    <span class="var">n</span>      = <span class="bi">len</span>(<span class="var">nums</span>)
+    <span class="var">result</span> = [<span class="num">-1</span>] * <span class="var">n</span>       <span class="cm"># default: no greater element</span>
+    <span class="var">stack</span>  = []               <span class="cm"># stores INDICES (not values)</span>
+
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="var">n</span>):
+        <span class="cm"># while stack top's value is smaller than current</span>
+        <span class="kw">while</span> stack <span class="kw">and</span> <span class="var">nums</span>[<span class="var">i</span>] > <span class="var">nums</span>[stack[<span class="num">-1</span>]]:
+            <span class="var">idx</span> = stack.<span class="fn">pop</span>()
+            <span class="var">result</span>[<span class="var">idx</span>] = <span class="var">nums</span>[<span class="var">i</span>]   <span class="cm"># current is the answer for idx</span>
+        stack.<span class="fn">append</span>(<span class="var">i</span>)
+
+    <span class="kw">return</span> <span class="var">result</span></code></pre>
+    </div>
+
+    <h3>Visualisation — Daily Temperatures (LC #739)</h3>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">
+      <strong>Problem:</strong> Given temperatures <code>[73,74,75,71,69,72,76,73]</code>,
+      for each day return how many days until a warmer day.
+      <span style="color:var(--text-muted)">（对每天，找出几天后气温更高）</span>
+    </p>
+
+    <div class="walkthrough">
+      <div class="walkthrough-title">Monotonic Stack Trace</div>
+      <div class="bar-chart-wrap">
+        <div class="bar-chart" id="tempBars"></div>
+        <div style="display:flex;gap:16px;margin-top:10px;font-size:11px;color:var(--text-muted);">
+          <span>🟦 in stack</span><span style="color:var(--green)">🟩 answered</span>
+          <span style="color:var(--yellow)">🟨 current</span>
+        </div>
+      </div>
+      <div class="wt-msg" id="tempMsg">Press <strong>Next Step</strong> to trace the algorithm.</div>
+      <div style="margin-top:10px;font-size:13px;color:var(--text-secondary);">
+        Stack indices: <code id="tempStackDisplay">[]</code> &nbsp;|&nbsp;
+        Result so far: <code id="tempResultDisplay">[0,0,0,0,0,0,0,0]</code>
+      </div>
+      <div class="walkthrough-controls">
+        <button class="btn btn-step" id="tPrev" onclick="tStep(-1)" disabled>◀ Prev</button>
+        <button class="btn btn-step" id="tNext" onclick="tStep(1)">Next ▶</button>
+        <button class="btn btn-play" id="tPlay" onclick="tAutoPlay()">▶ Auto</button>
+        <button class="btn btn-step" onclick="tReset()">↺ Reset</button>
+        <span class="step-counter" id="tCounter">0 / 8</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         PATTERN 3 — Min Stack
+         ════════════════════════════════════════ -->
+    <h2 id="minstack">Pattern 3 — Stack + Auxiliary Info (Min Stack)</h2>
+
+    <div class="callout callout-yellow">
+      <div class="callout-label">Trigger Keywords 触发关键词</div>
+      "design a stack that supports getMin in O(1)", "constant time minimum" —
+      the key constraint is that <code>pop()</code> must not break the min retrieval.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Core Insight 核心思路</div>
+      Keep a second <strong>min-stack</strong> that mirrors the main stack.
+      Each entry in the min-stack stores the <em>minimum value seen so far at that depth</em>.
+      When you pop the main stack, also pop the min-stack — the invariant is always maintained.
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Min Stack</span></div>
+      <pre><code><span class="kw">class</span> <span class="fn">MinStack</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>):
+        <span class="var">self</span>.stack     = []   <span class="cm"># main stack</span>
+        <span class="var">self</span>.min_stack = []   <span class="cm"># parallel min-tracking stack</span>
+
+    <span class="kw">def</span> <span class="fn">push</span>(<span class="var">self</span>, <span class="var">val</span>):
+        <span class="var">self</span>.stack.<span class="fn">append</span>(<span class="var">val</span>)
+        <span class="var">cur_min</span> = <span class="bi">min</span>(<span class="var">val</span>, <span class="var">self</span>.min_stack[<span class="num">-1</span>] <span class="kw">if</span> <span class="var">self</span>.min_stack <span class="kw">else</span> <span class="var">val</span>)
+        <span class="var">self</span>.min_stack.<span class="fn">append</span>(<span class="var">cur_min</span>)
+
+    <span class="kw">def</span> <span class="fn">pop</span>(<span class="var">self</span>):
+        <span class="var">self</span>.stack.<span class="fn">pop</span>()
+        <span class="var">self</span>.min_stack.<span class="fn">pop</span>()   <span class="cm"># always pop both together</span>
+
+    <span class="kw">def</span> <span class="fn">getMin</span>(<span class="var">self</span>) -> <span class="bi">int</span>:
+        <span class="kw">return</span> <span class="var">self</span>.min_stack[<span class="num">-1</span>]   <span class="cm"># O(1) — top of min-stack</span></code></pre>
+    </div>
+
+    <h3>Visual — Why the parallel stack works</h3>
+    <div class="callout callout-green">
+      <div class="callout-label">Example trace</div>
+      <div style="font-family:var(--mono);font-size:13px;line-height:1.9;">
+        push(5) → main: [5]       min_stack: [5]<br>
+        push(3) → main: [5,3]     min_stack: [5,<strong>3</strong>]<br>
+        push(7) → main: [5,3,7]   min_stack: [5,3,<strong>3</strong>]<br>
+        push(2) → main: [5,3,7,2] min_stack: [5,3,3,<strong>2</strong>]<br>
+        pop()   → main: [5,3,7]   min_stack: [5,3,<strong>3</strong>]  ← getMin()=3 ✓<br>
+        pop()   → main: [5,3]     min_stack: [5,<strong>3</strong>]  ← getMin()=3 ✓<br>
+        pop()   → main: [5]       min_stack: [<strong>5</strong>]  ← getMin()=5 ✓
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         PATTERN 4 — Expression Evaluation
+         ════════════════════════════════════════ -->
+    <h2 id="expression">Pattern 4 — Expression Evaluation</h2>
+
+    <div class="callout callout-yellow">
+      <div class="callout-label">Trigger Keywords 触发关键词</div>
+      "evaluate expression", "basic calculator", "reverse polish notation", "postfix",
+      "decode string", "nested" — any problem involving operators, operands, and/or
+      parentheses that must be resolved in the correct order.
+      <span style="color:var(--text-muted)">（含运算符、括号或嵌套结构时，考虑用栈保存中间状态）</span>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Core Insight 核心思路</div>
+      <p>Both flavours share one key idea: <strong>the stack saves "outer context" while you resolve "inner content"</strong>.</p>
+      <ul style="margin-top:8px;margin-left:18px;">
+        <li><strong>Postfix / RPN</strong> — operands go on the stack; an operator pops two, computes, pushes the result back.</li>
+        <li><strong>Infix + parentheses</strong> — on <code>(</code>, push the running result and current sign (pausing the outer expression); on <code>)</code>, pop and merge back into the outer result.</li>
+      </ul>
+      <p style="margin-top:8px;color:var(--text-muted);font-style:italic;">括号 = "暂存外层状态，先算内层"</p>
+    </div>
+
+    <h3>Template A — Reverse Polish Notation (Postfix)</h3>
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — RPN Evaluator (LC #150)</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">evalRPN</span>(<span class="var">tokens</span>):
+    <span class="var">stack</span> = []
+    <span class="kw">for</span> <span class="var">token</span> <span class="kw">in</span> <span class="var">tokens</span>:
+        <span class="kw">if</span> <span class="var">token</span> <span class="kw">not in</span> {<span class="str">'+'</span>,<span class="str">'-'</span>,<span class="str">'*'</span>,<span class="str">'/'</span>}:
+            stack.<span class="fn">append</span>(<span class="bi">int</span>(<span class="var">token</span>))       <span class="cm"># operand → push</span>
+        <span class="kw">else</span>:
+            <span class="var">b</span> = stack.<span class="fn">pop</span>()                 <span class="cm"># right operand (popped first!)</span>
+            <span class="var">a</span> = stack.<span class="fn">pop</span>()                 <span class="cm"># left operand</span>
+            <span class="kw">if</span>   <span class="var">token</span> == <span class="str">'+'</span>: stack.<span class="fn">append</span>(<span class="var">a</span> + <span class="var">b</span>)
+            <span class="kw">elif</span> <span class="var">token</span> == <span class="str">'-'</span>: stack.<span class="fn">append</span>(<span class="var">a</span> - <span class="var">b</span>)
+            <span class="kw">elif</span> <span class="var">token</span> == <span class="str">'*'</span>: stack.<span class="fn">append</span>(<span class="var">a</span> * <span class="var">b</span>)
+            <span class="kw">elif</span> <span class="var">token</span> == <span class="str">'/'</span>: stack.<span class="fn">append</span>(<span class="bi">int</span>(<span class="var">a</span> / <span class="var">b</span>))  <span class="cm"># truncate toward zero</span>
+    <span class="kw">return</span> stack[<span class="num">0</span>]</code></pre>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">RPN Trace — <code>["2","1","+","3","*"]</code> → 9</div>
+      <div style="font-family:var(--mono);font-size:13px;line-height:2;">
+        "2" → push &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stack: [<strong>2</strong>]<br>
+        "1" → push &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stack: [2, <strong>1</strong>]<br>
+        "+" → pop 1,2 → 2+1=3, push &nbsp; stack: [<strong>3</strong>]<br>
+        "3" → push &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stack: [3, <strong>3</strong>]<br>
+        "*" → pop 3,3 → 3×3=9, push &nbsp; stack: [<strong>9</strong>]<br>
+        return stack[0] = <strong>9</strong> ✓
+      </div>
+    </div>
+
+    <h3>Template B — Basic Calculator (Infix + Parentheses)</h3>
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Basic Calculator (LC #224)</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">calculate</span>(<span class="var">s</span>):
+    <span class="var">stack</span>  = []    <span class="cm"># saves (outer_result, sign_before_paren) pairs</span>
+    <span class="var">result</span> = <span class="num">0</span>
+    <span class="var">num</span>    = <span class="num">0</span>
+    <span class="var">sign</span>   = <span class="num">1</span>    <span class="cm"># +1 or -1</span>
+
+    <span class="kw">for</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">s</span>:
+        <span class="kw">if</span> <span class="var">ch</span>.<span class="fn">isdigit</span>():
+            <span class="var">num</span> = <span class="var">num</span> * <span class="num">10</span> + <span class="bi">int</span>(<span class="var">ch</span>)      <span class="cm"># accumulate multi-digit number</span>
+        <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">'+'</span>:
+            <span class="var">result</span> += <span class="var">sign</span> * <span class="var">num</span>; <span class="var">num</span> = <span class="num">0</span>; <span class="var">sign</span> = <span class="num">1</span>
+        <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">'-'</span>:
+            <span class="var">result</span> += <span class="var">sign</span> * <span class="var">num</span>; <span class="var">num</span> = <span class="num">0</span>; <span class="var">sign</span> = <span class="num">-1</span>
+        <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">'('</span>:
+            stack.<span class="fn">append</span>(<span class="var">result</span>)          <span class="cm"># freeze outer result</span>
+            stack.<span class="fn">append</span>(<span class="var">sign</span>)            <span class="cm"># freeze sign in front of '('</span>
+            <span class="var">result</span> = <span class="num">0</span>; <span class="var">sign</span> = <span class="num">1</span>          <span class="cm"># fresh slate for inner expression</span>
+        <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">')'</span>:
+            <span class="var">result</span> += <span class="var">sign</span> * <span class="var">num</span>; <span class="var">num</span> = <span class="num">0</span>
+            <span class="var">result</span> *= stack.<span class="fn">pop</span>()          <span class="cm"># apply sign before '('</span>
+            <span class="var">result</span> += stack.<span class="fn">pop</span>()          <span class="cm"># restore outer result</span>
+
+    <span class="kw">return</span> <span class="var">result</span> + <span class="var">sign</span> * <span class="var">num</span>           <span class="cm"># flush last number</span></code></pre>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">Infix Trace — <code>"1 + (2 - 3)"</code> → 0</div>
+      <div style="font-family:var(--mono);font-size:13px;line-height:2;">
+        '1' → num=1<br>
+        '+' → result=1, num=0, sign=+1<br>
+        '(' → push result=1, push sign=+1 &nbsp; stack:[1,+1] &nbsp; result=0, sign=+1<br>
+        '2' → num=2<br>
+        '-' → result=2, num=0, sign=−1<br>
+        '3' → num=3<br>
+        ')' → result += −1×3 = −1 &nbsp; pop sign(+1): result=−1 &nbsp; pop outer(1): result=<strong>0</strong><br>
+        return result + sign×num = <strong>0</strong> ✓
+      </div>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">Complexity 复杂度</div>
+      Both templates: <strong>O(n)</strong> time — each token/character visited once.
+      <strong>O(n)</strong> space — stack depth bounded by nesting level.
+    </div>
+
+    <!-- ════════════════════════════════════════
+         PROBLEM LIST
+         ════════════════════════════════════════ -->
+    <h2 id="problems">Practice Problem List</h2>
+    <p class="section-intro">
+      ⭐ = must-know classic &nbsp;|&nbsp; 🔥 = frequently seen in recent interviews (2023–2025)
+    </p>
+
+    <!-- Progress tracker — state persisted in localStorage -->
+    <div class="prob-progress">
+      <span class="prob-progress-label">Stack progress</span>
+      <div class="prob-progress-track">
+        <div class="prob-progress-fill" id="probFill"></div>
+      </div>
+      <span class="prob-progress-count" id="probCount">0 / 14</span>
+      <button class="btn-reset" onclick="resetProgress()" title="Clear all progress">↺ Reset</button>
+    </div>
+
+    <h3 style="margin-top:20px;">Easy</h3>
+    <table class="problem-table">
+      <thead>
+        <tr><th style="width:38px;"></th><th>#</th><th>Problem</th><th>Pattern</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="20"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">20</td>
+          <td><a href="problems/20-valid-parentheses.html" class="prob-link">Valid Parentheses</a>
+            <span class="tag tag-easy" style="margin-left:6px;">Easy</span></td>
+          <td><span class="tag tag-pattern">Bracket Matching</span></td>
+          <td><span class="star">⭐</span> Foundation problem</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="155"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">155</td>
+          <td><a href="#" class="prob-link">Min Stack</a>
+            <span class="tag tag-easy" style="margin-left:6px;">Easy</span></td>
+          <td><span class="tag tag-pattern">Aux Stack</span></td>
+          <td><span class="star">⭐</span> Design classic</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="232"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">232</td>
+          <td><a href="#" class="prob-link">Implement Queue using Stacks</a>
+            <span class="tag tag-easy" style="margin-left:6px;">Easy</span></td>
+          <td><span class="tag tag-pattern">Simulation</span></td>
+          <td>Two-stack amortised O(1)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Medium</h3>
+    <table class="problem-table">
+      <thead>
+        <tr><th style="width:38px;"></th><th>#</th><th>Problem</th><th>Pattern</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="739"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">739</td>
+          <td><a href="problems/739-daily-temperatures.html" class="prob-link">Daily Temperatures</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">Monotonic Stack</span></td>
+          <td><span class="star">⭐</span> Entry-point for monotonic</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="150"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">150</td>
+          <td><a href="#" class="prob-link">Evaluate Reverse Polish Notation</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">Expression Eval</span></td>
+          <td><span class="star">⭐</span> RPN / postfix entry point</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="227"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">227</td>
+          <td><a href="#" class="prob-link">Basic Calculator II</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">Expression Eval</span></td>
+          <td>🔥 Infix with ×÷, no parentheses</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="394"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">394</td>
+          <td><a href="#" class="prob-link">Decode String</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">Simulation</span></td>
+          <td>🔥 Nested structure decode</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="496"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">496</td>
+          <td><a href="#" class="prob-link">Next Greater Element I</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">Monotonic Stack</span></td>
+          <td>Warm-up for #739</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="907"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">907</td>
+          <td><a href="#" class="prob-link">Sum of Subarray Minimums</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">Monotonic Stack</span></td>
+          <td>🔥 Frequent 2024</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="1209"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">1209</td>
+          <td><a href="#" class="prob-link">Remove All Adjacent Duplicates II</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">Stack + Aux Info</span></td>
+          <td>🔥 Count-pair stack</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Hard</h3>
+    <table class="problem-table">
+      <thead>
+        <tr><th style="width:38px;"></th><th>#</th><th>Problem</th><th>Pattern</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="84"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">84</td>
+          <td><a href="#" class="prob-link">Largest Rectangle in Histogram</a>
+            <span class="tag tag-hard" style="margin-left:6px;">Hard</span></td>
+          <td><span class="tag tag-pattern">Monotonic Stack</span></td>
+          <td><span class="star">⭐</span> Classic monotonic hard</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="42"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">42</td>
+          <td><a href="#" class="prob-link">Trapping Rain Water</a>
+            <span class="tag tag-hard" style="margin-left:6px;">Hard</span></td>
+          <td><span class="tag tag-pattern">Monotonic Stack</span></td>
+          <td><span class="star">⭐</span> 🔥 FAANG favourite</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="32"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">32</td>
+          <td><a href="#" class="prob-link">Longest Valid Parentheses</a>
+            <span class="tag tag-hard" style="margin-left:6px;">Hard</span></td>
+          <td><span class="tag tag-pattern">Bracket Matching</span></td>
+          <td>🔥 Bracket pattern extension</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="224"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">224</td>
+          <td><a href="#" class="prob-link">Basic Calculator</a>
+            <span class="tag tag-hard" style="margin-left:6px;">Hard</span></td>
+          <td><span class="tag tag-pattern">Expression Eval</span></td>
+          <td><span class="star">⭐</span> Full infix + parentheses</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </main><!-- end main-content -->
+
+  <!-- ── Right TOC Rail ──────────────────────────────── -->
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav>
+      <ul class="toc-nav">
+        <li><a href="#intro"     class="toc-link" data-id="intro">Introduction</a></li>
+        <li><a href="#patterns"  class="toc-link" data-id="patterns">Problem Patterns</a></li>
+        <li><a href="#bracket"   class="toc-link toc-l3" data-id="bracket">Bracket Matching</a></li>
+        <li><a href="#monotonic" class="toc-link toc-l3" data-id="monotonic">Monotonic Stack</a></li>
+        <li><a href="#minstack"   class="toc-link toc-l3" data-id="minstack">Min Stack</a></li>
+        <li><a href="#expression" class="toc-link toc-l3" data-id="expression">Expression Eval</a></li>
+        <li><a href="#problems"   class="toc-link" data-id="problems">Problem List</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+</div><!-- end page-layout -->
+
+<!-- ════════════════════════════════════════════════════
+     JAVASCRIPT — Interactive demos
+     ════════════════════════════════════════════════════ -->
+<script>
+/* ── Interactive Stack Demo ──────────────────────────── */
+const demoStack = [];
+
+function renderDemoStack() {
+  const viz = document.getElementById('stackViz');
+  const label = viz.previousElementSibling;
+  viz.innerHTML = '';
+  if (demoStack.length === 0) {
+    viz.innerHTML = '<div class="stack-empty">empty</div>';
+  } else {
+    // render top-to-bottom (top = first in DOM)
+    [...demoStack].reverse().forEach((val, i) => {
+      const box = document.createElement('div');
+      box.className = 'stack-box' + (i === 0 ? ' top' : '');
+      box.textContent = val;
+      viz.appendChild(box);
+    });
+  }
+  label.textContent = 'stack = [' + demoStack.join(', ') + ']';
+}
+
+function demoLog(msg, type) {
+  const log = document.getElementById('stackLog');
+  const entry = document.createElement('div');
+  entry.className = type;
+  entry.textContent = msg;
+  log.innerHTML = '';
+  log.appendChild(entry);
+}
+
+function demoPush() {
+  const input = document.getElementById('pushInput');
+  const val = input.value.trim() || String(Math.floor(Math.random() * 90) + 10);
+  demoStack.push(val);
+  renderDemoStack();
+  // animate top box
+  const viz = document.getElementById('stackViz');
+  if (viz.firstChild && viz.firstChild.classList) {
+    viz.firstChild.classList.add('push-anim');
+    setTimeout(() => viz.firstChild && viz.firstChild.classList.remove('push-anim'), 300);
+  }
+  demoLog('push(' + val + ')  →  stack: [' + demoStack.join(', ') + ']', 'log-push');
+  input.value = '';
+}
+
+function demoPop() {
+  if (demoStack.length === 0) { demoLog('pop() — stack is empty!', 'log-info'); return; }
+  const val = demoStack.pop();
+  demoLog('pop()  →  returned ' + val + ',  stack: [' + demoStack.join(', ') + ']', 'log-pop');
+  renderDemoStack();
+}
+
+function demoPeek() {
+  if (demoStack.length === 0) { demoLog('peek() — stack is empty!', 'log-info'); return; }
+  demoLog('peek()  →  top = ' + demoStack[demoStack.length - 1], 'log-peek');
+}
+
+renderDemoStack();
+
+/* ── Bracket Walkthrough ─────────────────────────────── */
+const BW_STR = ['(', '[', '{', '}', ']', ')'];
+const PAIRS  = { ')': '(', ']': '[', '}': '{' };
+const OPEN   = new Set(['(', '[', '{']);
+
+// Pre-compute steps
+function buildBwSteps() {
+  const steps = [];
+  const stack = [];
+  steps.push({ cur: -1, stack: [], msg: 'Ready. We will process each character one by one.', ok: true });
+  for (let i = 0; i < BW_STR.length; i++) {
+    const ch = BW_STR[i];
+    let msg = '', ok = true;
+    if (OPEN.has(ch)) {
+      stack.push(ch);
+      msg = `Character <strong>'${ch}'</strong> is an opening bracket — push onto stack. Stack: [${stack.join(', ')}]`;
+    } else {
+      const top = stack.length ? stack[stack.length - 1] : '#';
+      if (PAIRS[ch] === top) {
+        stack.pop();
+        msg = `Character <strong>'${ch}'</strong> is a closing bracket. Top of stack is <strong>'${top}'</strong> ✓ — they match, pop. Stack: [${stack.join(', ')}]`;
+      } else {
+        msg = `Character <strong>'${ch}'</strong> — top is <strong>'${top}'</strong> ✗ — MISMATCH → return false`;
+        ok = false;
+      }
+    }
+    steps.push({ cur: i, stack: [...stack], msg, ok });
+  }
+  const finalOk = stack.length === 0;
+  steps.push({
+    cur: BW_STR.length,
+    stack: [...stack],
+    msg: finalOk
+      ? '✅ End of string. Stack is <strong>empty</strong> — all brackets matched. Return <strong>true</strong>.'
+      : '❌ End of string. Stack is <strong>not empty</strong> — unmatched brackets remain. Return <strong>false</strong>.',
+    ok: finalOk
+  });
+  return steps;
+}
+
+const bwSteps = buildBwSteps();
+let bwCur = 0, bwTimer = null;
+
+function bwRender() {
+  const s = bwSteps[bwCur];
+  // chars
+  const charsEl = document.getElementById('bwChars');
+  charsEl.innerHTML = BW_STR.map((c, i) => {
+    let cls = 'cbox';
+    if (i < s.cur) cls += ' done';
+    else if (i === s.cur) cls += ' cur';
+    if (OPEN.has(c)) cls += ' open';
+    else cls += ' close';
+    return `<div class="${cls}">${c}</div>`;
+  }).join('');
+  // mini stack
+  const stackEl = document.getElementById('bwStack');
+  stackEl.innerHTML = s.stack.length
+    ? [...s.stack].reverse().map(c => `<div class="mbox">${c}</div>`).join('')
+    : '<div style="font-size:11px;color:var(--text-muted);text-align:center;">empty</div>';
+  // message
+  document.getElementById('bwMsg').innerHTML = s.msg;
+  document.getElementById('bwCounter').textContent = bwCur + ' / ' + (bwSteps.length - 1);
+  document.getElementById('bwPrev').disabled = bwCur === 0;
+  document.getElementById('bwNext').disabled = bwCur === bwSteps.length - 1;
+}
+
+function bwStep(dir) {
+  bwCur = Math.max(0, Math.min(bwSteps.length - 1, bwCur + dir));
+  bwRender();
+}
+
+function bwReset() {
+  clearInterval(bwTimer); bwTimer = null;
+  document.getElementById('bwPlay').textContent = '▶ Auto';
+  bwCur = 0; bwRender();
+}
+
+function bwAutoPlay() {
+  if (bwTimer) { clearInterval(bwTimer); bwTimer = null; document.getElementById('bwPlay').textContent = '▶ Auto'; return; }
+  document.getElementById('bwPlay').textContent = '⏸ Pause';
+  bwTimer = setInterval(() => {
+    if (bwCur >= bwSteps.length - 1) { clearInterval(bwTimer); bwTimer = null; document.getElementById('bwPlay').textContent = '▶ Auto'; return; }
+    bwStep(1);
+  }, 1100);
+}
+
+bwRender();
+
+/* ── Temperature / Monotonic Stack Walkthrough ─────── */
+const TEMPS   = [73, 74, 75, 71, 69, 72, 76, 73];
+const MAX_T   = Math.max(...TEMPS);
+const BAR_H   = 140;
+
+function buildTSteps() {
+  const steps = [];
+  const stack  = [];
+  const result = new Array(TEMPS.length).fill(0);
+  steps.push({ i: -1, stack: [], result: [...result], msg: 'Ready. We iterate through each temperature. Stack stores indices of "unanswered" days.' });
+  for (let i = 0; i < TEMPS.length; i++) {
+    const popped = [];
+    while (stack.length && TEMPS[i] > TEMPS[stack[stack.length - 1]]) {
+      const idx = stack.pop();
+      result[idx] = i - idx;
+      popped.push(idx);
+    }
+    const popMsg = popped.length
+      ? ` <strong>${TEMPS[i]}°</strong> is warmer than ${popped.map(x => `day ${x} (${TEMPS[x]}°)`).join(', ')} → result[${popped.join(',')}] = ${popped.map(x => i - x).join(',')}.`
+      : ` No warmer day found yet — push index ${i} onto stack.`;
+    stack.push(i);
+    const msg = `Day ${i} (temp=${TEMPS[i]}°).${popMsg} Stack: [${stack.join(', ')}]`;
+    steps.push({ i, stack: [...stack], result: [...result], msg });
+  }
+  steps.push({ i: TEMPS.length, stack: [], result: [...result], msg: `✅ Done! Final result: [${result.join(', ')}]` });
+  return steps;
+}
+
+const tSteps = buildTSteps();
+let tCur = 0, tTimer = null;
+
+function tRender() {
+  const s = tSteps[tCur];
+  // bars
+  const barsEl = document.getElementById('tempBars');
+  barsEl.innerHTML = TEMPS.map((t, i) => {
+    let cls = 'bar';
+    if (s.stack.includes(i)) cls += ' in-stack';
+    if (s.result[i] !== 0) cls += ' answered';
+    if (i === s.i) cls += ' current';
+    const h = Math.round((t / MAX_T) * BAR_H);
+    return `<div class="bar-col">
+      <div class="bar ${cls}" style="height:${h}px;"></div>
+      <div class="bar-val">${t}</div>
+      <div class="bar-idx">${i}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('tempMsg').innerHTML = s.msg;
+  document.getElementById('tempStackDisplay').textContent = '[' + s.stack.join(', ') + ']';
+  document.getElementById('tempResultDisplay').textContent = '[' + s.result.join(', ') + ']';
+  document.getElementById('tCounter').textContent = tCur + ' / ' + (tSteps.length - 1);
+  document.getElementById('tPrev').disabled = tCur === 0;
+  document.getElementById('tNext').disabled = tCur === tSteps.length - 1;
+}
+
+function tStep(dir) {
+  tCur = Math.max(0, Math.min(tSteps.length - 1, tCur + dir));
+  tRender();
+}
+
+function tReset() {
+  clearInterval(tTimer); tTimer = null;
+  document.getElementById('tPlay').textContent = '▶ Auto';
+  tCur = 0; tRender();
+}
+
+function tAutoPlay() {
+  if (tTimer) { clearInterval(tTimer); tTimer = null; document.getElementById('tPlay').textContent = '▶ Auto'; return; }
+  document.getElementById('tPlay').textContent = '⏸ Pause';
+  tTimer = setInterval(() => {
+    if (tCur >= tSteps.length - 1) { clearInterval(tTimer); tTimer = null; document.getElementById('tPlay').textContent = '▶ Auto'; return; }
+    tStep(1);
+  }, 1200);
+}
+
+tRender();
+
+/* ── TOC Scroll Spy ──────────────────────────────────── */
+(function () {
+  const tocLinks = document.querySelectorAll('.toc-link[data-id]');
+  const headings = Array.from(tocLinks).map(l =>
+    document.getElementById(l.dataset.id)
+  ).filter(Boolean);
+
+  function setActive(id) {
+    tocLinks.forEach(l => l.classList.toggle('toc-active', l.dataset.id === id));
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    // find the topmost heading that is currently intersecting
+    const visible = entries
+      .filter(e => e.isIntersecting)
+      .map(e => e.target);
+    if (visible.length) {
+      // pick the one closest to the top of the viewport
+      visible.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+      setActive(visible[0].id);
+    }
+  }, {
+    rootMargin: '0px 0px -70% 0px',
+    threshold: 0
+  });
+
+  headings.forEach(h => observer.observe(h));
+
+  // set initial active on load
+  if (headings.length) setActive(headings[0].id);
+})();
+
+/* ── Problem progress (localStorage) ──────────────── */
+const STORAGE_KEY = 'lc-stack-done';
+function getSolved() { return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')); }
+function saveSolved(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify([...s])); }
+function updateProgressBar() {
+  const total = document.querySelectorAll('.prob-check').length;
+  const done  = document.querySelectorAll('.prob-check:checked').length;
+  document.getElementById('probCount').textContent = done + ' / ' + total;
+  document.getElementById('probFill').style.width  = total ? (done / total * 100) + '%' : '0%';
+}
+function initProgress() {
+  const solved = getSolved();
+  document.querySelectorAll('.prob-check').forEach(cb => {
+    if (solved.has(cb.dataset.id)) { cb.checked = true; cb.closest('tr').classList.add('solved'); }
+    cb.addEventListener('change', () => {
+      const s = getSolved();
+      if (cb.checked) { s.add(cb.dataset.id); cb.closest('tr').classList.add('solved'); }
+      else { s.delete(cb.dataset.id); cb.closest('tr').classList.remove('solved'); }
+      saveSolved(s); updateProgressBar();
+    });
+  });
+  updateProgressBar();
+}
+function resetProgress() {
+  if (!confirm('Clear all Stack progress?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  document.querySelectorAll('.prob-check').forEach(cb => { cb.checked = false; cb.closest('tr').classList.remove('solved'); });
+  updateProgressBar();
+}
+initProgress();
+
+/* ── Export as Markdown ──────────────────────────────── */
+function downloadMarkdown() {
+  const main = document.querySelector('.main-content');
+  const lines = [];
+  const SKIP = ['walkthrough','stack-demo','bar-chart-wrap','prob-progress','back-link'];
+
+  function txt(el) { return el.textContent.replace(/\s+/g, ' ').trim(); }
+
+  function processEl(el) {
+    if (el.nodeType !== Node.ELEMENT_NODE) return;
+    const tag = el.tagName.toLowerCase();
+    const cls = el.className || '';
+
+    if (SKIP.some(c => cls.includes(c))) {
+      lines.push('> *(Interactive element — see web version)*\n');
+      return;
+    }
+
+    if (tag === 'h1') { lines.push(`# ${txt(el)}\n`); return; }
+    if (tag === 'h2') { lines.push(`\n## ${txt(el)}\n`); return; }
+    if (tag === 'h3') { lines.push(`\n### ${txt(el)}\n`); return; }
+    if (tag === 'h4') { lines.push(`\n#### ${txt(el)}\n`); return; }
+    if (tag === 'p')  { const t = txt(el); if (t) lines.push(`${t}\n`); return; }
+
+    if (tag === 'ul' || tag === 'ol') {
+      el.querySelectorAll(':scope > li').forEach(li => lines.push(`- ${txt(li)}`));
+      lines.push('');
+      return;
+    }
+
+    if (cls.includes('callout')) {
+      const labelEl = el.querySelector('.callout-label');
+      const label   = labelEl ? labelEl.textContent.trim() : '';
+      const clone   = el.cloneNode(true);
+      const lc      = clone.querySelector('.callout-label');
+      if (lc) lc.remove();
+      const body = clone.textContent.replace(/\s+/g, ' ').trim();
+      lines.push(`> **${label}**`);
+      if (body) lines.push(`> ${body}`);
+      lines.push('');
+      return;
+    }
+
+    if (cls.includes('code-block')) {
+      const hdr  = el.querySelector('.code-block-header span');
+      const lang = hdr && hdr.textContent.includes('Python') ? 'python' : '';
+      const code = el.querySelector('pre code');
+      if (code) { lines.push(`\`\`\`${lang}`, code.textContent.trim(), '```\n'); }
+      return;
+    }
+
+    if (cls.includes('pattern-grid')) {
+      el.querySelectorAll('.pattern-card').forEach(card => {
+        const title = card.querySelector('.pattern-title')?.textContent.trim() ?? '';
+        const zh    = card.querySelector('.pattern-zh')?.textContent.trim() ?? '';
+        const desc  = card.querySelector('.pattern-desc')?.textContent.trim() ?? '';
+        const kws   = [...card.querySelectorAll('.kchip')].map(k => k.textContent.trim()).join(', ');
+        lines.push(`**${title}** *(${zh})*`, desc, `Keywords: \`${kws}\`\n`);
+      });
+      return;
+    }
+
+    if (tag === 'table') {
+      el.querySelectorAll('tr').forEach((row, ri) => {
+        const cells = [...row.querySelectorAll('th,td')].slice(1);
+        const vals  = cells.map(td => td.textContent.replace(/\s+/g, ' ').trim());
+        lines.push('| ' + vals.join(' | ') + ' |');
+        if (ri === 0) lines.push('| ' + vals.map(() => '---').join(' | ') + ' |');
+      });
+      lines.push('');
+      return;
+    }
+
+    for (const child of el.childNodes) processEl(child);
+  }
+
+  lines.push('# Stack — LeetCode Notes\n', '> Exported from dm-kai-homepage\n');
+  for (const child of main.childNodes) processEl(child);
+
+  const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = Object.assign(document.createElement('a'), { href: url, download: 'stack-notes.md' });
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>

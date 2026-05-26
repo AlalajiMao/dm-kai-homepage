@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#20 Valid Parentheses — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item active">
+        <span class="icon">📚</span> Stack
+        <span class="sidebar-badge badge-active">Ready</span>
+      </a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;">
+        <span class="icon">🔗</span> Linked List
+        <span class="sidebar-badge badge-soon">Soon</span>
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Stack Problems</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item active">
+        <span class="icon">🔢</span> #20 Valid Parens
+      </a>
+      <a href="739-daily-temperatures.html" class="sidebar-item">
+        <span class="icon">🌡️</span> #739 Daily Temps
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"    class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview"  class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"   class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#complexity" class="sidebar-item"><span class="icon">📊</span> Complexity</a>
+      <a href="#followup"   class="sidebar-item"><span class="icon">🔁</span> Follow-ups</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #20 · <a href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Valid Parentheses</div>
+        <div class="problem-meta">
+          <span class="tag tag-easy">Easy</span>
+          <span class="tag tag-pattern">Bracket Matching</span>
+          <span class="tag tag-pattern">Stack</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given a string <code>s</code> containing just the characters <code>'('</code>, <code>')'</code>,
+      <code>'{'</code>, <code>'}'</code>, <code>'['</code> and <code>']'</code>,
+      determine if the input string is <strong>valid</strong>.</p>
+      <p style="margin-top:8px;">An input string is valid if:</p>
+      <ul style="margin-top:6px;margin-left:20px;font-size:14px;">
+        <li>Open brackets must be closed by the <strong>same type</strong> of brackets.</li>
+        <li>Open brackets must be closed in the <strong>correct order</strong>.</li>
+        <li>Every close bracket has a corresponding open bracket of the same type.</li>
+      </ul>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        <code>s = "()"</code>    → <span style="color:var(--green)">true</span><br>
+        <code>s = "()[]{}"</code> → <span style="color:var(--green)">true</span><br>
+        <code>s = "(]"</code>    → <span style="color:var(--red)">false</span><br>
+        <code>s = "([)]"</code>  → <span style="color:var(--red)">false</span><br>
+        <code>s = "{[]}"</code>  → <span style="color:var(--green)">true</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      A realistic interview dialogue showing <em>how to think out loud</em> — not just arrive at the answer,
+      but communicate the reasoning clearly.
+      <span style="color:var(--text-muted)">（模拟真实面试对话，展示如何清晰地表达思路）</span>
+    </p>
+
+    <!-- Stage 1: Introduction -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Let's work through a coding problem. I'll give you a string made only of bracket characters —
+          <code>'('</code>, <code>')'</code>, <code>'{'</code>, <code>'}'</code>, <code>'['</code>, <code>']'</code>.
+          Your task is to determine whether the string is valid. A string is valid when every opening bracket
+          is closed by the same type in the correct order. Take a moment to read it over — what questions do you have?
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2: Clarification -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few quick clarifications:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can the input string be empty? If so, should we return <code>true</code>?</li>
+            <li>Will the string contain only these six bracket characters, or could there be letters or numbers?</li>
+            <li>Is there a constraint on string length I should be aware of for complexity?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good questions. Yes — an empty string is valid, return <code>true</code>.
+          The string contains only those six characters. And the length can be up to 10<sup>4</sup>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3: Approach -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me think through this. The core challenge is that a closing bracket must match
+          the <em>most recent</em> unmatched opening bracket. That "most recent" constraint is
+          the classic signature of a <strong>stack</strong> — LIFO gives us exactly that ordering.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      My plan: iterate through the string. Push every opening bracket. When I see a closing bracket,
+      pop the stack and check if they form a valid pair. If the pop result doesn't match, return false immediately.
+      At the end, the stack must be empty (no unmatched openers left).
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          My approach: use a stack and a hash map that maps each closing bracket to its expected opening bracket.
+          For each character:<br><br>
+          — If it's an opening bracket, push it.<br>
+          — If it's a closing bracket, pop the stack (or use a sentinel if empty) and check it matches the map.<br>
+          — At the end, return whether the stack is empty.<br><br>
+          This handles all three invalidity cases: wrong type, wrong order, and unmatched openers.
+          Does that sound like a good direction?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          That sounds exactly right. Go ahead and code it up.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4: Pseudocode + Code -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode Walkthrough</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me walk through the pseudocode first before writing the actual code:
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">isValid</span>(<span class="var">s</span>):
+    <span class="var">stack</span> = []
+    <span class="var">pairs</span> = { <span class="str">')'</span>: <span class="str">'('</span>,  <span class="str">']'</span>: <span class="str">'['</span>,  <span class="str">'}'</span>: <span class="str">'{'</span> }
+
+    <span class="kw">for</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">s</span>:
+        <span class="kw">if</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">pairs</span>:                    <span class="cm"># it's a closing bracket</span>
+            <span class="var">top</span> = stack.<span class="fn">pop</span>() <span class="kw">if</span> stack <span class="kw">else</span> <span class="str">'#'</span>   <span class="cm"># sentinel for empty stack</span>
+            <span class="kw">if</span> <span class="var">pairs</span>[<span class="var">ch</span>] != <span class="var">top</span>:
+                <span class="kw">return</span> <span class="bi">False</span>            <span class="cm"># mismatch → invalid</span>
+        <span class="kw">else</span>:
+            stack.<span class="fn">append</span>(<span class="var">ch</span>)           <span class="cm"># opening bracket → push</span>
+
+    <span class="kw">return</span> <span class="bi">len</span>(stack) == <span class="num">0</span>             <span class="cm"># must be fully matched</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace through <code>"{[]}"</code> to verify:<br><br>
+          <code>'{'</code> → push. Stack: <code>[ '{' ]</code><br>
+          <code>'['</code> → push. Stack: <code>[ '{', '[' ]</code><br>
+          <code>']'</code> → closing. Pop → <code>'['</code>. pairs[<code>']'</code>] = <code>'['</code> ✓<br>
+          <code>'}'</code> → closing. Pop → <code>'{'</code>. pairs[<code>'}'</code>] = <code>'{'</code> ✓<br>
+          Stack empty → return <code>true</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good trace. Now what about the edge case <code>"([)]"</code>?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <code>'('</code> → push. Stack: <code>[ '(' ]</code><br>
+          <code>'['</code> → push. Stack: <code>[ '(', '[' ]</code><br>
+          <code>')'</code> → closing. Pop → <code>'['</code>. But pairs[<code>')'</code>] = <code>'('</code> ≠ <code>'['</code> → return <code>false</code> ✅<br><br>
+          The interleaving is caught immediately because the stack top doesn't match.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5: Complexity -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n) — single pass through the string, each character is pushed/popped at most once.<br><br>
+          <strong>Space:</strong> O(n) — worst case the stack holds n/2 opening brackets (e.g. <code>"((((("</code>).<br><br>
+          This is optimal — we must read every character at least once, so O(n) time is a lower bound.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Single pass, each char pushed/popped once</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--yellow);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Stack holds at most n/2 chars</div>
+    </div>
+
+    <!-- Stage 6: Follow-ups -->
+    <div class="stage-label" id="followup"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Two follow-ups: (1) Can you handle it without a hash map? (2) What if we also needed to support
+          custom bracket pairs like <code>&lt;&gt;</code>?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>(1) Without a hash map:</strong> Instead of storing opening brackets in the stack,
+          we can push the <em>expected closing bracket</em> when we see an opener.
+          Then for each closing bracket we just compare it to the stack top directly — no map needed.<br><br>
+
+          <strong>(2) Custom pairs:</strong> The algorithm is already data-driven — just pass in the pairs dictionary
+          as a parameter instead of hardcoding it. Any set of bracket pairs works
+          as long as each opener maps to exactly one closer.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Nice. One more — what's the minimum length for a valid non-empty string?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Length 2 — a single open-close pair like <code>"()"</code>. Any odd-length string is automatically invalid
+          since brackets must come in pairs — we can short-circuit and return <code>false</code> for odd <code>len(s)</code>
+          as a micro-optimisation.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="solution"></div>
+
+    <!-- Full Solution -->
+    <h2 style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Valid Parentheses</span>
+        <span style="color:var(--green)">O(n) time · O(n) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">isValid</span>(<span class="var">self</span>, <span class="var">s</span>: <span class="bi">str</span>) -> <span class="bi">bool</span>:
+        <span class="kw">if</span> <span class="bi">len</span>(<span class="var">s</span>) % <span class="num">2</span> != <span class="num">0</span>:          <span class="cm"># odd length → always invalid</span>
+            <span class="kw">return</span> <span class="bi">False</span>
+
+        <span class="var">pairs</span> = {<span class="str">')'</span>: <span class="str">'('</span>, <span class="str">']'</span>: <span class="str">'['</span>, <span class="str">'}'</span>: <span class="str">'{'</span>}
+        <span class="var">stack</span> = []
+
+        <span class="kw">for</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">s</span>:
+            <span class="kw">if</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">pairs</span>:
+                <span class="var">top</span> = stack.<span class="fn">pop</span>() <span class="kw">if</span> stack <span class="kw">else</span> <span class="str">'#'</span>
+                <span class="kw">if</span> <span class="var">pairs</span>[<span class="var">ch</span>] != <span class="var">top</span>:
+                    <span class="kw">return</span> <span class="bi">False</span>
+            <span class="kw">else</span>:
+                stack.<span class="fn">append</span>(<span class="var">ch</span>)
+
+        <span class="kw">return</span> <span class="kw">not</span> stack</code></pre>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">Key Interview Tips 面试要点</div>
+      <ul style="font-size:13.5px;margin-left:18px;line-height:1.9;">
+        <li>Always handle the <strong>empty stack</strong> case before popping — use a sentinel like <code>'#'</code></li>
+        <li>The map keys are <strong>closing</strong> brackets (easier to look up on arrival)</li>
+        <li>Final check is <code>not stack</code>, not just <code>return True</code> — unmatched openers must be caught</li>
+        <li>Mention the odd-length short circuit — shows attention to optimisation</li>
+      </ul>
+    </div>
+
+    <p style="margin-top:24px;">
+      <a href="739-daily-temperatures.html" style="font-size:14px;">
+        Next problem: #739 Daily Temperatures →
+      </a>
+    </p>
+
+  </main>
+</div>
+</body>
+</html>

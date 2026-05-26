@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#739 Daily Temperatures — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item active">
+        <span class="icon">📚</span> Stack
+        <span class="sidebar-badge badge-active">Ready</span>
+      </a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;">
+        <span class="icon">🔗</span> Linked List
+        <span class="sidebar-badge badge-soon">Soon</span>
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Stack Problems</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item">
+        <span class="icon">🔢</span> #20 Valid Parens
+      </a>
+      <a href="739-daily-temperatures.html" class="sidebar-item active">
+        <span class="icon">🌡️</span> #739 Daily Temps
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"    class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview"  class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"   class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#complexity" class="sidebar-item"><span class="icon">📊</span> Complexity</a>
+      <a href="#followup"   class="sidebar-item"><span class="icon">🔁</span> Follow-ups</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #739 · <a href="https://leetcode.com/problems/daily-temperatures/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Daily Temperatures</div>
+        <div class="problem-meta">
+          <span class="tag tag-medium">Medium</span>
+          <span class="tag tag-pattern">Monotonic Stack</span>
+          <span class="tag tag-pattern">Stack</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given an array of integers <code>temperatures</code> representing the daily temperatures,
+      return an array <code>answer</code> such that <code>answer[i]</code> is the number of days you have
+      to wait after the <code>i</code>-th day to get a warmer temperature.</p>
+      <p style="margin-top:6px;">If there is no future day for which this is possible, set <code>answer[i] = 0</code>.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLE</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        <code>Input:  temperatures = [73,74,75,71,69,72,76,73]</code><br>
+        <code>Output: answer       = [1, 1, 4, 2, 1, 1, 0, 0]</code>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">
+        Day 0 (73°): next warmer is day 1 (74°) → 1 day wait.<br>
+        Day 2 (75°): next warmer is day 6 (76°) → 4 days wait.<br>
+        Day 6 (76°): no warmer day exists → 0.
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      Daily Temperatures is the gateway problem for <strong>monotonic stack</strong> — the most important
+      stack pattern for medium/hard interviews. The key is recognising the pattern quickly.
+      <span style="color:var(--text-muted)">（单调栈入门题，掌握这道题就掌握了这个模式）</span>
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Here's the problem: you're given a list of daily temperatures. For each day, I want to know
+          how many days you'd have to wait until you see a warmer temperature. If no such day exists,
+          put zero. What are your initial thoughts?
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2: Clarification -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me clarify a few things:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>The output is an array of the same length as the input — each element is the number of days to wait, right?</li>
+            <li>Temperatures are integers, I assume? And they could range anywhere, like 30–100°F?</li>
+            <li>Can two consecutive days have the same temperature? If so, that doesn't count as "warmer"?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Correct on all counts. Output is same length, temperatures are integers in range [30, 100],
+          and "warmer" means <em>strictly greater</em>, so equal doesn't count.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3: Approach -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          My first instinct is brute force: for each day <code>i</code>, scan forward until I find a day <code>j</code>
+          where <code>temps[j] > temps[i]</code>. That's O(n²) time — workable for small inputs but not ideal.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          O(n²) noted. Can you do better?
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      The problem is asking for the "next greater element" to the right for each position.
+      That's a textbook monotonic stack scenario. I should maintain a decreasing stack of indices.
+      When a new temperature is higher than the stack top, that element has found its answer.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes — this is a <strong>monotonic stack</strong> problem. Here's the key observation:
+          as I scan left to right, some days are still "waiting" for a warmer day. I can keep
+          those waiting days in a stack. When I encounter a temperature warmer than the stack's top,
+          that's the answer for the top day — I pop it and record the difference in indices.<br><br>
+          The stack will always hold indices of days in <em>decreasing temperature order</em>
+          (because if a day is colder than the one before it, it can't be the answer for anything above it in the stack yet).
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. Why store indices rather than the temperatures themselves?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Because the answer is a <em>number of days</em>, not a temperature. When I pop index <code>j</code>
+          and the current index is <code>i</code>, the answer for day <code>j</code> is <code>i - j</code>.
+          I need both indices to compute that difference. If I only stored temperatures, I'd lose the position.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4: Pseudocode -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode Walkthrough</div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Monotonic Stack (Decreasing)</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">dailyTemperatures</span>(<span class="var">temps</span>):
+    <span class="var">n</span>      = <span class="bi">len</span>(<span class="var">temps</span>)
+    <span class="var">result</span> = [<span class="num">0</span>] * <span class="var">n</span>       <span class="cm"># default 0: no warmer day found</span>
+    <span class="var">stack</span>  = []             <span class="cm"># indices of "unanswered" days</span>
+                             <span class="cm"># invariant: temps[stack] is decreasing</span>
+
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="var">n</span>):
+        <span class="cm"># current temp breaks the decreasing order → answer found</span>
+        <span class="kw">while</span> stack <span class="kw">and</span> <span class="var">temps</span>[<span class="var">i</span>] > <span class="var">temps</span>[stack[<span class="num">-1</span>]]:
+            <span class="var">j</span> = stack.<span class="fn">pop</span>()
+            <span class="var">result</span>[<span class="var">j</span>] = <span class="var">i</span> - <span class="var">j</span>   <span class="cm"># days waited = current index − past index</span>
+        stack.<span class="fn">append</span>(<span class="var">i</span>)       <span class="cm"># push current index, still waiting</span>
+
+    <span class="cm"># remaining indices in stack have no warmer day → stay 0</span>
+    <span class="kw">return</span> <span class="var">result</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace through <code>[73, 74, 75, 71, 69, 72, 76, 73]</code>:<br><br>
+          <div style="font-family:var(--mono);font-size:12.5px;line-height:2;">
+            i=0, 73°  → stack empty, push 0.       stack=[0]<br>
+            i=1, 74°  → 74>73, pop 0: ans[0]=1.    push 1.  stack=[1]<br>
+            i=2, 75°  → 75>74, pop 1: ans[1]=1.    push 2.  stack=[2]<br>
+            i=3, 71°  → 71&lt;75, push 3.             stack=[2,3]<br>
+            i=4, 69°  → 69&lt;71, push 4.             stack=[2,3,4]<br>
+            i=5, 72°  → 72>69, pop 4: ans[4]=1.  72>71, pop 3: ans[3]=2.  72&lt;75, push 5.  stack=[2,5]<br>
+            i=6, 76°  → 76>72, pop 5: ans[5]=1.  76>75, pop 2: ans[2]=4.  push 6.  stack=[6]<br>
+            i=7, 73°  → 73&lt;76, push 7.             stack=[6,7]<br>
+            End: stack=[6,7] → ans[6]=ans[7]=0 (default)<br>
+          </div>
+          <br>Result: <code>[1, 1, 4, 2, 1, 1, 0, 0]</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Correct. I notice you pop multiple times in a single iteration (e.g. at i=5). Does that affect the time complexity?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          It doesn't, thanks to <strong>amortised analysis</strong>. Each index is pushed onto the stack exactly
+          once and popped at most once. So across the entire loop, the total number of push and pop operations
+          is at most <code>2n</code> — the outer loop contributes n pushes, and the while loop pops in total
+          at most n times. The overall time complexity is still <strong>O(n)</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5: Complexity -->
+    <div class="stage-label" id="complexity"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Brute Force</div>
+      <div class="cx-cell hd">Monotonic Stack</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell" style="color:var(--red);">O(n²)</div>
+      <div class="cx-cell" style="color:var(--green);font-weight:600;">O(n)</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell" style="color:var(--green);">O(1)*</div>
+      <div class="cx-cell" style="color:var(--yellow);font-weight:600;">O(n)</div>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);">* brute force O(1) auxiliary, but output array is O(n) either way.</p>
+
+    <!-- Stage 6: Follow-ups -->
+    <div class="stage-label" id="followup"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          How would you modify this to find the <em>previous</em> warmer day instead of the next?
+          And how does this relate to "Next Greater Element I" (LC #496)?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Previous warmer day:</strong> Process right-to-left instead of left-to-right,
+          or maintain an <em>increasing</em> stack (instead of decreasing). Scanning backwards,
+          we're always looking at what came before.<br><br>
+          <strong>Relation to #496:</strong> Daily Temperatures is essentially "Next Greater Element"
+          where we return the <em>distance</em> (index difference) instead of the value itself.
+          The algorithm is identical — only what we record when we pop differs.
+          LC #496 also adds a twist where the array to query and the array to search are different,
+          but the monotonic stack logic is the same.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          If the input were a circular array (after the last element comes the first), how would you handle it?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Classic trick: iterate <code>2n</code> times using index <code>i % n</code> to wrap around.
+          On the first pass (<code>i &lt; n</code>) we push indices normally. On the second pass
+          (<code>n ≤ i &lt; 2n</code>) we only pop — we don't push any new index.
+          This handles the wraparound lookup without literally duplicating the array.
+          That's exactly LC #503 "Next Greater Element II".
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="solution"></div>
+
+    <!-- Full Solution -->
+    <h2 style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Daily Temperatures</span>
+        <span style="color:var(--green)">O(n) time · O(n) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">dailyTemperatures</span>(<span class="var">self</span>, <span class="var">temperatures</span>: <span class="bi">list</span>[<span class="bi">int</span>]) -> <span class="bi">list</span>[<span class="bi">int</span>]:
+        <span class="var">n</span>      = <span class="bi">len</span>(<span class="var">temperatures</span>)
+        <span class="var">result</span> = [<span class="num">0</span>] * <span class="var">n</span>
+        <span class="var">stack</span>  = []          <span class="cm"># monotonic decreasing stack of indices</span>
+
+        <span class="kw">for</span> <span class="var">i</span>, <span class="var">t</span> <span class="kw">in</span> <span class="bi">enumerate</span>(<span class="var">temperatures</span>):
+            <span class="kw">while</span> stack <span class="kw">and</span> <span class="var">t</span> > <span class="var">temperatures</span>[stack[<span class="num">-1</span>]]:
+                <span class="var">j</span> = stack.<span class="fn">pop</span>()
+                <span class="var">result</span>[<span class="var">j</span>] = <span class="var">i</span> - <span class="var">j</span>
+            stack.<span class="fn">append</span>(<span class="var">i</span>)
+
+        <span class="kw">return</span> <span class="var">result</span></code></pre>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">Key Interview Tips 面试要点</div>
+      <ul style="font-size:13.5px;margin-left:18px;line-height:1.9;">
+        <li>Always state the <strong>stack invariant</strong> out loud: "I maintain a decreasing stack of indices"</li>
+        <li>Explain <strong>amortised O(n)</strong> when asked about the nested while loop — show you understand it's not O(n²)</li>
+        <li>Use <code>enumerate</code> for cleaner index + value access</li>
+        <li>Know the family: #496 Next Greater I, #503 Next Greater II (circular), #84 Histogram, #42 Rain Water</li>
+        <li>The template is the same for all — just change what you record when you pop</li>
+      </ul>
+    </div>
+
+    <p style="margin-top:24px;">
+      <a href="20-valid-parentheses.html" style="font-size:14px;">
+        ← Previous: #20 Valid Parentheses
+      </a>
+    </p>
+
+  </main>
+</div>
+</body>
+</html>
