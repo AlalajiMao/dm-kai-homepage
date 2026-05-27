@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#224 Basic Calculator — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-soon">Soon</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #20 Valid Parens</a>
+      <a href="155-min-stack.html" class="sidebar-item"><span class="icon">⬇️</span> #155 Min Stack</a>
+      <a href="232-implement-queue-using-stacks.html" class="sidebar-item"><span class="icon">🔁</span> #232 Impl Queue</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="739-daily-temperatures.html" class="sidebar-item"><span class="icon">🌡️</span> #739 Daily Temps</a>
+      <a href="150-evaluate-reverse-polish-notation.html" class="sidebar-item"><span class="icon">🧮</span> #150 Eval RPN</a>
+      <a href="227-basic-calculator-ii.html" class="sidebar-item"><span class="icon">🔢</span> #227 Basic Calc II</a>
+      <a href="394-decode-string.html" class="sidebar-item"><span class="icon">📝</span> #394 Decode String</a>
+      <a href="496-next-greater-element-i.html" class="sidebar-item"><span class="icon">📈</span> #496 Next Greater I</a>
+      <a href="907-sum-of-subarray-minimums.html" class="sidebar-item"><span class="icon">➕</span> #907 Subarray Mins</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" class="sidebar-item"><span class="icon">🗑️</span> #1209 Remove Adj Dup</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="84-largest-rectangle-in-histogram.html" class="sidebar-item"><span class="icon">📊</span> #84 Largest Rect</a>
+      <a href="42-trapping-rain-water.html" class="sidebar-item"><span class="icon">🌊</span> #42 Trap Rain</a>
+      <a href="32-longest-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #32 Longest Valid</a>
+      <a href="224-basic-calculator.html" class="sidebar-item active"><span class="icon">🧮</span> #224 Basic Calc</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #224 · <a href="https://leetcode.com/problems/basic-calculator/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Basic Calculator</div>
+        <div class="problem-meta">
+          <span class="tag tag-hard">Hard</span>
+          <span class="tag tag-pattern">Expression Eval</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given a string <code>s</code> representing a mathematical expression containing digits, <code>'+'</code>, <code>'-'</code>, <code>'('</code>, <code>')'</code>, and spaces, implement a basic calculator to evaluate it and return the result.</p>
+      <p style="margin-top:8px;"><strong>Examples:</strong></p>
+      <ul style="margin-top:4px;margin-left:18px;">
+        <li><code>"1 + 1"</code> → <strong>2</strong></li>
+        <li><code>" 2-1 + 2 "</code> → <strong>3</strong></li>
+        <li><code>"(1+(4+5+2)-3)+(6+8)"</code> → <strong>23</strong></li>
+      </ul>
+      <p style="margin-top:8px;">No multiplication or division. The expression is always valid.</p>
+    </div>
+
+    <div id="interview">
+
+      <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">
+            Let's do an expression evaluation problem. You're building a simple calculator — it handles addition, subtraction, and arbitrarily nested parentheses, but no multiplication or division for now. The input is a valid string expression, possibly with spaces. So <code>"(1+(4+5+2)-3)+(6+8)"</code> should give you 23. How would you approach this?
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            Interesting — parentheses are the hard part here. Let me clarify a few things first.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            <strong>1.</strong> Can numbers be multi-digit, like <code>123 + 45</code>?<br>
+            <strong>2.</strong> Can there be a unary minus directly before a parenthesis, like <code>-(3+2)</code>?<br>
+            <strong>3.</strong> Is the expression always valid — balanced parentheses, no division by zero?<br>
+            <strong>4.</strong> What's the output type — integer? Can the result be negative?
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">
+            Yes to all — multi-digit numbers, unary minus before parentheses is valid, expression is always well-formed, and the result is an integer which can be negative.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            <strong>Brute force / recursive:</strong> Find the innermost parentheses, evaluate them, replace with the number, and repeat. That's O(n²) in the worst case due to repeated string scanning, and awkward to implement cleanly.
+          </div>
+        </div>
+      </div>
+
+      <div class="thought">
+        The key insight: when I see an opening parenthesis, I'm starting a new "sub-expression." Everything I've computed so far — the running result and the sign in front of the parenthesis — needs to be saved somewhere so I can restore it after the closing paren. That's exactly what a stack does. The stack saves context; I reset and solve the inner expression as if it's a fresh problem.
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            <p>The efficient approach tracks three things as I scan left to right: <code>result</code> (running total for the current level), <code>num</code> (the digit accumulator for multi-digit numbers), and <code>sign</code> (+1 or −1).</p>
+            <ul style="margin-top:8px;margin-left:18px;line-height:1.9;">
+              <li><strong>Digit</strong>: accumulate into <code>num</code> (handles multi-digit).</li>
+              <li><strong>+/−</strong>: flush <code>num</code> into <code>result</code> with current <code>sign</code>, update <code>sign</code>.</li>
+              <li><strong>(</strong>: push <code>(result, sign)</code> onto the stack — this freezes the outer context. Reset both to start fresh inside the parentheses.</li>
+              <li><strong>)</strong>: flush the last <code>num</code>, then pop sign and outer result from the stack and merge: <code>result = outer_result + saved_sign × inner_result</code>.</li>
+            </ul>
+            <p style="margin-top:8px;">This is <strong>O(n) time and O(n) space</strong> — one pass, stack depth proportional to nesting.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">
+            How does the unary minus case work — say the input is <code>-(3+2)</code>? Walk me through it.
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            When we see <code>-</code> we set <code>sign = −1</code>. Then we see <code>(</code>: push <code>(result=0, sign=−1)</code> and reset. Inside we compute 3+2=5. When we hit <code>)</code> we pop sign=−1 and outer_result=0: final = 0 + (−1)×5 = −5. The sign in front of the parenthesis is correctly captured in the stack and applied when we close it.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode Walkthrough</div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            <div class="code-block" style="margin:0;">
+              <div class="code-block-header"><span>Pseudocode</span></div>
+              <pre><code><span class="var">stack</span> = [], <span class="var">result</span> = <span class="num">0</span>, <span class="var">num</span> = <span class="num">0</span>, <span class="var">sign</span> = <span class="num">1</span>
+
+<span class="kw">for</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">s</span>:
+    <span class="kw">if</span> <span class="var">ch</span>.<span class="fn">isdigit</span>():  <span class="var">num</span> = <span class="var">num</span>*<span class="num">10</span> + <span class="bi">int</span>(<span class="var">ch</span>)
+    <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">'+'</span>: <span class="var">result</span> += <span class="var">sign</span>*<span class="var">num</span>; <span class="var">num</span>=<span class="num">0</span>; <span class="var">sign</span>=<span class="num">1</span>
+    <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">'-'</span>: <span class="var">result</span> += <span class="var">sign</span>*<span class="var">num</span>; <span class="var">num</span>=<span class="num">0</span>; <span class="var">sign</span>=<span class="num">-1</span>
+    <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">'('</span>:
+        stack.<span class="fn">push</span>(<span class="var">result</span>); stack.<span class="fn">push</span>(<span class="var">sign</span>)   <span class="cm"># freeze outer context</span>
+        <span class="var">result</span>=<span class="num">0</span>; <span class="var">sign</span>=<span class="num">1</span>                       <span class="cm"># fresh start inside</span>
+    <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">')'</span>:
+        <span class="var">result</span> += <span class="var">sign</span>*<span class="var">num</span>; <span class="var">num</span>=<span class="num">0</span>
+        <span class="var">result</span> *= stack.<span class="fn">pop</span>()                    <span class="cm"># apply sign before '('</span>
+        <span class="var">result</span> += stack.<span class="fn">pop</span>()                    <span class="cm"># restore outer result</span>
+
+<span class="kw">return</span> <span class="var">result</span> + <span class="var">sign</span>*<span class="var">num</span></code></pre>
+            </div>
+            <p style="margin-top:10px;">Trace <code>"1+(2-3)"</code>:</p>
+            <ul style="margin-top:6px;margin-left:18px;font-size:14px;line-height:1.9;">
+              <li>'1' → num=1</li>
+              <li>'+' → result=1, num=0, sign=+1</li>
+              <li>'(' → push 1, push +1. result=0, sign=+1</li>
+              <li>'2' → num=2</li>
+              <li>'-' → result=2, num=0, sign=−1</li>
+              <li>'3' → num=3</li>
+              <li>')' → result += −1×3 = −1. result×=pop(+1)=−1. result+=pop(1)=<strong>0</strong></li>
+              <li>return 0 + 1×0 = <strong>0</strong> ✓</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">
+            Why do you push <code>result</code> first and then <code>sign</code>, rather than the other way around?
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            Because we pop in reverse order on <code>)</code>. We first pop the sign (multiply by it) and then pop the outer result (add to it). Since Python's stack is LIFO, pushing result first means it's at the bottom, popped second — which is exactly what we want. It's easy to get the order backwards, so I always remind myself: "push result, push sign — pop sign, pop result."
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            <div class="complexity-box">
+              <div class="cx-cell hd">Metric</div><div class="cx-cell hd">Value</div><div class="cx-cell hd">Reason</div>
+              <div class="cx-cell">Time</div><div class="cx-cell">O(n)</div><div class="cx-cell">Single pass through the string; each character processed exactly once</div>
+              <div class="cx-cell">Space</div><div class="cx-cell">O(n)</div><div class="cx-cell">Stack depth proportional to nesting level — worst case n/2 open parens</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">How would you extend this to also handle multiplication and division (#227 Basic Calculator II)?</div>
+        </div>
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            For * and /, we need to handle operator precedence. The trick: for + and −, push the signed number onto the stack. For * and /, pop the top, compute, push back. This resolves * and / immediately (higher precedence) while + and − accumulate. Sum the stack at the end. Combining both — parentheses plus all four operators — gives the full #772 Basic Calculator III, which needs careful interleaving of both techniques.
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">What if we need to evaluate expressions with variables, like <code>"a + b * (c - d)"</code> where variable values are given separately?</div>
+        </div>
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            Same structure — pass in a variables dictionary. When we encounter a sequence of letters instead of digits, look up the variable in the dictionary to get its numeric value. The rest of the algorithm is identical. Edge cases: variable names can be multi-character, so accumulate letters just like we accumulate digits for multi-digit numbers.
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">Nice. One last thing — can this be done recursively instead of iteratively?</div>
+        </div>
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            Yes — whenever we see <code>(</code>, recurse with the rest of the string and return both the inner result and where parsing stopped. The call stack replaces the explicit stack. Same O(n) complexity, but Python's recursion depth limit could be an issue for deeply nested expressions. The iterative version is more robust in practice.
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end interview -->
+
+    <!-- Full Solution -->
+    <h2 id="solution">Full Python Solution</h2>
+    <div class="code-block">
+      <div class="code-block-header"><span>Python</span></div>
+      <pre><code><span class="kw">def</span> <span class="fn">calculate</span>(<span class="var">s</span>: <span class="bi">str</span>) -> <span class="bi">int</span>:
+    <span class="var">stack</span>  = []
+    <span class="var">result</span> = <span class="num">0</span>
+    <span class="var">num</span>    = <span class="num">0</span>
+    <span class="var">sign</span>   = <span class="num">1</span>   <span class="cm"># +1 or -1; initialised to + so leading numbers are added</span>
+
+    <span class="kw">for</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">s</span>:
+        <span class="kw">if</span> <span class="var">ch</span>.<span class="fn">isdigit</span>():
+            <span class="var">num</span> = <span class="var">num</span> * <span class="num">10</span> + <span class="bi">int</span>(<span class="var">ch</span>)         <span class="cm"># accumulate multi-digit number</span>
+        <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">'+'</span>:
+            <span class="var">result</span> += <span class="var">sign</span> * <span class="var">num</span>
+            <span class="var">num</span>, <span class="var">sign</span> = <span class="num">0</span>, <span class="num">1</span>
+        <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">'-'</span>:
+            <span class="var">result</span> += <span class="var">sign</span> * <span class="var">num</span>
+            <span class="var">num</span>, <span class="var">sign</span> = <span class="num">0</span>, <span class="num">-1</span>
+        <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">'('</span>:
+            <span class="var">stack</span>.<span class="fn">append</span>(<span class="var">result</span>)   <span class="cm"># push outer result first</span>
+            <span class="var">stack</span>.<span class="fn">append</span>(<span class="var">sign</span>)     <span class="cm"># push sign in front of '(' second</span>
+            <span class="var">result</span>, <span class="var">sign</span> = <span class="num">0</span>, <span class="num">1</span>   <span class="cm"># fresh context for inner expression</span>
+        <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">')'</span>:
+            <span class="var">result</span> += <span class="var">sign</span> * <span class="var">num</span>   <span class="cm"># flush last number inside parens</span>
+            <span class="var">num</span> = <span class="num">0</span>
+            <span class="var">result</span> *= <span class="var">stack</span>.<span class="fn">pop</span>()  <span class="cm"># apply sign before '(' (popped first = pushed second)</span>
+            <span class="var">result</span> += <span class="var">stack</span>.<span class="fn">pop</span>()  <span class="cm"># restore outer result (popped second = pushed first)</span>
+        <span class="cm"># spaces: no action needed — isdigit() and the elif chain skip them</span>
+
+    <span class="kw">return</span> <span class="var">result</span> + <span class="var">sign</span> * <span class="var">num</span>   <span class="cm"># flush any trailing number</span></code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-left:18px;margin-top:4px;line-height:2;">
+        <li>Initialise <code>sign = 1</code> so the first number is correctly added to result.</li>
+        <li>Push order matters: push <code>result</code> first, then <code>sign</code> — so you pop <code>sign</code> first on <code>)</code>. Get this backwards and you'll produce wrong answers on nested expressions.</li>
+        <li>Always flush <code>num</code> into <code>result</code> before every <code>(</code>, <code>+</code>, <code>-</code>, and <code>)</code> — and once more at the very end for the trailing number.</li>
+        <li>The <code>result *= popped_sign</code> line handles unary minus: e.g. <code>-(3+2)</code> pushes sign=−1, and on <code>)</code> multiplies the inner result by −1.</li>
+        <li>Spaces are handled automatically — none of the <code>elif</code> branches match a space, so they're silently skipped.</li>
+        <li>This is the foundation for #772 Basic Calculator III. Once you master the parenthesis push/pop pattern here, adding * and / is a one-layer extension.</li>
+      </ul>
+    </div>
+
+    <a href="../stack.html" class="back-link" style="margin-top:32px;">← Back to Stack overview</a>
+
+  </main>
+</div>
+</body>
+</html>

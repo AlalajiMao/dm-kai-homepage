@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#496 Next Greater Element I — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-soon">Soon</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #20 Valid Parens</a>
+      <a href="155-min-stack.html" class="sidebar-item"><span class="icon">⬇️</span> #155 Min Stack</a>
+      <a href="232-implement-queue-using-stacks.html" class="sidebar-item"><span class="icon">🔁</span> #232 Impl Queue</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="739-daily-temperatures.html" class="sidebar-item"><span class="icon">🌡️</span> #739 Daily Temps</a>
+      <a href="150-evaluate-reverse-polish-notation.html" class="sidebar-item"><span class="icon">🧮</span> #150 Eval RPN</a>
+      <a href="227-basic-calculator-ii.html" class="sidebar-item"><span class="icon">🔢</span> #227 Basic Calc II</a>
+      <a href="394-decode-string.html" class="sidebar-item"><span class="icon">📝</span> #394 Decode String</a>
+      <a href="496-next-greater-element-i.html" class="sidebar-item active"><span class="icon">📈</span> #496 Next Greater I</a>
+      <a href="907-sum-of-subarray-minimums.html" class="sidebar-item"><span class="icon">➕</span> #907 Subarray Mins</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" class="sidebar-item"><span class="icon">🗑️</span> #1209 Remove Adj Dup</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="84-largest-rectangle-in-histogram.html" class="sidebar-item"><span class="icon">📊</span> #84 Largest Rect</a>
+      <a href="42-trapping-rain-water.html" class="sidebar-item"><span class="icon">🌊</span> #42 Trap Rain</a>
+      <a href="32-longest-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #32 Longest Valid</a>
+      <a href="224-basic-calculator.html" class="sidebar-item"><span class="icon">🧮</span> #224 Basic Calc</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #496 · <a href="https://leetcode.com/problems/next-greater-element-i/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Next Greater Element I</div>
+        <div class="problem-meta">
+          <span class="tag tag-medium">Medium</span>
+          <span class="tag tag-pattern">Monotonic Stack</span>
+          <span class="tag tag-pattern">Hash Map</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>You are given two integer arrays <code>nums1</code> and <code>nums2</code>, where
+      <code>nums1</code> is a subset of <code>nums2</code>. For each element in <code>nums1</code>,
+      find the <strong>next greater element</strong> in <code>nums2</code> — the first element
+      to its right in <code>nums2</code> that is strictly greater. If no such element exists,
+      return <code>-1</code> for that position.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        <code>nums1 = [4,1,2], nums2 = [1,3,4,2]</code> → <span style="color:var(--green)">[-1,3,-1]</span><br>
+        <code>nums1 = [2,4],   nums2 = [1,2,3,4]</code> → <span style="color:var(--green)">[3,-1]</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      A realistic interview dialogue showing <em>how to think out loud</em> — not just arrive at the answer,
+      but communicate the reasoning clearly.
+      <span style="color:var(--text-muted)">（模拟真实面试对话，展示如何清晰地表达思路）</span>
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Let's talk about two arrays. <code>nums2</code> is the "universe" array.
+          <code>nums1</code> is a subset of it. For each value in <code>nums1</code>, I want you
+          to find the next greater element looking rightward within <code>nums2</code>.
+          If there's nothing greater to the right, return <code>-1</code>.
+          Take a moment to read the examples — any questions?
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few quick checks:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Are all values in both arrays distinct? That would let me use values directly as hash map keys.</li>
+            <li>Is <code>nums1</code> guaranteed to be a subset of <code>nums2</code> — so I'll never query a value that doesn't appear in <code>nums2</code>?</li>
+            <li>What are the size constraints? I want to know whether an O(m×n) brute force would be acceptable or if I need to be smarter.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          All values in <code>nums2</code> are distinct — and since <code>nums1</code> is a subset,
+          its values are distinct too. Yes, <code>nums1</code> is always a valid subset.
+          Both arrays have up to 1000 elements, so O(m×n) would technically pass, but I'd like
+          to see the optimal approach.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me walk through the progression of solutions.<br><br>
+
+          <strong>Brute force O(m×n):</strong> For each element in <code>nums1</code>, find its position
+          in <code>nums2</code>, then scan rightward until I find a larger value. Works, but repeats
+          work for each query.<br><br>
+
+          <strong>Optimal O(m+n):</strong> The key insight is to <em>decouple</em> the two steps.
+          First, precompute the "next greater element" for <em>every</em> value in <code>nums2</code>
+          using a monotonic stack and store the results in a hash map. Then answer each <code>nums1</code>
+          query in O(1) with a simple lookup.<br><br>
+
+          The monotonic stack works like this: I maintain a <strong>decreasing stack</strong> of values
+          seen so far. When a new value arrives that is larger than the stack top, that new value is the
+          "next greater" answer for everything it beats on the stack — so I pop those off and record
+          them in the map. Anything still on the stack at the end has no greater element to its right,
+          so it maps to <code>-1</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      The monotonic stack invariant: elements on the stack are in decreasing order. A new larger
+      element "resolves" all smaller waiting elements at once. Each element is pushed once and
+      popped once — amortized O(1) per element, O(n) overall.
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. Trace through <code>nums2 = [1, 3, 4, 2]</code> with the monotonic stack.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Starting with <code>stack=[]</code>, <code>nge={}</code>.<br><br>
+
+          See <code>1</code>: stack empty, push. Stack: <code>[1]</code>.<br>
+          See <code>3</code>: <code>3 &gt; 1</code> → pop <code>1</code>, record <code>nge[1]=3</code>.
+          Stack empty, push <code>3</code>. Stack: <code>[3]</code>.<br>
+          See <code>4</code>: <code>4 &gt; 3</code> → pop <code>3</code>, record <code>nge[3]=4</code>.
+          Stack empty, push <code>4</code>. Stack: <code>[4]</code>.<br>
+          See <code>2</code>: <code>2 &lt; 4</code> → just push. Stack: <code>[4, 2]</code>.<br>
+          Drain: pop <code>2</code> → <code>nge[2]=-1</code>. Pop <code>4</code> → <code>nge[4]=-1</code>.<br><br>
+
+          Final map: <code>{1:3, 3:4, 4:-1, 2:-1}</code>.<br>
+          If <code>nums1 = [4,1,2]</code>: return <code>[nge[4], nge[1], nge[2]] = [-1, 3, -1]</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Code</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The pseudocode is very clean — two phases, then a lookup:
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">nextGreaterElement</span>(<span class="var">nums1</span>, <span class="var">nums2</span>):
+    <span class="var">nge</span>   = {}          <span class="cm"># value → next greater element</span>
+    <span class="var">stack</span> = []          <span class="cm"># monotonically decreasing stack of values</span>
+
+    <span class="cm"># Phase 1: precompute next greater for every element in nums2</span>
+    <span class="kw">for</span> <span class="var">num</span> <span class="kw">in</span> <span class="var">nums2</span>:
+        <span class="kw">while</span> stack <span class="kw">and</span> stack[-<span class="num">1</span>] &lt; <span class="var">num</span>:
+            <span class="var">nge</span>[stack.<span class="fn">pop</span>()] = <span class="var">num</span>   <span class="cm"># num is the next greater for the popped value</span>
+        stack.<span class="fn">push</span>(<span class="var">num</span>)
+
+    <span class="cm"># Drain: remaining stack values have no next greater element</span>
+    <span class="kw">while</span> stack:
+        <span class="var">nge</span>[stack.<span class="fn">pop</span>()] = -<span class="num">1</span>
+
+    <span class="cm"># Phase 2: look up each nums1 query in O(1)</span>
+    <span class="kw">return</span> [<span class="var">nge</span>[<span class="var">n</span>] <span class="kw">for</span> <span class="var">n</span> <span class="kw">in</span> <span class="var">nums1</span>]</code></pre>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Why do you store values in the stack rather than indices?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Because all values in <code>nums2</code> are distinct, I can use values directly as hash map keys
+          without any ambiguity. Storing indices would require an extra <code>nums2[index]</code> lookup
+          every time I pop — values are simpler here.<br><br>
+
+          If there were duplicate values, I'd need to store indices instead, and the map would key by
+          index rather than value. But for this problem, values as keys is cleaner.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Perfect. Go ahead and write the final version.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let n = <code>len(nums2)</code>, m = <code>len(nums1)</code>.<br><br>
+
+          <strong>Time:</strong> O(n + m). The monotonic stack processes <code>nums2</code> in O(n)
+          — each element is pushed once and popped at most once, so all the inner <code>while</code>
+          iterations together are still O(n) amortized. The final lookup over <code>nums1</code> is O(m).<br><br>
+
+          <strong>Space:</strong> O(n) for the hash map (one entry per element of <code>nums2</code>)
+          and O(n) for the stack in the worst case (a strictly decreasing <code>nums2</code> like
+          <code>[4,3,2,1]</code> where nothing gets popped during traversal).
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n + m)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">O(n) stack precompute + O(m) lookups</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--yellow);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Hash map + stack, both bounded by |nums2|</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Three follow-ups: (1) What if <code>nums2</code> were a circular array — wrapping around?
+          (2) What if we wanted the previous smaller element instead?
+          (3) Can you explain the amortized O(n) argument more carefully?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>(1) Circular array — #503 Next Greater Element II:</strong> Iterate through
+          <code>nums2</code> twice (or use <code>i % n</code> indices up to <code>2n</code>).
+          On the second pass, elements that were waiting on the stack finally get their answers
+          from the "wrapped around" part of the array. The stack logic is identical — just
+          double the loop range.<br><br>
+
+          <strong>(2) Previous smaller element:</strong> Same monotonic stack technique, just
+          traversed from right to left instead of left to right, and we pop when the incoming
+          value is <em>greater</em> than the stack top (maintaining an increasing stack).
+          Alternatively, traverse left-to-right but flip the comparison operator. These
+          four variants — next/previous, greater/smaller — all follow the same template.<br><br>
+
+          <strong>(3) Amortized O(n):</strong> The key argument is that each element is pushed
+          onto the stack exactly once and popped at most once. The total number of push operations
+          across the entire loop is n, and the total number of pop operations (across all iterations
+          of the inner <code>while</code>) is also at most n. So even though any single iteration
+          could pop multiple elements, the <em>total</em> work over all iterations is bounded by
+          2n — that's O(n) amortized, not O(n²).
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Excellent. The four-variant framing and the push/pop counting argument are exactly what
+          I was looking for. That's all — great work.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="solution"></div>
+
+    <!-- Full Solution -->
+    <h2 style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Next Greater Element I</span>
+        <span style="color:var(--green)">O(n + m) time · O(n) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">nextGreaterElement</span>(<span class="var">self</span>, <span class="var">nums1</span>: list[<span class="bi">int</span>], <span class="var">nums2</span>: list[<span class="bi">int</span>]) -> list[<span class="bi">int</span>]:
+        <span class="var">nge</span>: dict[<span class="bi">int</span>, <span class="bi">int</span>] = {}   <span class="cm"># value → next greater element in nums2</span>
+        <span class="var">stack</span>: list[<span class="bi">int</span>] = []       <span class="cm"># monotonically decreasing stack (values)</span>
+
+        <span class="kw">for</span> <span class="var">num</span> <span class="kw">in</span> <span class="var">nums2</span>:
+            <span class="kw">while</span> <span class="var">stack</span> <span class="kw">and</span> <span class="var">stack</span>[-<span class="num">1</span>] < <span class="var">num</span>:
+                <span class="var">nge</span>[<span class="var">stack</span>.<span class="fn">pop</span>()] = <span class="var">num</span>    <span class="cm"># num is the answer for popped elements</span>
+            <span class="var">stack</span>.<span class="fn">append</span>(<span class="var">num</span>)
+
+        <span class="kw">while</span> <span class="var">stack</span>:                     <span class="cm"># no greater element exists to the right</span>
+            <span class="var">nge</span>[<span class="var">stack</span>.<span class="fn">pop</span>()] = -<span class="num">1</span>
+
+        <span class="kw">return</span> [<span class="var">nge</span>[<span class="var">n</span>] <span class="kw">for</span> <span class="var">n</span> <span class="kw">in</span> <span class="var">nums1</span>]</code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 面试要点</div>
+      <ul style="font-size:13.5px;margin-left:18px;line-height:1.9;">
+        <li>Build the map on <code>nums2</code> first — query <code>nums1</code> second. Never mix the two loops.</li>
+        <li>Push <strong>values</strong> (not indices) since all values are distinct — avoids a needless <code>nums2[i]</code> indirection</li>
+        <li>Always drain the remaining stack with <code>-1</code> — forgetting this is the most common bug</li>
+        <li>Amortized O(n): each element is pushed once and popped at most once — total ops ≤ 2n</li>
+        <li>This is the warm-up for #503 (circular) and #739 (index distances) — know all three variants</li>
+      </ul>
+    </div>
+
+    <a href="907-sum-of-subarray-minimums.html" class="back-link" style="margin-top:32px;">Next: #907 Sum of Subarray Minimums →</a>
+
+  </main>
+</div>
+</body>
+</html>

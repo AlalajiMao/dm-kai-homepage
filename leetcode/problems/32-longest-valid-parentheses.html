@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#32 Longest Valid Parentheses — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-soon">Soon</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #20 Valid Parens</a>
+      <a href="155-min-stack.html" class="sidebar-item"><span class="icon">⬇️</span> #155 Min Stack</a>
+      <a href="232-implement-queue-using-stacks.html" class="sidebar-item"><span class="icon">🔁</span> #232 Impl Queue</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="739-daily-temperatures.html" class="sidebar-item"><span class="icon">🌡️</span> #739 Daily Temps</a>
+      <a href="150-evaluate-reverse-polish-notation.html" class="sidebar-item"><span class="icon">🧮</span> #150 Eval RPN</a>
+      <a href="227-basic-calculator-ii.html" class="sidebar-item"><span class="icon">🔢</span> #227 Basic Calc II</a>
+      <a href="394-decode-string.html" class="sidebar-item"><span class="icon">📝</span> #394 Decode String</a>
+      <a href="496-next-greater-element-i.html" class="sidebar-item"><span class="icon">📈</span> #496 Next Greater I</a>
+      <a href="907-sum-of-subarray-minimums.html" class="sidebar-item"><span class="icon">➕</span> #907 Subarray Mins</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" class="sidebar-item"><span class="icon">🗑️</span> #1209 Remove Adj Dup</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="84-largest-rectangle-in-histogram.html" class="sidebar-item"><span class="icon">📊</span> #84 Largest Rect</a>
+      <a href="42-trapping-rain-water.html" class="sidebar-item"><span class="icon">🌊</span> #42 Trap Rain</a>
+      <a href="32-longest-valid-parentheses.html" class="sidebar-item active"><span class="icon">🔢</span> #32 Longest Valid</a>
+      <a href="224-basic-calculator.html" class="sidebar-item"><span class="icon">🧮</span> #224 Basic Calc</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #32 · <a href="https://leetcode.com/problems/longest-valid-parentheses/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Longest Valid Parentheses</div>
+        <div class="problem-meta">
+          <span class="tag tag-hard">Hard</span>
+          <span class="tag tag-pattern">Bracket Matching</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given a string containing just the characters <code>'('</code> and <code>')'</code>, return
+      the length of the longest valid (well-formed) parentheses substring.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        <code>Input:  s = ")()())"</code><br>
+        <code>Output: 4</code>&nbsp;&nbsp;&nbsp;<span style="font-family:var(--sans);font-size:13px;color:var(--text-secondary);">— the substring "()()" has length 4</span><br><br>
+        <code>Input:  s = "(()"</code><br>
+        <code>Output: 2</code>&nbsp;&nbsp;&nbsp;<span style="font-family:var(--sans);font-size:13px;color:var(--text-secondary);">— the substring "()" has length 2</span><br><br>
+        <code>Input:  s = ""</code><br>
+        <code>Output: 0</code>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      Longest Valid Parentheses is a deceptively tricky hard problem. The stack approach uses a clever
+      <strong>sentinel value</strong> to eliminate edge-case handling. There's also a beautiful O(1) space
+      two-pass solution — knowing both signals strong preparation.
+      <span style="color:var(--text-muted)">（哨兵值是关键，理解为什么初始化为 [-1]）</span>
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          You're given a string of only <code>'('</code> and <code>')'</code>. Find the length of the
+          longest well-formed parentheses substring. A substring must be contiguous, and it must be
+          completely valid — every open paren has a matching close. What's your initial read on this?
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2: Clarification -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few things to confirm:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>The string only contains <code>'('</code> and <code>')'</code> — no other characters?</li>
+            <li>If the entire string is valid, the answer is its full length?</li>
+            <li>If no valid substring exists — say the input is all <code>')'</code> — the answer is 0?</li>
+            <li>Substrings must be contiguous, not subsequences?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          All confirmed. Only <code>'('</code> and <code>')'</code>, answer 0 if nothing is valid,
+          and yes — contiguous substrings only.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3: Approach -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The naive approach would check all O(n²) substrings and validate each in O(n), giving O(n³) total.
+          We can validate a substring in O(n) with a counter, but the overall complexity is still bad.
+          Let me think about something smarter.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          O(n³) is indeed too slow. What patterns do you see that could help?
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      Valid parentheses involve matching — a stack is the natural fit. The classic #20 Valid Parentheses
+      uses a stack to track unmatched opens. Here the question is about the length of matched regions.
+      If I track the positions of unmatched characters, the gaps between them are valid substrings.
+      A stack of indices could work. I need to be careful about what happens at the very start and at
+      unmatched closing brackets — a sentinel base index handles both cleanly.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          I'll think of this as tracking <em>positions of unmatched characters</em>. A stack lets me
+          do that in one pass. Here's the key insight:<br><br>
+          Seed the stack with a sentinel <code>-1</code>. As I scan:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>On <code>'('</code>: push its index.</li>
+            <li>On <code>')'</code>: pop the top. If the stack becomes <strong>empty</strong>, this
+            <code>')'</code> is unmatched — push its index as the new base. Otherwise, the valid
+            length ending here is <code>i - stack.top()</code>.</li>
+          </ul>
+          The sentinel <code>-1</code> acts as a virtual "last unmatched" position before the string starts,
+          so the very first valid substring is correctly computed as <code>i - (-1) = i + 1</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Why exactly does <code>i - stack.top()</code> give the length? Walk me through the geometry.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          After we pop to match a <code>')'</code> at index <code>i</code>, whatever remains on the
+          stack top is the index of the last <em>unmatched</em> character — either an unmatched
+          <code>')'</code> or the sentinel. The valid substring runs from
+          <code>stack.top() + 1</code> up to <code>i</code>, so its length is
+          <code>i - stack.top()</code>. We don't add 1 because the top itself is <em>not</em> part of
+          the valid region — it's the boundary just before it begins.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. What if there are two separate valid substrings that aren't adjacent — like
+          <code>"()()()"</code>? Does the algorithm correctly return 6?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes — let me trace it:
+          <div style="font-family:var(--mono);font-size:12.5px;line-height:2;margin-top:8px;">
+            stack=[-1]<br>
+            i=0 '(': push 0.    stack=[-1,0]<br>
+            i=1 ')': pop 0.     stack=[-1]. len=1-(-1)=2. max=2<br>
+            i=2 '(': push 2.    stack=[-1,2]<br>
+            i=3 ')': pop 2.     stack=[-1]. len=3-(-1)=4. max=4<br>
+            i=4 '(': push 4.    stack=[-1,4]<br>
+            i=5 ')': pop 4.     stack=[-1]. len=5-(-1)=6. max=6<br>
+          </div>
+          The sentinel <code>-1</code> persists as the base throughout, so each closing paren that
+          empties the stack back to the sentinel correctly measures the cumulative valid run from
+          the very beginning — automatically merging adjacent valid substrings into one length.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4: Pseudocode -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode Walkthrough</div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Stack with Sentinel</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">longestValidParentheses</span>(<span class="var">s</span>):
+    <span class="var">stack</span>   = [<span class="num">-1</span>]        <span class="cm"># sentinel: last unmatched position before string</span>
+    <span class="var">max_len</span> = <span class="num">0</span>
+
+    <span class="kw">for</span> <span class="var">i</span>, <span class="var">ch</span> <span class="kw">in</span> <span class="bi">enumerate</span>(<span class="var">s</span>):
+        <span class="kw">if</span> <span class="var">ch</span> == <span class="str">'('</span>:
+            stack.<span class="fn">append</span>(<span class="var">i</span>)         <span class="cm"># push index of open paren</span>
+        <span class="kw">else</span>:                          <span class="cm"># ch == ')'</span>
+            stack.<span class="fn">pop</span>()               <span class="cm"># try to match with top</span>
+            <span class="kw">if not</span> stack:
+                stack.<span class="fn">append</span>(<span class="var">i</span>)     <span class="cm"># unmatched ')' becomes new base</span>
+            <span class="kw">else</span>:
+                <span class="var">max_len</span> = <span class="bi">max</span>(<span class="var">max_len</span>, <span class="var">i</span> - stack[<span class="num">-1</span>])
+
+    <span class="kw">return</span> <span class="var">max_len</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Full trace of <code>")()())"</code>:
+          <div style="font-family:var(--mono);font-size:12.5px;line-height:2;margin-top:8px;">
+            stack=[-1]<br>
+            i=0 ')': pop -1. stack empty → push 0.  stack=[0]<br>
+            i=1 '(': push 1.   stack=[0,1]<br>
+            i=2 ')': pop 1.    stack=[0]. len=2-0=2. max=2<br>
+            i=3 '(': push 3.   stack=[0,3]<br>
+            i=4 ')': pop 3.    stack=[0]. len=4-0=4. max=4<br>
+            i=5 ')': pop 0.    stack empty → push 5. stack=[5]<br>
+          </div>
+          Return <code>4</code> ✅ — the substring at indices 1–4 is <code>"()()"</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Clean. Can you mention the DP approach as well?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Sure. Define <code>dp[i]</code> = length of the longest valid substring ending at index <code>i</code>.
+          Only <code>')'</code> positions can end a valid substring, so <code>dp[i] = 0</code> whenever
+          <code>s[i] == '('</code>. For <code>s[i] == ')'</code>, there are two sub-cases:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li><strong>s[i-1] == '('</strong>: they directly match. <code>dp[i] = dp[i-2] + 2</code> (extend the valid run ending two positions back).</li>
+            <li><strong>s[i-1] == ')'</strong>: the character before the valid run ending at <code>i-1</code> might match <code>s[i]</code>. Let <code>j = i - dp[i-1] - 1</code>. If <code>s[j] == '('</code>, then <code>dp[i] = dp[i-1] + 2 + dp[j-1]</code>.</li>
+          </ul>
+          This is also O(n) time and O(n) space, same as the stack approach. I personally find the
+          stack approach more intuitive to derive under pressure.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5: Complexity -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Approach</div>
+      <div class="cx-cell hd">Time</div>
+      <div class="cx-cell hd">Space</div>
+      <div class="cx-cell">Brute Force</div>
+      <div class="cx-cell" style="color:var(--red);">O(n³)</div>
+      <div class="cx-cell" style="color:var(--green);">O(1)</div>
+      <div class="cx-cell">DP Array</div>
+      <div class="cx-cell" style="color:var(--green);font-weight:600;">O(n)</div>
+      <div class="cx-cell" style="color:var(--yellow);font-weight:600;">O(n)</div>
+      <div class="cx-cell">Stack + Sentinel</div>
+      <div class="cx-cell" style="color:var(--green);font-weight:600;">O(n)</div>
+      <div class="cx-cell" style="color:var(--yellow);font-weight:600;">O(n)</div>
+      <div class="cx-cell">Two-Pass Counter</div>
+      <div class="cx-cell" style="color:var(--green);font-weight:600;">O(n)</div>
+      <div class="cx-cell" style="color:var(--green);font-weight:600;">O(1)</div>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);">Two-pass counter (left → right, then right → left) achieves O(1) space at the cost of two full passes.</p>
+
+    <!-- Stage 6: Follow-ups -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          You mentioned a two-pass O(1) space approach. How does it work?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Use two counters: <code>left</code> and <code>right</code>. In the first pass (left to right):
+          increment <code>left</code> on <code>'('</code>, increment <code>right</code> on <code>')'</code>.
+          When <code>left == right</code>, record <code>2 * right</code> as a candidate max.
+          When <code>right &gt; left</code>, reset both to zero — there are more closes than opens, so
+          we've broken any valid run.<br><br>
+          The first pass catches all valid substrings that aren't cut off by excess closes. But it
+          misses cases like <code>"(()"</code> where we run out of closes — <code>left</code> stays
+          ahead of <code>right</code> forever. The second pass (right to left) with swapped roles catches
+          those: increment <code>right</code> on <code>')'</code>, <code>left</code> on <code>'('</code>,
+          record max when equal, reset when <code>left &gt; right</code>. Together the two passes cover
+          all valid substrings.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          How does this problem relate to #20 Valid Parentheses? What's the key difference in what's being asked?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          #20 asks: <em>is the entire string valid?</em> — a binary yes/no. A simple counter or stack works.
+          #32 asks: <em>what is the longest valid contiguous portion?</em> — a length question over all
+          possible substrings. The added difficulty is tracking where valid regions start and end, and
+          merging adjacent valid regions. The sentinel trick in #32's stack approach is precisely what
+          handles that boundary tracking, which #20 never needs.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What if you needed to return the actual substring rather than just its length?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The stack approach makes this easy. Instead of just tracking <code>max_len</code>, also track
+          <code>best_start</code> and <code>best_end</code>. Whenever we compute a new candidate length
+          <code>i - stack[-1]</code> that beats the current max, record
+          <code>best_start = stack[-1] + 1</code> and <code>best_end = i</code>.
+          At the end, return <code>s[best_start : best_end + 1]</code>. The two-pointer counter approach
+          would need extra bookkeeping — the stack approach wins here.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="solution"></div>
+
+    <!-- Full Solution -->
+    <h2 style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Stack with Sentinel</span>
+        <span style="color:var(--green)">O(n) time · O(n) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">longestValidParentheses</span>(<span class="var">self</span>, <span class="var">s</span>: <span class="bi">str</span>) -> <span class="bi">int</span>:
+        <span class="var">stack</span>   = [<span class="num">-1</span>]    <span class="cm"># sentinel base index</span>
+        <span class="var">max_len</span> = <span class="num">0</span>
+        <span class="kw">for</span> <span class="var">i</span>, <span class="var">ch</span> <span class="kw">in</span> <span class="bi">enumerate</span>(<span class="var">s</span>):
+            <span class="kw">if</span> <span class="var">ch</span> == <span class="str">'('</span>:
+                stack.<span class="fn">append</span>(<span class="var">i</span>)
+            <span class="kw">else</span>:
+                stack.<span class="fn">pop</span>()
+                <span class="kw">if not</span> stack:
+                    stack.<span class="fn">append</span>(<span class="var">i</span>)    <span class="cm"># unmatched ')' becomes new base</span>
+                <span class="kw">else</span>:
+                    <span class="var">max_len</span> = <span class="bi">max</span>(<span class="var">max_len</span>, <span class="var">i</span> - stack[<span class="num">-1</span>])
+        <span class="kw">return</span> <span class="var">max_len</span></code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Two-Pass Counter (O(1) Space)</span>
+        <span style="color:var(--green)">O(n) time · O(1) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">longestValidParentheses</span>(<span class="var">self</span>, <span class="var">s</span>: <span class="bi">str</span>) -> <span class="bi">int</span>:
+        <span class="var">max_len</span> = <span class="num">0</span>
+        <span class="kw">for</span> <span class="var">direction</span> <span class="kw">in</span> (<span class="num">1</span>, <span class="num">-1</span>):         <span class="cm"># left-to-right, then right-to-left</span>
+            <span class="var">lo</span>, <span class="var">hi</span>   = (<span class="num">0</span>, <span class="bi">len</span>(<span class="var">s</span>)) <span class="kw">if</span> <span class="var">direction</span> == <span class="num">1</span> <span class="kw">else</span> (<span class="bi">len</span>(<span class="var">s</span>) - <span class="num">1</span>, <span class="num">-1</span>)
+            <span class="var">open_ch</span>  = <span class="str">'('</span> <span class="kw">if</span> <span class="var">direction</span> == <span class="num">1</span> <span class="kw">else</span> <span class="str">')'</span>
+            <span class="var">left</span>, <span class="var">right</span> = <span class="num">0</span>, <span class="num">0</span>
+            <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="var">lo</span>, <span class="var">hi</span>, <span class="var">direction</span>):
+                <span class="kw">if</span> <span class="var">s</span>[<span class="var">i</span>] == <span class="var">open_ch</span>:
+                    <span class="var">left</span>  += <span class="num">1</span>
+                <span class="kw">else</span>:
+                    <span class="var">right</span> += <span class="num">1</span>
+                <span class="kw">if</span> <span class="var">left</span> == <span class="var">right</span>:
+                    <span class="var">max_len</span> = <span class="bi">max</span>(<span class="var">max_len</span>, <span class="num">2</span> * <span class="var">right</span>)
+                <span class="kw">elif</span> <span class="var">right</span> > <span class="var">left</span>:
+                    <span class="var">left</span> = <span class="var">right</span> = <span class="num">0</span>
+        <span class="kw">return</span> <span class="var">max_len</span></code></pre>
+    </div>
+
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 面试要点</div>
+      <ul style="font-size:13.5px;margin-left:18px;line-height:1.9;">
+        <li>Seed the stack with <strong><code>[-1]</code></strong> — this sentinel acts as the base boundary before the string starts and eliminates all edge-case handling</li>
+        <li>Length formula: <code>i - stack[-1]</code> (not <code>i - stack[-1] + 1</code>) — the stack top is the last <em>unmatched</em> character, one position before the valid run</li>
+        <li>When <code>')'</code> empties the stack, push the current index as the new base — it is now the boundary before the next valid run</li>
+        <li>The two-pass counter achieves O(1) space but needs two passes; mention it to show breadth, but implement the stack for clarity first</li>
+        <li>If asked to return the actual substring: track <code>best_start = stack[-1] + 1</code> whenever you update <code>max_len</code></li>
+        <li>Contrast with #20: #20 checks the whole string (binary), #32 finds the best valid portion (length) — different goals, different tools</li>
+      </ul>
+    </div>
+
+    <p style="margin-top:32px;">
+      <a href="224-basic-calculator.html" style="font-size:14px;">
+        Next: #224 Basic Calculator →
+      </a>
+    </p>
+
+  </main>
+</div>
+</body>
+</html>

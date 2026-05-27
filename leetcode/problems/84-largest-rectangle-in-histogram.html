@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#84 Largest Rectangle in Histogram — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-soon">Soon</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #20 Valid Parens</a>
+      <a href="155-min-stack.html" class="sidebar-item"><span class="icon">⬇️</span> #155 Min Stack</a>
+      <a href="232-implement-queue-using-stacks.html" class="sidebar-item"><span class="icon">🔁</span> #232 Impl Queue</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="739-daily-temperatures.html" class="sidebar-item"><span class="icon">🌡️</span> #739 Daily Temps</a>
+      <a href="150-evaluate-reverse-polish-notation.html" class="sidebar-item"><span class="icon">🧮</span> #150 Eval RPN</a>
+      <a href="227-basic-calculator-ii.html" class="sidebar-item"><span class="icon">🔢</span> #227 Basic Calc II</a>
+      <a href="394-decode-string.html" class="sidebar-item"><span class="icon">📝</span> #394 Decode String</a>
+      <a href="496-next-greater-element-i.html" class="sidebar-item"><span class="icon">📈</span> #496 Next Greater I</a>
+      <a href="907-sum-of-subarray-minimums.html" class="sidebar-item"><span class="icon">➕</span> #907 Subarray Mins</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" class="sidebar-item"><span class="icon">🗑️</span> #1209 Remove Adj Dup</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="84-largest-rectangle-in-histogram.html" class="sidebar-item active"><span class="icon">📊</span> #84 Largest Rect</a>
+      <a href="42-trapping-rain-water.html" class="sidebar-item"><span class="icon">🌊</span> #42 Trap Rain</a>
+      <a href="32-longest-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #32 Longest Valid</a>
+      <a href="224-basic-calculator.html" class="sidebar-item"><span class="icon">🧮</span> #224 Basic Calc</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #84 · <a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Largest Rectangle in Histogram</div>
+        <div class="problem-meta">
+          <span class="tag tag-hard">Hard</span>
+          <span class="tag tag-pattern">Monotonic Stack</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given an array <code>heights</code> representing the heights of histogram bars (each bar has width 1), return the area of the largest rectangle that can be formed within the histogram.</p>
+      <p style="margin-top:8px;"><strong>Example:</strong> <code>heights = [2,1,5,6,2,3]</code> → <strong>10</strong> (the rectangle spanning bars at index 2 and 3, height 5)</p>
+    </div>
+
+    <div id="interview">
+
+      <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">
+            I've got a geometry problem for you. Imagine a bar chart — you have an array of non-negative integers representing bar heights, and every bar has width 1. Your task is to find the area of the largest rectangle you can draw that fits entirely within those bars. For example, with <code>[2,1,5,6,2,3]</code> the answer is 10. Take a moment to make sure you understand what we're looking for before jumping in.
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            Got it. The rectangle must be axis-aligned, and its height is bounded by the shortest bar it spans. So a rectangle spanning multiple bars can only be as tall as the minimum bar in that range. Let me ask a few things to sharpen the constraints.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            <strong>1.</strong> Can heights be zero? Like an empty column?<br>
+            <strong>2.</strong> What's the range for <code>n</code> and for individual heights? I want to know if overflow is a concern.<br>
+            <strong>3.</strong> If all bars are height 0, should I return 0?<br>
+            <strong>4.</strong> Is it guaranteed that there's at least one bar?
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">
+            Heights are non-negative, so yes, zero is possible. <code>n</code> can be up to 10<sup>5</sup> and heights up to 10<sup>4</sup>, so the max area fits in a 32-bit int but use 64-bit to be safe. Array is non-empty. And yes, all-zero input should give 0.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            <strong>Brute force:</strong> For every pair (i, j), the rectangle area is <code>min(heights[i..j]) × (j−i+1)</code>. That's O(n²) pairs and O(n) to compute the min each time — O(n³) overall, or O(n²) with a running minimum. Too slow for n=10⁵.
+          </div>
+        </div>
+      </div>
+
+      <div class="thought">
+        The key observation: instead of thinking "what's the largest rectangle spanning bars i..j?", think "for each bar, what's the largest rectangle where THIS bar is the limiting height?" That rectangle extends as far left and right as possible while all bars are ≥ this height. If I know those boundaries for every bar, I'm done.
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            <p>The insight is to flip the perspective: for each bar <code>i</code>, find the largest rectangle where bar <code>i</code> is the <em>minimum</em>. That rectangle extends left until we hit a bar shorter than <code>heights[i]</code>, and right until the same. So I need, for each bar, the index of the nearest shorter bar on both sides.</p>
+            <p style="margin-top:8px;">A <strong>monotonic increasing stack</strong> gives me exactly this. I maintain a stack of indices whose heights are in increasing order. When I encounter a bar shorter than the top, that top bar's right boundary is the current index — I can compute its area. The new stack top becomes its left boundary.</p>
+            <p style="margin-top:8px;">I'll append a height-0 sentinel at the end to force all remaining bars to be popped and measured. Overall: <strong>O(n) time, O(n) space</strong>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">
+            Good. Why do you need the sentinel, and why do you seed the stack with <code>-1</code> rather than leaving it empty?
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            The sentinel (height 0) is shorter than any real bar, so it triggers all remaining bars in the stack to be popped — without it, bars that were never "beaten" by a shorter bar to their right would never get their area computed. The <code>-1</code> base in the stack acts as a left-boundary sentinel: when I compute width as <code>i − stack[−1] − 1</code>, the <code>-1</code> gives the correct "no left boundary" case, extending the rectangle to the left edge.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode Walkthrough</div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            <div class="code-block" style="margin:0;">
+              <div class="code-block-header"><span>Pseudocode</span></div>
+              <pre><code><span class="fn">append</span> <span class="num">0</span> to <span class="var">heights</span>          <span class="cm"># sentinel forces final pop</span>
+<span class="var">stack</span> = [<span class="num">-1</span>]                 <span class="cm"># left-boundary sentinel</span>
+<span class="var">max_area</span> = <span class="num">0</span>
+
+<span class="kw">for</span> <span class="var">i</span>, <span class="var">h</span> <span class="kw">in</span> <span class="fn">enumerate</span>(<span class="var">heights</span>):
+    <span class="kw">while</span> stack[<span class="num">-1</span>] != <span class="num">-1</span> <span class="kw">and</span> <span class="var">heights</span>[stack[<span class="num">-1</span>]] >= <span class="var">h</span>:
+        <span class="var">height</span> = <span class="var">heights</span>[stack.<span class="fn">pop</span>()]
+        <span class="var">width</span>  = <span class="var">i</span> - stack[<span class="num">-1</span>] - <span class="num">1</span>  <span class="cm"># new top is left boundary</span>
+        <span class="var">max_area</span> = <span class="fn">max</span>(<span class="var">max_area</span>, <span class="var">height</span> * <span class="var">width</span>)
+    stack.<span class="fn">append</span>(<span class="var">i</span>)</code></pre>
+            </div>
+            <p style="margin-top:10px;">Tracing <code>[2,1,5,6,2,3,0]</code> (0 is sentinel):</p>
+            <ul style="margin-top:6px;margin-left:18px;font-size:14px;line-height:1.9;">
+              <li>i=0 h=2: stack=[-1,0]</li>
+              <li>i=1 h=1: 1&lt;2 → pop 0: area=2×(1−(−1)−1)=2. 1 is not −1 done. stack=[-1,1]</li>
+              <li>i=2 h=5: stack=[-1,1,2]</li>
+              <li>i=3 h=6: stack=[-1,1,2,3]</li>
+              <li>i=4 h=2: pop 3: area=6×(4−2−1)=6. pop 2: area=5×(4−1−1)=10. max=10. stack=[-1,1,4]</li>
+              <li>i=5 h=3: stack=[-1,1,4,5]</li>
+              <li>i=6 h=0 (sentinel): pop 5: area=3×(6−4−1)=3. pop 4: area=2×(6−1−1)=8. pop 1: area=1×(6−(−1)−1)=6. done.</li>
+              <li>Return <strong>10</strong> ✓</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">
+            At i=4, you pop index 2 (height 5) and get width = 4−1−1 = 2. Walk me through why the width is 2 and not 3.
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            After popping index 2, the new stack top is index 1 (height 1). The formula is <code>right − left − 1 = 4 − 1 − 1 = 2</code>. The rectangle for height 5 can only span bars 2 and 3 — bar 1 has height 1 which is less than 5, so the boundary stops there. Width 2 × height 5 = 10. Correct.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            <div class="complexity-box">
+              <div class="cx-cell hd">Metric</div><div class="cx-cell hd">Value</div><div class="cx-cell hd">Reason</div>
+              <div class="cx-cell">Time</div><div class="cx-cell">O(n)</div><div class="cx-cell">Each bar pushed and popped at most once — amortised O(1) per bar</div>
+              <div class="cx-cell">Space</div><div class="cx-cell">O(n)</div><div class="cx-cell">Stack holds at most n indices in the worst case (monotone increasing input)</div>
+            </div>
+            <p style="margin-top:8px;">The amortised argument: even though the inner <code>while</code> loop can run many times on a single iteration, each index is pushed exactly once and popped exactly once across the entire algorithm. Total operations = 2n = O(n).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">Three follow-ups. First: how does this extend to finding the maximal rectangle in a binary matrix (LC #85)?</div>
+        </div>
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            For each row of the matrix, treat it as the base of a histogram: <code>height[j]</code> is the number of consecutive 1s ending at that row in column j. Then run this exact algorithm on each row's histogram. Overall O(m×n) for an m×n matrix.
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">Second: how does this compare mechanically to Trapping Rain Water (#42)?</div>
+        </div>
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            Both use a monotonic stack and trigger computation when the order breaks, but the geometry is opposite. In #84, when a shorter bar pops a taller one, we measure the <em>area above the ground</em> extending outward. In #42, when a taller bar pops a shorter one in a valley, we measure the <em>trapped water above the valley floor</em>. Histogram: monotonic increasing stack. Rainwater: monotonic decreasing stack.
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-bubble">
+        <div class="avatar av-int">IV</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Interviewer</div>
+          <div class="btext int-b">Last one: could you solve this with divide and conquer? What's the complexity?</div>
+        </div>
+      </div>
+
+      <div class="chat-bubble cand">
+        <div class="avatar av-cand">Me</div>
+        <div class="bubble-wrap">
+          <div class="bubble-name">Candidate</div>
+          <div class="btext cand-b">
+            Yes — find the minimum bar in the current range (it becomes the height-limiter for any rectangle spanning the full range), then recurse on the left and right sub-ranges. The max rectangle is either: the full-width rectangle at the minimum height, or entirely within the left sub-range, or entirely within the right. With a segment tree for range-min queries: O(n log n) time. Without it, the worst case is O(n²) on a sorted array. Not competitive with the O(n) stack solution.
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end interview -->
+
+    <!-- Full Solution -->
+    <h2 id="solution">Full Python Solution</h2>
+    <div class="code-block">
+      <div class="code-block-header"><span>Python</span></div>
+      <pre><code><span class="kw">def</span> <span class="fn">largestRectangleArea</span>(<span class="var">heights</span>):
+    <span class="var">heights</span>.<span class="fn">append</span>(<span class="num">0</span>)   <span class="cm"># sentinel — forces all remaining bars to be popped</span>
+    <span class="var">stack</span>    = [<span class="num">-1</span>]    <span class="cm"># left-boundary sentinel</span>
+    <span class="var">max_area</span> = <span class="num">0</span>
+
+    <span class="kw">for</span> <span class="var">i</span>, <span class="var">h</span> <span class="kw">in</span> <span class="bi">enumerate</span>(<span class="var">heights</span>):
+        <span class="kw">while</span> <span class="var">stack</span>[<span class="num">-1</span>] != <span class="num">-1</span> <span class="kw">and</span> <span class="var">heights</span>[<span class="var">stack</span>[<span class="num">-1</span>]] >= <span class="var">h</span>:
+            <span class="var">height</span> = <span class="var">heights</span>[<span class="var">stack</span>.<span class="fn">pop</span>()]
+            <span class="var">width</span>  = <span class="var">i</span> - <span class="var">stack</span>[<span class="num">-1</span>] - <span class="num">1</span>
+            <span class="var">max_area</span> = <span class="bi">max</span>(<span class="var">max_area</span>, <span class="var">height</span> * <span class="var">width</span>)
+        <span class="var">stack</span>.<span class="fn">append</span>(<span class="var">i</span>)
+
+    <span class="var">heights</span>.<span class="fn">pop</span>()   <span class="cm"># restore original input</span>
+    <span class="kw">return</span> <span class="var">max_area</span></code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-left:18px;margin-top:4px;line-height:2;">
+        <li>Always mention the sentinel <code>0</code> at the end — interviewers love asking why it's needed.</li>
+        <li>Seed the stack with <code>[-1]</code>, not <code>[]</code>; it acts as the left-boundary sentinel and avoids an empty-stack check inside the loop.</li>
+        <li>Width formula is <code>right_index − new_stack_top − 1</code>, not <code>right − left</code>. Practice the formula until it's automatic.</li>
+        <li>State the amortised O(n) argument explicitly: each index is pushed once and popped once → 2n operations total.</li>
+        <li>Know the connection to #85 Maximal Rectangle — it's the same algorithm applied row-by-row to a binary matrix.</li>
+        <li>This and #42 Trapping Rain Water are the two "must-master" hard monotonic stack problems. If you can explain both, you've covered the pattern fully.</li>
+      </ul>
+    </div>
+
+    <a href="42-trapping-rain-water.html" class="back-link" style="margin-top:32px;">Next: #42 Trapping Rain Water →</a>
+
+  </main>
+</div>
+</body>
+</html>

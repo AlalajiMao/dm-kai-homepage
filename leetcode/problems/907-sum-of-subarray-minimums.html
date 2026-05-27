@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#907 Sum of Subarray Minimums — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-soon">Soon</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #20 Valid Parens</a>
+      <a href="155-min-stack.html" class="sidebar-item"><span class="icon">⬇️</span> #155 Min Stack</a>
+      <a href="232-implement-queue-using-stacks.html" class="sidebar-item"><span class="icon">🔁</span> #232 Impl Queue</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="739-daily-temperatures.html" class="sidebar-item"><span class="icon">🌡️</span> #739 Daily Temps</a>
+      <a href="150-evaluate-reverse-polish-notation.html" class="sidebar-item"><span class="icon">🧮</span> #150 Eval RPN</a>
+      <a href="227-basic-calculator-ii.html" class="sidebar-item"><span class="icon">🔢</span> #227 Basic Calc II</a>
+      <a href="394-decode-string.html" class="sidebar-item"><span class="icon">📝</span> #394 Decode String</a>
+      <a href="496-next-greater-element-i.html" class="sidebar-item"><span class="icon">📈</span> #496 Next Greater I</a>
+      <a href="907-sum-of-subarray-minimums.html" class="sidebar-item active"><span class="icon">➕</span> #907 Subarray Mins</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" class="sidebar-item"><span class="icon">🗑️</span> #1209 Remove Adj Dup</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="84-largest-rectangle-in-histogram.html" class="sidebar-item"><span class="icon">📊</span> #84 Largest Rect</a>
+      <a href="42-trapping-rain-water.html" class="sidebar-item"><span class="icon">🌊</span> #42 Trap Rain</a>
+      <a href="32-longest-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #32 Longest Valid</a>
+      <a href="224-basic-calculator.html" class="sidebar-item"><span class="icon">🧮</span> #224 Basic Calc</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #907 · <a href="https://leetcode.com/problems/sum-of-subarray-minimums/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Sum of Subarray Minimums</div>
+        <div class="problem-meta">
+          <span class="tag tag-medium">Medium</span>
+          <span class="tag tag-pattern">Monotonic Stack</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given an array of integers <code>arr</code>, find the sum of <code>min(b)</code> for every
+      contiguous subarray <code>b</code> of <code>arr</code>. Return the answer modulo
+      <code>10<sup>9</sup> + 7</code>.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLE</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        <code>Input:  arr = [3, 1, 2, 4]</code><br>
+        <code>Output: 17</code>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">
+        Subarrays and their minimums:<br>
+        [3]→3, [1]→1, [2]→2, [4]→4, [3,1]→1, [1,2]→1, [2,4]→2, [3,1,2]→1, [1,2,4]→1, [3,1,2,4]→1<br>
+        Sum = 3+1+2+4+1+1+2+1+1+1 = <strong>17</strong>
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      This problem looks like a nested loop problem at first glance, but the key unlock is
+      <strong>contribution counting</strong>: instead of enumerating subarrays, ask "how many
+      subarrays is each element the minimum of?" A monotonic stack answers that in O(n).
+      <span style="color:var(--text-muted)">（贡献法 + 单调栈）</span>
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Here's the problem: given an integer array, sum up the minimum value of every contiguous
+          subarray. There are O(n²) subarrays so you can't enumerate them all naively for large inputs.
+          Return the answer mod 10<sup>9</sup>+7. What's your first read on this?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Interesting — so we're summing the minimum element across all O(n²) subarrays.
+          My first instinct is that we need a smarter way than iterating over every subarray.
+          Let me ask a couple of clarifying questions before diving in.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2: Clarification -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few quick questions:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can the array contain duplicate values? That'll affect how I count subarrays.</li>
+            <li>What's the array size — roughly 10<sup>4</sup> or 10<sup>5</sup>?</li>
+            <li>Is the modulo only applied at the end, or do I need intermediate mod as well?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Yes, duplicates are possible — handle them carefully. Array length is up to 30,000.
+          Apply mod at the end of your sum to keep numbers manageable, though technically you
+          can apply it incrementally too.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3: Approach -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The brute force approach: iterate over all O(n²) subarrays, find the minimum of each.
+          If I track a running minimum while expanding the right boundary, that's O(n²) time and O(1)
+          extra space. For n=30,000 that's 9×10<sup>8</sup> operations — too slow.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Agreed. How would you approach the O(n) solution?
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      Instead of asking "what is the minimum of each subarray?", flip the question:
+      "for each element arr[i], in how many subarrays is it the minimum?"
+      If arr[i] is the minimum of exactly C subarrays, its total contribution to the answer is arr[i] * C.
+      To count C, I need to know how far left and right I can extend while arr[i] remains the minimum.
+      That means finding the nearest smaller element on each side — a textbook monotonic stack job.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The key insight is <strong>contribution counting</strong>. Rather than iterating subarrays,
+          I ask: for each element <code>arr[i]</code>, how many subarrays have it as the minimum?
+          If I know that, its contribution to the total is <code>arr[i] * count</code>.<br><br>
+
+          To find the count, I define:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li><code>left[i]</code> = distance to the previous element that is <em>strictly smaller</em>
+            than <code>arr[i]</code> (or left boundary if none). This is how far left a subarray starting
+            at position <code>i</code> can extend while <code>arr[i]</code> remains the minimum.</li>
+            <li><code>right[i]</code> = distance to the next element that is <em>smaller or equal</em>
+            to <code>arr[i]</code> (or right boundary if none). This is how far right it can extend.</li>
+          </ul>
+          <br>
+          Then the number of subarrays where <code>arr[i]</code> is the minimum is
+          <code>left[i] * right[i]</code>, so <code>arr[i]</code>'s contribution is
+          <code>arr[i] * left[i] * right[i]</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Why do you use strictly smaller on the left but smaller-or-equal on the right?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          This is the double-counting trap with duplicates. If <code>arr = [2, 2]</code> and we used
+          strictly smaller on both sides, both elements would claim the subarray <code>[2, 2]</code>
+          as their contribution. By being asymmetric — strictly smaller on the left, smaller-or-equal
+          on the right — each subarray is assigned to exactly one element as its "owner". Specifically,
+          when there are duplicates, the leftmost one wins.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. And how do you compute <code>left[i]</code> and <code>right[i]</code> efficiently?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          With a monotonic stack — two separate passes:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li><strong>Left pass (left to right):</strong> maintain a stack of indices with increasing
+            values. For each <code>i</code>, pop while <code>arr[stack[-1]] >= arr[i]</code>. If stack
+            is empty, <code>left[i] = i + 1</code>; otherwise <code>left[i] = i - stack[-1]</code>.
+            Push <code>i</code>.</li>
+            <li><strong>Right pass (right to left):</strong> same idea but pop while
+            <code>arr[stack[-1]] > arr[i]</code> (strictly greater, to keep the asymmetry).
+            If stack is empty, <code>right[i] = n - i</code>; otherwise <code>right[i] = stack[-1] - i</code>.
+            Push <code>i</code>.</li>
+          </ul>
+          Both passes are O(n) by the same amortised argument as Daily Temperatures.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4: Pseudocode -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Trace Through Example</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace <code>arr = [3, 1, 2, 4]</code>, n=4:
+          <div style="font-family:var(--mono);font-size:12.5px;line-height:2;margin-top:8px;">
+            <strong>Left pass (pop if arr[top] &gt;= arr[i]):</strong><br>
+            i=0, val=3: stack empty → left[0]=1.   push 0. stack=[0]<br>
+            i=1, val=1: pop 0 (3&gt;=1), stack empty → left[1]=2. push 1. stack=[1]<br>
+            i=2, val=2: 1&lt;2, no pop → left[2]=2-1=1. push 2. stack=[1,2]<br>
+            i=3, val=4: 2&lt;4, no pop → left[3]=3-2=1. push 3. stack=[1,2,3]<br>
+            left = [1, 2, 1, 1]<br><br>
+            <strong>Right pass (pop if arr[top] &gt; arr[i]):</strong><br>
+            i=3, val=4: stack empty → right[3]=4-3=1. push 3. stack=[3]<br>
+            i=2, val=2: 4&gt;2 → pop 3. Stack empty → right[2]=4-2=2. push 2. stack=[2]<br>
+            i=1, val=1: 2&gt;1 → pop 2. Stack empty → right[1]=4-1=3. push 1. stack=[1]<br>
+            i=0, val=3: 1&lt;3, no pop → right[0]=1-0=1. push 0. stack=[0,1]<br>
+            right = [1, 3, 2, 1]<br><br>
+            <strong>Contributions:</strong><br>
+            i=0: 3 * 1 * 1 = 3<br>
+            i=1: 1 * 2 * 3 = 6<br>
+            i=2: 2 * 1 * 2 = 4<br>
+            i=3: 4 * 1 * 1 = 4<br>
+            Total = 3+6+4+4 = <strong>17</strong> ✅
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Perfect trace. Let's see the code.
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Contribution Counting with Monotonic Stack</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">sumSubarrayMins</span>(<span class="var">arr</span>):
+    <span class="var">MOD</span>   = <span class="num">10</span>**<span class="num">9</span> + <span class="num">7</span>
+    <span class="var">n</span>     = <span class="bi">len</span>(<span class="var">arr</span>)
+    <span class="var">left</span>  = [<span class="num">0</span>] * <span class="var">n</span>   <span class="cm"># distance to previous strictly-smaller element</span>
+    <span class="var">right</span> = [<span class="num">0</span>] * <span class="var">n</span>   <span class="cm"># distance to next smaller-or-equal element</span>
+    <span class="var">stack</span> = []
+
+    <span class="cm"># Left pass: pop while top >= current (strict on left)</span>
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="var">n</span>):
+        <span class="kw">while</span> <span class="var">stack</span> <span class="kw">and</span> <span class="var">arr</span>[<span class="var">stack</span>[<span class="num">-1</span>]] >= <span class="var">arr</span>[<span class="var">i</span>]:
+            <span class="var">stack</span>.<span class="fn">pop</span>()
+        <span class="var">left</span>[<span class="var">i</span>] = <span class="var">i</span> + <span class="num">1</span> <span class="kw">if</span> <span class="kw">not</span> <span class="var">stack</span> <span class="kw">else</span> <span class="var">i</span> - <span class="var">stack</span>[<span class="num">-1</span>]
+        <span class="var">stack</span>.<span class="fn">append</span>(<span class="var">i</span>)
+
+    <span class="var">stack</span> = []
+    <span class="cm"># Right pass: pop while top > current (strict on right)</span>
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="var">n</span> - <span class="num">1</span>, <span class="num">-1</span>, <span class="num">-1</span>):
+        <span class="kw">while</span> <span class="var">stack</span> <span class="kw">and</span> <span class="var">arr</span>[<span class="var">stack</span>[<span class="num">-1</span>]] > <span class="var">arr</span>[<span class="var">i</span>]:
+            <span class="var">stack</span>.<span class="fn">pop</span>()
+        <span class="var">right</span>[<span class="var">i</span>] = <span class="var">n</span> - <span class="var">i</span> <span class="kw">if</span> <span class="kw">not</span> <span class="var">stack</span> <span class="kw">else</span> <span class="var">stack</span>[<span class="num">-1</span>] - <span class="var">i</span>
+        <span class="var">stack</span>.<span class="fn">append</span>(<span class="var">i</span>)
+
+    <span class="kw">return</span> <span class="bi">sum</span>(<span class="var">arr</span>[<span class="var">i</span>] * <span class="var">left</span>[<span class="var">i</span>] * <span class="var">right</span>[<span class="var">i</span>] <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="var">n</span>)) % <span class="var">MOD</span></code></pre>
+    </div>
+
+    <!-- Stage 5: Complexity -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Brute Force</div>
+      <div class="cx-cell hd">Contribution + Stack</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell" style="color:var(--red);">O(n²)</div>
+      <div class="cx-cell" style="color:var(--green);font-weight:600;">O(n)</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell" style="color:var(--green);">O(1)</div>
+      <div class="cx-cell" style="color:var(--yellow);font-weight:600;">O(n)</div>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);">
+      Each index is pushed and popped at most once per pass — two passes → 4n total stack ops → O(n).
+    </p>
+
+    <!-- Stage 6: Follow-ups -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What would change if you needed the sum of subarray <em>maximums</em> instead of minimums?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The algorithm is identical, just flip the comparisons. Instead of "previous strictly smaller"
+          and "next smaller-or-equal", you look for "previous strictly larger" and "next larger-or-equal".
+          That is, the stack now stays <em>decreasing</em> instead of increasing. The contribution formula
+          remains <code>arr[i] * left[i] * right[i]</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          If someone suggested using a single pass with the stack instead of two passes, is that possible?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes — when you pop an element during the single left-to-right pass, you already know both
+          its left and right boundaries at that moment: the new stack top is the left boundary,
+          and the current index is the right boundary. You can compute the contribution inline
+          when you pop. This eliminates the <code>left</code> and <code>right</code> arrays entirely,
+          reducing space slightly. The two-pass version is easier to reason about and explain in
+          an interview, so I'd present that first, then offer the single-pass as an optimisation.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          How would you extend this to the sum of subarray <em>ranges</em> — max minus min for each subarray?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Since sum of ranges = sum of maxes − sum of mins, and both are linear, you'd compute them
+          independently using the two approaches above and subtract. The time and space complexity
+          stays O(n). Be careful to apply the modulo consistently — the subtraction might produce
+          a negative number mod M, so add M before taking mod:
+          <code>(sum_max - sum_min + MOD) % MOD</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="solution"></div>
+
+    <!-- Full Solution -->
+    <h2 style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Sum of Subarray Minimums</span>
+        <span style="color:var(--green)">O(n) time · O(n) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">sumSubarrayMins</span>(<span class="var">self</span>, <span class="var">arr</span>: <span class="bi">list</span>[<span class="bi">int</span>]) -> <span class="bi">int</span>:
+        <span class="var">MOD</span>   = <span class="num">10</span>**<span class="num">9</span> + <span class="num">7</span>
+        <span class="var">n</span>     = <span class="bi">len</span>(<span class="var">arr</span>)
+        <span class="var">left</span>  = [<span class="num">0</span>] * <span class="var">n</span>
+        <span class="var">right</span> = [<span class="num">0</span>] * <span class="var">n</span>
+        <span class="var">stack</span> = []
+
+        <span class="cm"># Left pass: previous strictly-smaller element</span>
+        <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="var">n</span>):
+            <span class="kw">while</span> <span class="var">stack</span> <span class="kw">and</span> <span class="var">arr</span>[<span class="var">stack</span>[<span class="num">-1</span>]] >= <span class="var">arr</span>[<span class="var">i</span>]:
+                <span class="var">stack</span>.<span class="fn">pop</span>()
+            <span class="var">left</span>[<span class="var">i</span>] = <span class="var">i</span> + <span class="num">1</span> <span class="kw">if</span> <span class="kw">not</span> <span class="var">stack</span> <span class="kw">else</span> <span class="var">i</span> - <span class="var">stack</span>[<span class="num">-1</span>]
+            <span class="var">stack</span>.<span class="fn">append</span>(<span class="var">i</span>)
+
+        <span class="var">stack</span> = []
+
+        <span class="cm"># Right pass: next smaller-or-equal element (asymmetric to avoid double-counting)</span>
+        <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="var">n</span> - <span class="num">1</span>, <span class="num">-1</span>, <span class="num">-1</span>):
+            <span class="kw">while</span> <span class="var">stack</span> <span class="kw">and</span> <span class="var">arr</span>[<span class="var">stack</span>[<span class="num">-1</span>]] > <span class="var">arr</span>[<span class="var">i</span>]:
+                <span class="var">stack</span>.<span class="fn">pop</span>()
+            <span class="var">right</span>[<span class="var">i</span>] = <span class="var">n</span> - <span class="var">i</span> <span class="kw">if</span> <span class="kw">not</span> <span class="var">stack</span> <span class="kw">else</span> <span class="var">stack</span>[<span class="num">-1</span>] - <span class="var">i</span>
+            <span class="var">stack</span>.<span class="fn">append</span>(<span class="var">i</span>)
+
+        <span class="kw">return</span> <span class="bi">sum</span>(<span class="var">arr</span>[<span class="var">i</span>] * <span class="var">left</span>[<span class="var">i</span>] * <span class="var">right</span>[<span class="var">i</span>] <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="var">n</span>)) % <span class="var">MOD</span></code></pre>
+    </div>
+
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 面试要点</div>
+      <ul style="font-size:13.5px;margin-left:18px;line-height:1.9;">
+        <li><strong>Flip the question:</strong> don't iterate over subarrays — iterate over elements and count how many subarrays each element owns</li>
+        <li><strong>Asymmetric comparison</strong> (<code>&gt;=</code> on left, <code>&gt;</code> on right) is the critical detail for duplicates — say this out loud in the interview</li>
+        <li><strong>Modulo placement:</strong> apply to the final sum; if subtracting two mod results, add MOD before taking mod to avoid negatives</li>
+        <li>Know the single-pass optimisation but present the two-pass version first for clarity</li>
+        <li>This pattern directly extends to sum of subarray maxes and sum of subarray ranges</li>
+      </ul>
+    </div>
+
+    <p style="margin-top:24px;display:flex;justify-content:space-between;">
+      <a href="496-next-greater-element-i.html" style="font-size:14px;">← Previous: #496 Next Greater I</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" style="font-size:14px;">Next: #1209 Remove Adj Duplicates II →</a>
+    </p>
+
+  </main>
+</div>
+</body>
+</html>

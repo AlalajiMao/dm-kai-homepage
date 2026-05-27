@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#150 Evaluate Reverse Polish Notation — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-soon">Soon</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #20 Valid Parens</a>
+      <a href="155-min-stack.html" class="sidebar-item"><span class="icon">⬇️</span> #155 Min Stack</a>
+      <a href="232-implement-queue-using-stacks.html" class="sidebar-item"><span class="icon">🔁</span> #232 Impl Queue</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="739-daily-temperatures.html" class="sidebar-item"><span class="icon">🌡️</span> #739 Daily Temps</a>
+      <a href="150-evaluate-reverse-polish-notation.html" class="sidebar-item active"><span class="icon">🧮</span> #150 Eval RPN</a>
+      <a href="227-basic-calculator-ii.html" class="sidebar-item"><span class="icon">🔢</span> #227 Basic Calc II</a>
+      <a href="394-decode-string.html" class="sidebar-item"><span class="icon">📝</span> #394 Decode String</a>
+      <a href="496-next-greater-element-i.html" class="sidebar-item"><span class="icon">📈</span> #496 Next Greater I</a>
+      <a href="907-sum-of-subarray-minimums.html" class="sidebar-item"><span class="icon">➕</span> #907 Subarray Mins</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" class="sidebar-item"><span class="icon">🗑️</span> #1209 Remove Adj Dup</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="84-largest-rectangle-in-histogram.html" class="sidebar-item"><span class="icon">📊</span> #84 Largest Rect</a>
+      <a href="42-trapping-rain-water.html" class="sidebar-item"><span class="icon">🌊</span> #42 Trap Rain</a>
+      <a href="32-longest-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #32 Longest Valid</a>
+      <a href="224-basic-calculator.html" class="sidebar-item"><span class="icon">🧮</span> #224 Basic Calc</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #150 · <a href="https://leetcode.com/problems/evaluate-reverse-polish-notation/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Evaluate Reverse Polish Notation</div>
+        <div class="problem-meta">
+          <span class="tag tag-medium">Medium</span>
+          <span class="tag tag-pattern">Stack</span>
+          <span class="tag tag-pattern">Expression Evaluation</span>
+          <span class="tag tag-pattern">Math</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Evaluate the value of an arithmetic expression in <strong>Reverse Polish Notation</strong> (postfix notation).</p>
+      <p style="margin-top:8px;">Valid operators are <code>+</code>, <code>-</code>, <code>*</code>, and <code>/</code>.
+      Each operand may be an integer or another expression. Division between two integers
+      <strong>truncates toward zero</strong>.</p>
+      <p style="margin-top:8px;font-size:13px;color:var(--text-muted);">
+        It is guaranteed the expression is valid. No division by zero will occur.
+      </p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2.2;">
+        <code>["2","1","+","3","*"]</code> → <span style="color:var(--green)">9</span>
+        <span style="color:var(--text-muted);font-size:12px;margin-left:8px;">((2+1)*3)</span><br>
+        <code>["4","13","5","/","+"]</code> → <span style="color:var(--green)">6</span>
+        <span style="color:var(--text-muted);font-size:12px;margin-left:8px;">(4+(13/5))</span><br>
+        <code>["10","6","9","3","+","-11","*","/","*","17","+","5","+"]</code> → <span style="color:var(--green)">22</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      A realistic interview dialogue showing <em>how to think out loud</em> — not just arrive at the answer,
+      but communicate the reasoning clearly.
+      <span style="color:var(--text-muted)">（模拟真实面试对话，展示如何清晰地表达思路）</span>
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Today's problem involves evaluating an arithmetic expression. The expression is given
+          as an array of strings in <strong>Reverse Polish Notation</strong> — also called postfix.
+          Each token is either an integer or one of the four operators: <code>+</code>, <code>-</code>,
+          <code>*</code>, <code>/</code>. Division truncates toward zero.
+          Have you seen RPN before? What's your first instinct?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes — RPN is designed precisely so it can be evaluated with a stack in a single left-to-right pass,
+          with no need for parentheses or operator precedence rules. The structure does all that
+          disambiguation for you. My instinct is definitely a stack-based approach.
+          Let me ask a couple of clarifying questions first.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few things I want to confirm:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can tokens include <em>negative</em> numbers, like <code>"-3"</code>? Or are negatives only produced by operations?</li>
+            <li>You mentioned division truncates toward zero — is that different from Python's floor division for negative numbers?</li>
+            <li>Is the input guaranteed to be a valid RPN expression, or do I need to handle malformed input?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Great questions — especially the second one. Yes, tokens can be negative integers like <code>"-3"</code>.
+          And yes, "truncate toward zero" is different from Python's <code>//</code> for negative results —
+          <code>-7 // 2</code> is <code>-4</code> in Python (floor), but we want <code>-3</code> (truncation toward zero).
+          The expression is always valid, so no malformed input to worry about.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          That's an important distinction — I'm glad I asked. In Python, <code>int(a / b)</code>
+          truncates toward zero correctly, while <code>a // b</code> floors toward negative infinity.
+          For positive results they agree, but for negatives they differ. I'll make sure to use
+          <code>int(a / b)</code> for division.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The algorithm is clean. I iterate through each token:<br><br>
+          — If it's a <strong>number</strong>, convert it to an integer and push it onto the stack.<br>
+          — If it's an <strong>operator</strong>, pop two operands, apply the operator, and push the result back.<br><br>
+          At the end, exactly one value remains on the stack — that's the answer.<br><br>
+          The only subtlety is <em>operand order</em> for subtraction and division.
+          When I pop, I get the second operand first, then the first. So if the stack looks like
+          <code>[..., a, b]</code> and I see <code>-</code>, I pop <code>b</code> then <code>a</code>,
+          and compute <code>a - b</code>, not <code>b - a</code>. I need to be careful to
+          pop in the right order.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      Mnemonic: "pop b first, then a" — b is on top because it was pushed last (it's the right operand).
+      So the expression is always: a OP b, where a = second pop, b = first pop.
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          You flagged the operand order issue preemptively — good. Does it matter for addition and multiplication?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          For addition and multiplication, no — both are commutative, so <code>a + b == b + a</code>
+          and <code>a * b == b * a</code>. Order only matters for subtraction and division, which are
+          not commutative. But I'll write the code consistently for all four operators regardless,
+          just to keep it clear and correct-by-construction.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Code Walkthrough</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me code it up. I'll use a set for O(1) operator lookup and handle each operator explicitly.
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Python 3 — Evaluate RPN (walkthrough)</span></div>
+      <pre><code><span class="kw">def</span> <span class="fn">evalRPN</span>(<span class="var">tokens</span>: <span class="bi">list</span>[<span class="bi">str</span>]) -> <span class="bi">int</span>:
+    <span class="var">stack</span> = []
+    <span class="var">ops</span>   = {<span class="str">'+'</span>, <span class="str">'-'</span>, <span class="str">'*'</span>, <span class="str">'/'</span>}  <span class="cm"># O(1) membership check</span>
+
+    <span class="kw">for</span> <span class="var">t</span> <span class="kw">in</span> <span class="var">tokens</span>:
+        <span class="kw">if</span> <span class="var">t</span> <span class="kw">not in</span> <span class="var">ops</span>:
+            <span class="var">stack</span>.<span class="fn">append</span>(<span class="bi">int</span>(<span class="var">t</span>))    <span class="cm"># handles negatives like "-3" correctly</span>
+        <span class="kw">else</span>:
+            <span class="var">b</span> = stack.<span class="fn">pop</span>()         <span class="cm"># right operand (pushed last → on top)</span>
+            <span class="var">a</span> = stack.<span class="fn">pop</span>()         <span class="cm"># left operand</span>
+
+            <span class="kw">if</span>   <span class="var">t</span> == <span class="str">'+'</span>:  stack.<span class="fn">append</span>(<span class="var">a</span> + <span class="var">b</span>)
+            <span class="kw">elif</span> <span class="var">t</span> == <span class="str">'-'</span>:  stack.<span class="fn">append</span>(<span class="var">a</span> - <span class="var">b</span>)
+            <span class="kw">elif</span> <span class="var">t</span> == <span class="str">'*'</span>:  stack.<span class="fn">append</span>(<span class="var">a</span> * <span class="var">b</span>)
+            <span class="kw">else</span>:           stack.<span class="fn">append</span>(<span class="bi">int</span>(<span class="var">a</span> / <span class="var">b</span>))  <span class="cm"># truncate toward zero</span>
+
+    <span class="kw">return</span> stack[<span class="num">0</span>]   <span class="cm"># valid RPN always leaves exactly one element</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace <code>["2","1","+","3","*"]</code>:<br><br>
+          <code>"2"</code> → not op, push. stack=[2]<br>
+          <code>"1"</code> → not op, push. stack=[2, 1]<br>
+          <code>"+"</code> → op. b=pop()=1, a=pop()=2. push(2+1=3). stack=[3]<br>
+          <code>"3"</code> → not op, push. stack=[3, 3]<br>
+          <code>"*"</code> → op. b=pop()=3, a=pop()=3. push(3*3=9). stack=[9]<br><br>
+          Return stack[0] = <strong>9</strong> ✓<br><br>
+          Now let me check the division edge case: <code>["7","2","-"]</code> with <code>a=7, b=2</code> → <code>7-2=5</code> ✓.
+          And negative division: <code>a=-7, b=2</code> → <code>int(-7/2) = int(-3.5) = -3</code> ✓.
+          Python's <code>-7//2 = -4</code> would be wrong here.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Nice — good that you explicitly verified the negative division case.
+          One thing: how does <code>int(t)</code> handle a token like <code>"-11"</code>?
+          Could it be confused with the minus operator?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          No confusion at all. The check <code>t not in ops</code> uses the set
+          <code>{'+', '-', '*', '/'}</code>, which contains only the single-character string <code>"-"</code>.
+          The token <code>"-11"</code> is a two-character string — it's not in the set, so it takes
+          the number branch. <code>int("-11")</code> returns <code>-11</code> correctly.
+          The operator <code>"-"</code> is exactly one character, so there's no ambiguity.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n) — a single pass through all n tokens.
+          Each token results in O(1) work: either an <code>int()</code> conversion and a push,
+          or two pops, one arithmetic operation, and a push. Set membership check is O(1).<br><br>
+          <strong>Space:</strong> O(n) — in the worst case, all tokens are numbers and we push
+          all of them before seeing any operators. The stack holds at most ⌈n/2⌉ elements
+          (since valid RPN must have more operators as numbers accumulate).<br><br>
+          There's no better time complexity — we have to examine every token at least once.
+          The stack-based solution is optimal.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div><div class="cx-cell hd">Value</div><div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div><div class="cx-cell"><strong style="color:var(--green);">O(n)</strong></div><div class="cx-cell" style="color:var(--text-secondary);">Single pass, O(1) per token</div>
+      <div class="cx-cell">Space</div><div class="cx-cell"><strong style="color:var(--yellow);">O(n)</strong></div><div class="cx-cell" style="color:var(--text-secondary);">Stack holds at most ⌈n/2⌉ numbers</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good solution. Three follow-ups: (1) How would you add support for
+          exponentiation <code>**</code>? (2) If the input could be invalid, how would
+          you detect that? (3) How does this compare to converting infix to postfix first?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>(1) Adding <code>**</code>:</strong> Add <code>'**'</code> to the ops set and
+          handle it in the elif chain: <code>stack.append(a ** b)</code>.
+          Note that exponentiation is right-associative — <code>a ** b</code> with <code>a</code>
+          as the left operand is correct since we already pop in the right order. One line of code.<br><br>
+
+          <strong>(2) Detecting invalid input:</strong> Two failure modes.
+          First, if we try to pop from an empty stack when processing an operator — too few operands.
+          Second, if the stack has more than one element at the end — too many operands, not enough operators.
+          I'd wrap the pops in a try/except for IndexError and check <code>len(stack) == 1</code> at the end.<br><br>
+
+          <strong>(3) Infix vs. postfix:</strong> If given infix notation, you'd first convert it to
+          postfix using the Shunting Yard algorithm — O(n) time — then evaluate the postfix with exactly
+          this stack algorithm. RPN removes the need to handle operator precedence during evaluation
+          since the conversion step already encoded it. For this problem, since the input is already
+          in RPN, we skip that conversion entirely.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Solid answers throughout. One last curiosity — why does a valid RPN expression
+          always leave exactly one value on the stack?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          It follows from the structure of a valid expression. Think of it inductively:
+          a single number is a valid expression that leaves 1 element. Each binary operator
+          consumes 2 elements and produces 1, so the stack size decreases by 1 per operator.
+          A valid expression with <em>k</em> operators has exactly <em>k+1</em> operand tokens.
+          Starting at 0, after pushing k+1 numbers we're at k+1, and after k operators we're at
+          k+1 − k = 1. So the final stack always has exactly one element — the result.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="solution"></div>
+
+    <!-- Full Solution -->
+    <h2 style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Evaluate Reverse Polish Notation</span>
+        <span style="color:var(--green)">O(n) time · O(n) space</span>
+      </div>
+      <pre><code><span class="kw">def</span> <span class="fn">evalRPN</span>(<span class="var">tokens</span>: <span class="bi">list</span>[<span class="bi">str</span>]) -> <span class="bi">int</span>:
+    <span class="var">stack</span> = []
+    <span class="var">ops</span>   = {<span class="str">'+'</span>, <span class="str">'-'</span>, <span class="str">'*'</span>, <span class="str">'/'</span>}
+
+    <span class="kw">for</span> <span class="var">t</span> <span class="kw">in</span> <span class="var">tokens</span>:
+        <span class="kw">if</span> <span class="var">t</span> <span class="kw">not in</span> <span class="var">ops</span>:
+            <span class="var">stack</span>.<span class="fn">append</span>(<span class="bi">int</span>(<span class="var">t</span>))
+        <span class="kw">else</span>:
+            <span class="var">b</span>, <span class="var">a</span> = stack.<span class="fn">pop</span>(), stack.<span class="fn">pop</span>()  <span class="cm"># b = right operand, a = left</span>
+            <span class="kw">if</span>   <span class="var">t</span> == <span class="str">'+'</span>:  stack.<span class="fn">append</span>(<span class="var">a</span> + <span class="var">b</span>)
+            <span class="kw">elif</span> <span class="var">t</span> == <span class="str">'-'</span>:  stack.<span class="fn">append</span>(<span class="var">a</span> - <span class="var">b</span>)
+            <span class="kw">elif</span> <span class="var">t</span> == <span class="str">'*'</span>:  stack.<span class="fn">append</span>(<span class="var">a</span> * <span class="var">b</span>)
+            <span class="kw">else</span>:           stack.<span class="fn">append</span>(<span class="bi">int</span>(<span class="var">a</span> / <span class="var">b</span>))  <span class="cm"># truncate toward zero</span>
+
+    <span class="kw">return</span> stack[<span class="num">0</span>]</code></pre>
+    </div>
+
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 面试要点</div>
+      <ul style="font-size:13.5px;margin-left:18px;line-height:1.9;">
+        <li>Pop <strong>b before a</strong> — b is on top (right operand), a is below (left operand); order matters for <code>-</code> and <code>/</code></li>
+        <li>Use <code>int(a / b)</code> not <code>a // b</code> for division — floor vs truncation diverge on negative results</li>
+        <li><code>int(t)</code> handles negative number tokens like <code>"-3"</code> correctly; they won't match the single-char operator set</li>
+        <li>A valid RPN expression always ends with <strong>exactly one element</strong> on the stack — proof: n+1 numbers, n operators, net = 1</li>
+        <li>There is no simpler approach than O(n) — the stack solution is already optimal</li>
+      </ul>
+    </div>
+
+    <a href="227-basic-calculator-ii.html" class="back-link" style="margin-top:32px;">Next: #227 Basic Calculator II →</a>
+
+  </main>
+</div>
+</body>
+</html>

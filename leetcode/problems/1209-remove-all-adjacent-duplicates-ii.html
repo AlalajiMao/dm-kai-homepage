@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#1209 Remove All Adjacent Duplicates in String II — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-soon">Soon</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #20 Valid Parens</a>
+      <a href="155-min-stack.html" class="sidebar-item"><span class="icon">⬇️</span> #155 Min Stack</a>
+      <a href="232-implement-queue-using-stacks.html" class="sidebar-item"><span class="icon">🔁</span> #232 Impl Queue</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="739-daily-temperatures.html" class="sidebar-item"><span class="icon">🌡️</span> #739 Daily Temps</a>
+      <a href="150-evaluate-reverse-polish-notation.html" class="sidebar-item"><span class="icon">🧮</span> #150 Eval RPN</a>
+      <a href="227-basic-calculator-ii.html" class="sidebar-item"><span class="icon">🔢</span> #227 Basic Calc II</a>
+      <a href="394-decode-string.html" class="sidebar-item"><span class="icon">📝</span> #394 Decode String</a>
+      <a href="496-next-greater-element-i.html" class="sidebar-item"><span class="icon">📈</span> #496 Next Greater I</a>
+      <a href="907-sum-of-subarray-minimums.html" class="sidebar-item"><span class="icon">➕</span> #907 Subarray Mins</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" class="sidebar-item active"><span class="icon">🗑️</span> #1209 Remove Adj Dup</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="84-largest-rectangle-in-histogram.html" class="sidebar-item"><span class="icon">📊</span> #84 Largest Rect</a>
+      <a href="42-trapping-rain-water.html" class="sidebar-item"><span class="icon">🌊</span> #42 Trap Rain</a>
+      <a href="32-longest-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #32 Longest Valid</a>
+      <a href="224-basic-calculator.html" class="sidebar-item"><span class="icon">🧮</span> #224 Basic Calc</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #1209 · <a href="https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Remove All Adjacent Duplicates in String II</div>
+        <div class="problem-meta">
+          <span class="tag tag-medium">Medium</span>
+          <span class="tag tag-pattern">Stack + Aux Info</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given a string <code>s</code> and an integer <code>k</code>, repeatedly remove groups of
+      <code>k</code> adjacent identical characters until no more groups exist. Return the final string.</p>
+      <p style="margin-top:6px;">Removals may cascade — after one group is deleted, adjacent characters
+      may form a new group of <code>k</code>.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLE</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        <code>Input:  s = "deeedbbcccbdaa",  k = 3</code><br>
+        <code>Output: "aa"</code>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">
+        "deeedbbcccbdaa" → remove "eee" → "dbbcccbdaa" → remove "ccc" → "dbbdbdaa" →
+        remove "bb" → "ddbdaa"... actually the cascade can resolve in different orders;
+        the final result is always the same: <strong>"aa"</strong>.
+      </p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">SIMPLER EXAMPLE (for tracing)</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        <code>Input:  s = "pbbcggp",  k = 2</code><br>
+        <code>Output: "pcp"</code>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      The naive approach re-scans the string after every removal — O(n²/k). The stack insight is
+      that we can process the string in a single left-to-right pass by tracking
+      <strong>(character, count)</strong> pairs, handling cascading removals automatically.
+      <span style="color:var(--text-muted)">（栈存字符+计数对，自动处理级联删除）</span>
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          You're given a string and an integer <code>k</code>. Keep removing any run of exactly
+          <code>k</code> consecutive identical characters, and repeat until no more runs exist.
+          What's your first instinct?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          First instinct: repeatedly scan the string and remove any run of <code>k</code> identical
+          adjacent characters, then restart from the beginning until no more removals happen.
+          But before I commit to anything, let me ask a few clarifying questions.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2: Clarification -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <ul style="margin-top:4px;margin-left:18px;">
+            <li>Is <code>k</code> guaranteed to be at least 2, or can it be 1? (k=1 would remove every character.)</li>
+            <li>Are removals only of <em>exactly</em> k, or of <em>at least</em> k consecutive? For example,
+            if k=3 and we have "aaaa", does it remove all four, or just three leaving one?</li>
+            <li>Does the order of removals matter — could different removal orders give different results?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good questions. k can be 1 — in that case yes, the result is empty. Removals are of
+          exactly k adjacent identical characters. If you have "aaaa" and k=3, you'd remove three
+          of the four 'a's, leaving one. The order of removals doesn't change the final result —
+          it's deterministic.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3: Approach -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The naive approach re-scans and rebuilds the string on every pass. Each pass is O(n) and
+          we might need O(n/k) passes in the worst case, giving O(n²/k) — potentially O(n²) total.
+          For long strings that's going to be too slow.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Agreed. What's the efficient approach?
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      The key observation: as I process characters left to right, I'm really building up consecutive
+      runs. If I track (char, count) pairs on a stack, whenever count reaches k I can pop that pair —
+      the removal is instant. After the pop, the previous top of the stack is now adjacent to whatever
+      comes next, so cascading is handled automatically. I never need to re-scan.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The elegant approach is a stack that stores <strong>(character, count) pairs</strong>
+          instead of individual characters. Here's the logic for each character <code>ch</code>:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>If the stack is non-empty and <code>stack[-1][0] == ch</code>, increment its count.</li>
+            <li>Otherwise, push <code>(ch, 1)</code>.</li>
+            <li>After updating, if the count at the top reaches <code>k</code>, pop that pair — those
+            <code>k</code> characters are removed.</li>
+          </ul>
+          Cascading is handled for free: once a group is popped, the previous top is now the active
+          character, and the next character will compare against it naturally.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Why does this handle cascading correctly without any extra logic?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Because the stack's top always represents the most recent active character group.
+          After we pop a completed group, the new top is precisely the character immediately
+          before that group in the original string. When we push the next character, it compares
+          against this new top — exactly what we'd want if we had physically deleted the group
+          and spliced the string. No re-scan needed; the stack naturally "remembers" the context.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4: Trace -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode and Trace</div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Stack of (char, count) Pairs</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">removeDuplicates</span>(<span class="var">s</span>, <span class="var">k</span>):
+    <span class="var">stack</span> = []          <span class="cm"># list of (char, count) pairs</span>
+
+    <span class="kw">for</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">s</span>:
+        <span class="kw">if</span> <span class="var">stack</span> <span class="kw">and</span> <span class="var">stack</span>[<span class="num">-1</span>][<span class="num">0</span>] == <span class="var">ch</span>:
+            <span class="var">stack</span>[<span class="num">-1</span>] = (<span class="var">ch</span>, <span class="var">stack</span>[<span class="num">-1</span>][<span class="num">1</span>] + <span class="num">1</span>)   <span class="cm"># extend current run</span>
+        <span class="kw">else</span>:
+            <span class="var">stack</span>.<span class="fn">append</span>((<span class="var">ch</span>, <span class="num">1</span>))               <span class="cm"># new character, count=1</span>
+
+        <span class="kw">if</span> <span class="var">stack</span>[<span class="num">-1</span>][<span class="num">1</span>] == <span class="var">k</span>:
+            <span class="var">stack</span>.<span class="fn">pop</span>()                          <span class="cm"># group complete → remove</span>
+
+    <span class="kw">return</span> <span class="str">''</span>.<span class="fn">join</span>(<span class="var">ch</span> * <span class="var">cnt</span> <span class="kw">for</span> <span class="var">ch</span>, <span class="var">cnt</span> <span class="kw">in</span> <span class="var">stack</span>)</code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace <code>"pbbcggp"</code>, k=2:
+          <div style="font-family:var(--mono);font-size:12.5px;line-height:2;margin-top:8px;">
+            ch='p': stack empty → push (p,1).    stack=[(p,1)]<br>
+            ch='b': top is 'p' ≠ 'b' → push (b,1). stack=[(p,1),(b,1)]<br>
+            ch='b': top is 'b' → count→2. count==k → pop (b,2). stack=[(p,1)]<br>
+            ch='c': top is 'p' ≠ 'c' → push (c,1). stack=[(p,1),(c,1)]<br>
+            ch='g': top is 'c' ≠ 'g' → push (g,1). stack=[(p,1),(c,1),(g,1)]<br>
+            ch='g': top is 'g' → count→2. count==k → pop (g,2). stack=[(p,1),(c,1)]<br>
+            ch='p': top is 'c' ≠ 'p' → push (p,1). stack=[(p,1),(c,1),(p,1)]<br>
+            Result: 'p'*1 + 'c'*1 + 'p'*1 = <strong>"pcp"</strong> ✅
+          </div>
+          <br>
+          Notice how when 'bb' was popped, the next character 'c' correctly compared against 'p'
+          — the cascade would work the same way for longer chains.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. What happens with <code>"aaaa"</code> and k=3?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <div style="font-family:var(--mono);font-size:12.5px;line-height:2;">
+            ch='a': push (a,1). stack=[(a,1)]<br>
+            ch='a': count→2.    stack=[(a,2)]<br>
+            ch='a': count→3. count==k=3 → pop. stack=[]<br>
+            ch='a': stack empty → push (a,1). stack=[(a,1)]<br>
+            Result: "a" ✅
+          </div>
+          The three 'a's are removed, leaving the fourth. Correct.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5: Complexity -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Naive (repeat scan)</div>
+      <div class="cx-cell hd">Stack (char, count)</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell" style="color:var(--red);">O(n²/k)</div>
+      <div class="cx-cell" style="color:var(--green);font-weight:600;">O(n)</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell" style="color:var(--red);">O(n)</div>
+      <div class="cx-cell" style="color:var(--yellow);font-weight:600;">O(n)</div>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);">
+      Each character is pushed at most once and popped at most once — O(n) total stack operations.
+      Space is O(n/k) pairs in the worst case (all distinct characters), bounded by O(n).
+    </p>
+
+    <!-- Stage 6: Follow-ups -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          How would you modify this if, instead of returning the final string, you needed to
+          return the list of all characters removed and in what order?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Whenever we pop a <code>(ch, k)</code> group, append <code>ch * k</code> to a removal log.
+          The log records the order of removals — each pop corresponds to one batch removal event.
+          Time and space remain O(n) since the total characters removed is still bounded by n.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What if <code>k = 1</code>? Does your algorithm handle that correctly?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes — every character we push immediately reaches count=1=k, so it's popped right away.
+          Every character is removed, the stack stays empty throughout, and we return an empty string.
+          That's the correct answer: k=1 means remove every single character.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Could you store character indices instead of (char, count) pairs? What would that look like?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          You could, but it's more complex. You'd push each character index onto the stack and track
+          the count by comparing the current character with the character two positions below in the
+          stack. The (char, count) pair approach is cleaner because the count is explicit and you
+          don't need to look several levels deep to find the start of the current run.
+          I'd stick with (char, count) in an interview for clarity.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="solution"></div>
+
+    <!-- Full Solution -->
+    <h2 style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Remove All Adjacent Duplicates II</span>
+        <span style="color:var(--green)">O(n) time · O(n) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">removeDuplicates</span>(<span class="var">self</span>, <span class="var">s</span>: <span class="bi">str</span>, <span class="var">k</span>: <span class="bi">int</span>) -> <span class="bi">str</span>:
+        <span class="var">stack</span> = []  <span class="cm"># list of [char, count] pairs (list so we can mutate count)</span>
+
+        <span class="kw">for</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">s</span>:
+            <span class="kw">if</span> <span class="var">stack</span> <span class="kw">and</span> <span class="var">stack</span>[<span class="num">-1</span>][<span class="num">0</span>] == <span class="var">ch</span>:
+                <span class="var">stack</span>[<span class="num">-1</span>][<span class="num">1</span>] += <span class="num">1</span>          <span class="cm"># extend the current run</span>
+            <span class="kw">else</span>:
+                <span class="var">stack</span>.<span class="fn">append</span>([<span class="var">ch</span>, <span class="num">1</span>])     <span class="cm"># start a new run</span>
+
+            <span class="kw">if</span> <span class="var">stack</span>[<span class="num">-1</span>][<span class="num">1</span>] == <span class="var">k</span>:
+                <span class="var">stack</span>.<span class="fn">pop</span>()               <span class="cm"># run complete — remove it</span>
+
+        <span class="kw">return</span> <span class="str">''</span>.<span class="fn">join</span>(<span class="var">ch</span> * <span class="var">cnt</span> <span class="kw">for</span> <span class="var">ch</span>, <span class="var">cnt</span> <span class="kw">in</span> <span class="var">stack</span>)</code></pre>
+    </div>
+
+    <div class="callout callout-yellow">
+      <div class="callout-label">Implementation Note</div>
+      <p style="font-size:13.5px;">
+        Use <strong>lists</strong> <code>[ch, count]</code> instead of tuples <code>(ch, count)</code>
+        so you can mutate the count in place with <code>stack[-1][1] += 1</code>. With tuples you'd
+        have to replace the entire top element: <code>stack[-1] = (ch, stack[-1][1] + 1)</code>.
+        Either works — pick whichever you find more readable and state it clearly.
+      </p>
+    </div>
+
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 面试要点</div>
+      <ul style="font-size:13.5px;margin-left:18px;line-height:1.9;">
+        <li><strong>Store (char, count) pairs, not just chars</strong> — the count is what makes O(n) possible</li>
+        <li>Cascading removals are handled <em>automatically</em> — explain this clearly, it's the insight examiners want to hear</li>
+        <li>k=1 edge case removes everything — verify your algorithm handles it without special-casing</li>
+        <li>Use mutable lists <code>[ch, cnt]</code> if you want in-place count increment; tuples require full replacement</li>
+        <li>This is the harder sibling of LC #1047 (Remove All Adjacent Duplicates I, where k=2 always)</li>
+      </ul>
+    </div>
+
+    <p style="margin-top:24px;display:flex;justify-content:space-between;">
+      <a href="907-sum-of-subarray-minimums.html" style="font-size:14px;">← Previous: #907 Subarray Mins</a>
+      <a href="84-largest-rectangle-in-histogram.html" style="font-size:14px;">Next: #84 Largest Rectangle →</a>
+    </p>
+
+  </main>
+</div>
+</body>
+</html>

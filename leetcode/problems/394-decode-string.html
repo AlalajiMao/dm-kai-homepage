@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#394 Decode String — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-soon">Soon</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #20 Valid Parens</a>
+      <a href="155-min-stack.html" class="sidebar-item"><span class="icon">⬇️</span> #155 Min Stack</a>
+      <a href="232-implement-queue-using-stacks.html" class="sidebar-item"><span class="icon">🔁</span> #232 Impl Queue</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="739-daily-temperatures.html" class="sidebar-item"><span class="icon">🌡️</span> #739 Daily Temps</a>
+      <a href="150-evaluate-reverse-polish-notation.html" class="sidebar-item"><span class="icon">🧮</span> #150 Eval RPN</a>
+      <a href="227-basic-calculator-ii.html" class="sidebar-item"><span class="icon">🔢</span> #227 Basic Calc II</a>
+      <a href="394-decode-string.html" class="sidebar-item active"><span class="icon">📝</span> #394 Decode String</a>
+      <a href="496-next-greater-element-i.html" class="sidebar-item"><span class="icon">📈</span> #496 Next Greater I</a>
+      <a href="907-sum-of-subarray-minimums.html" class="sidebar-item"><span class="icon">➕</span> #907 Subarray Mins</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" class="sidebar-item"><span class="icon">🗑️</span> #1209 Remove Adj Dup</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="84-largest-rectangle-in-histogram.html" class="sidebar-item"><span class="icon">📊</span> #84 Largest Rect</a>
+      <a href="42-trapping-rain-water.html" class="sidebar-item"><span class="icon">🌊</span> #42 Trap Rain</a>
+      <a href="32-longest-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #32 Longest Valid</a>
+      <a href="224-basic-calculator.html" class="sidebar-item"><span class="icon">🧮</span> #224 Basic Calc</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #394 · <a href="https://leetcode.com/problems/decode-string/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Decode String</div>
+        <div class="problem-meta">
+          <span class="tag tag-medium">Medium</span>
+          <span class="tag tag-pattern">Stack Simulation</span>
+          <span class="tag tag-pattern">Nested Structure</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given an encoded string, return its decoded version. The encoding rule is
+      <code>k[encoded_string]</code>, where <code>encoded_string</code> inside the brackets
+      is repeated exactly <code>k</code> times. You may assume the input is always valid.</p>
+      <p style="margin-top:8px;">Encodings may be <strong>nested</strong>.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        <code>s = "3[a]2[bc]"</code>    → <span style="color:var(--green)">"aaabcbc"</span><br>
+        <code>s = "3[a2[c]]"</code>     → <span style="color:var(--green)">"accaccacc"</span><br>
+        <code>s = "2[abc]3[cd]ef"</code> → <span style="color:var(--green)">"abcabccdcdcdef"</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      A realistic interview dialogue showing <em>how to think out loud</em> — not just arrive at the answer,
+      but communicate the reasoning clearly.
+      <span style="color:var(--text-muted)">（模拟真实面试对话，展示如何清晰地表达思路）</span>
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Today's problem is about decoding a run-length encoded string. The format is
+          <code>k[s]</code> meaning repeat string <code>s</code> exactly <code>k</code> times.
+          Encodings can be nested — so <code>3[a2[c]]</code> is valid. Take a moment to read the
+          examples and let me know what questions you have.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few things I want to nail down before diving in:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can <code>k</code> be multi-digit — like <code>10[a]</code> producing ten a's?</li>
+            <li>Can there be letters outside brackets entirely, like the <code>"ef"</code> tail in your example?</li>
+            <li>How deeply can the brackets nest — is there a practical limit I should worry about for stack depth?</li>
+            <li>Can I assume the input is always well-formed, so I don't need to handle malformed strings?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Yes to all. <code>k</code> can be multi-digit. Letters can appear outside brackets.
+          Nesting can be up to 30 levels deep. And the input is always valid — no error handling needed.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The nesting is the key signal here. Whenever I see a nested structure where I need to
+          "pause" outer work, do inner work, then "resume," that's a stack pattern.<br><br>
+
+          My mental model: think of the stack as saving <em>context</em>. When I open a bracket
+          <code>'['</code>, I'm entering a deeper level — I push the current string and current
+          count onto the stack and start fresh. When I close a bracket <code>']'</code>,
+          I'm returning to the outer level — I pop the saved context, repeat the current string
+          by the saved count, and prepend the saved string.<br><br>
+
+          Concretely, I track two variables at any moment:
+          <code>cur_str</code> (string being built at the current nesting level) and
+          <code>cur_num</code> (the number being accumulated before a <code>'['</code>).
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      The stack stores pairs of <code>(saved_string, repeat_count)</code> — one pair per nesting level.
+      The current variables always represent the innermost level we're actively processing.
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          That's the right framing. Can you trace through <code>"3[a2[c]]"</code> step by step?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Sure. I start with <code>cur_str=""</code>, <code>cur_num=0</code>, <code>stack=[]</code>.<br><br>
+
+          <code>'3'</code> → digit: <code>cur_num=3</code>.<br>
+          <code>'['</code> → push <code>("", 3)</code>. Reset: <code>cur_str=""</code>, <code>cur_num=0</code>.<br>
+          <code>'a'</code> → letter: <code>cur_str="a"</code>.<br>
+          <code>'2'</code> → digit: <code>cur_num=2</code>.<br>
+          <code>'['</code> → push <code>("a", 2)</code>. Reset: <code>cur_str=""</code>, <code>cur_num=0</code>.<br>
+          <code>'c'</code> → letter: <code>cur_str="c"</code>.<br>
+          <code>']'</code> → pop <code>("a", 2)</code>. <code>cur_str = "a" + "c" * 2 = "acc"</code>.<br>
+          <code>']'</code> → pop <code>("", 3)</code>. <code>cur_str = "" + "acc" * 3 = "accaccacc"</code>.<br><br>
+          Return <code>"accaccacc"</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Code</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The pseudocode maps very cleanly onto the four character types:
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">decodeString</span>(<span class="var">s</span>):
+    <span class="var">stack</span> = []
+    <span class="var">cur_str</span>, <span class="var">cur_num</span> = <span class="str">""</span>, <span class="num">0</span>
+
+    <span class="kw">for</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">s</span>:
+        <span class="kw">if</span> <span class="var">ch</span> is a digit:
+            <span class="var">cur_num</span> = <span class="var">cur_num</span> * <span class="num">10</span> + <span class="fn">int</span>(<span class="var">ch</span>)     <span class="cm"># handle multi-digit k</span>
+
+        <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">'['</span>:
+            <span class="var">stack</span>.<span class="fn">push</span>((<span class="var">cur_str</span>, <span class="var">cur_num</span>))       <span class="cm"># save outer context</span>
+            <span class="var">cur_str</span>, <span class="var">cur_num</span> = <span class="str">""</span>, <span class="num">0</span>             <span class="cm"># start fresh inner level</span>
+
+        <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">']'</span>:
+            <span class="var">prev_str</span>, <span class="var">num</span> = <span class="var">stack</span>.<span class="fn">pop</span>()           <span class="cm"># restore outer context</span>
+            <span class="var">cur_str</span> = <span class="var">prev_str</span> + <span class="var">cur_str</span> * <span class="var">num</span>    <span class="cm"># expand and prepend outer</span>
+
+        <span class="kw">else</span>:
+            <span class="var">cur_str</span> += <span class="var">ch</span>                          <span class="cm"># regular letter, accumulate</span>
+
+    <span class="kw">return</span> <span class="var">cur_str</span></code></pre>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What would happen with input like <code>"abc"</code> — no brackets at all?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          That hits only the <code>else</code> branch on every character —
+          <code>cur_str</code> just accumulates <code>"abc"</code> and we return it directly.
+          The stack is never touched. Works correctly.<br><br>
+
+          Similarly <code>"2[abc]3[cd]ef"</code>: after processing the two bracket groups,
+          <code>cur_str</code> is <code>"abcabccdcdcd"</code>, then <code>'e'</code> and
+          <code>'f'</code> append to give <code>"abcabccdcdcdef"</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Great. Looks clean — go ahead and finalize it.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n × max_k) where n is the length of the output string.
+          Each character in the decoded output is produced once, but string repetition costs O(|result|).
+          In terms of input length alone, O(n) traversal — but the output can be exponentially larger
+          than the input for deeply nested high-k encodings.<br><br>
+
+          <strong>Space:</strong> O(n × max_k) for the output strings, plus O(d) stack depth where d
+          is the nesting depth. Since d ≤ 30 per constraints, the stack overhead is effectively O(1)
+          relative to the output size.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(output)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Each output char produced once; repetition is O(|result|)</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--yellow);">O(output)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Stack depth ≤ 30; strings dominate</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Three follow-ups: (1) Can you solve this recursively instead of iteratively?
+          (2) How does memory usage scale if I keep increasing the nesting depth and k values?
+          (3) What if the encoding also supported character ranges like <code>3[a-c]</code>?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>(1) Recursive approach:</strong> Yes — instead of an explicit stack we use the call stack.
+          Pass an index into the string; when you hit <code>'['</code>, recurse and let the recursive call
+          consume up to the matching <code>']'</code>, returning both the decoded segment and the updated
+          index. The iterative and recursive solutions are equivalent — the explicit stack mirrors the
+          call stack exactly.<br><br>
+
+          <strong>(2) Memory scaling:</strong> If nesting depth is d and each level repeats k times,
+          the output length grows as k^d. For k=10 and d=30 that's 10^30 characters — completely
+          impractical to materialize. In a real system you'd use lazy/streaming evaluation or
+          represent the result as a tree of (count, segment) nodes rather than fully expanding it.<br><br>
+
+          <strong>(3) Character ranges:</strong> We'd need to expand <code>a-c</code> into <code>"abc"</code>
+          during the decoding step — a preprocessing pass on the content inside brackets.
+          The stack-based structure remains the same; we just add a helper that expands range syntax
+          when building <code>cur_str</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Solid answers. The observation about the tree representation for lazy evaluation is
+          exactly how real compression schemes handle this. Thanks — that's all.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="solution"></div>
+
+    <!-- Full Solution -->
+    <h2 style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Decode String</span>
+        <span style="color:var(--green)">O(output) time · O(output) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">decodeString</span>(<span class="var">self</span>, <span class="var">s</span>: <span class="bi">str</span>) -> <span class="bi">str</span>:
+        <span class="var">stack</span>: list[<span class="bi">tuple</span>[<span class="bi">str</span>, <span class="bi">int</span>]] = []
+        <span class="var">cur_str</span>, <span class="var">cur_num</span> = <span class="str">""</span>, <span class="num">0</span>
+
+        <span class="kw">for</span> <span class="var">ch</span> <span class="kw">in</span> <span class="var">s</span>:
+            <span class="kw">if</span> <span class="var">ch</span>.<span class="fn">isdigit</span>():
+                <span class="var">cur_num</span> = <span class="var">cur_num</span> * <span class="num">10</span> + <span class="bi">int</span>(<span class="var">ch</span>)    <span class="cm"># build multi-digit k</span>
+            <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">'['</span>:
+                <span class="var">stack</span>.<span class="fn">append</span>((<span class="var">cur_str</span>, <span class="var">cur_num</span>))    <span class="cm"># save outer context</span>
+                <span class="var">cur_str</span>, <span class="var">cur_num</span> = <span class="str">""</span>, <span class="num">0</span>            <span class="cm"># enter inner level</span>
+            <span class="kw">elif</span> <span class="var">ch</span> == <span class="str">']'</span>:
+                <span class="var">prev_str</span>, <span class="var">num</span> = <span class="var">stack</span>.<span class="fn">pop</span>()          <span class="cm"># restore outer context</span>
+                <span class="var">cur_str</span> = <span class="var">prev_str</span> + <span class="var">cur_str</span> * <span class="var">num</span>   <span class="cm"># expand and rejoin</span>
+            <span class="kw">else</span>:
+                <span class="var">cur_str</span> += <span class="var">ch</span>                         <span class="cm"># accumulate letters</span>
+
+        <span class="kw">return</span> <span class="var">cur_str</span></code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 面试要点</div>
+      <ul style="font-size:13.5px;margin-left:18px;line-height:1.9;">
+        <li>Push <strong>both</strong> <code>cur_str</code> and <code>cur_num</code> on <code>'['</code> — you need both to restore outer context</li>
+        <li>Multi-digit numbers need the <code>num * 10 + digit</code> accumulation pattern</li>
+        <li>On <code>']'</code>, the order is: <code>prev_str + cur_str * num</code> — outer string comes first</li>
+        <li>Letters outside any brackets are handled naturally by the <code>else</code> branch — no special casing needed</li>
+        <li>This exact pattern generalizes to any problem with nested structure (e.g. nested JSON, HTML tags)</li>
+      </ul>
+    </div>
+
+    <a href="496-next-greater-element-i.html" class="back-link" style="margin-top:32px;">Next: #496 Next Greater Element I →</a>
+
+  </main>
+</div>
+</body>
+</html>

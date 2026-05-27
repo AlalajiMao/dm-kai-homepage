@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#227 Basic Calculator II — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-soon">Soon</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #20 Valid Parens</a>
+      <a href="155-min-stack.html" class="sidebar-item"><span class="icon">⬇️</span> #155 Min Stack</a>
+      <a href="232-implement-queue-using-stacks.html" class="sidebar-item"><span class="icon">🔁</span> #232 Impl Queue</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="739-daily-temperatures.html" class="sidebar-item"><span class="icon">🌡️</span> #739 Daily Temps</a>
+      <a href="150-evaluate-reverse-polish-notation.html" class="sidebar-item"><span class="icon">🧮</span> #150 Eval RPN</a>
+      <a href="227-basic-calculator-ii.html" class="sidebar-item active"><span class="icon">🔢</span> #227 Basic Calc II</a>
+      <a href="394-decode-string.html" class="sidebar-item"><span class="icon">📝</span> #394 Decode String</a>
+      <a href="496-next-greater-element-i.html" class="sidebar-item"><span class="icon">📈</span> #496 Next Greater I</a>
+      <a href="907-sum-of-subarray-minimums.html" class="sidebar-item"><span class="icon">➕</span> #907 Subarray Mins</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" class="sidebar-item"><span class="icon">🗑️</span> #1209 Remove Adj Dup</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="84-largest-rectangle-in-histogram.html" class="sidebar-item"><span class="icon">📊</span> #84 Largest Rect</a>
+      <a href="42-trapping-rain-water.html" class="sidebar-item"><span class="icon">🌊</span> #42 Trap Rain</a>
+      <a href="32-longest-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #32 Longest Valid</a>
+      <a href="224-basic-calculator.html" class="sidebar-item"><span class="icon">🧮</span> #224 Basic Calc</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #227 · <a href="https://leetcode.com/problems/basic-calculator-ii/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Basic Calculator II</div>
+        <div class="problem-meta">
+          <span class="tag tag-medium">Medium</span>
+          <span class="tag tag-pattern">Expression Evaluation</span>
+          <span class="tag tag-pattern">Stack</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given a string <code>s</code> representing a mathematical expression with non-negative integers and
+      operators <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, evaluate and return
+      <strong>the result as an integer</strong>.</p>
+      <p style="margin-top:8px;">The expression may contain spaces. Integer division truncates toward zero.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        <code>s = "3+2*2"</code>      → <span style="color:var(--green)">7</span><br>
+        <code>s = " 3/2 "</code>      → <span style="color:var(--green)">1</span><br>
+        <code>s = " 3+5 / 2 "</code>  → <span style="color:var(--green)">5</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      A realistic interview dialogue showing <em>how to think out loud</em> — not just arrive at the answer,
+      but communicate the reasoning clearly.
+      <span style="color:var(--text-muted)">（模拟真实面试对话，展示如何清晰地表达思路）</span>
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          I'd like you to implement a basic calculator. You'll receive a string expression containing
+          non-negative integers and the four basic operators: <code>+</code>, <code>-</code>,
+          <code>*</code>, <code>/</code>. There are no parentheses. Your job is to evaluate it and
+          return the integer result. Take a moment to look it over — what questions come to mind?
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few things I want to confirm:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can the string contain spaces? I want to make sure I skip them rather than treat them as an error.</li>
+            <li>For division, does it truncate toward zero — so <code>-7 / 2</code> gives <code>-3</code>, not <code>-4</code>?</li>
+            <li>Are all input numbers non-negative integers, and can they be multi-digit like <code>123</code>?</li>
+            <li>Can I assume the expression is always valid — no division by zero?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          All correct. Spaces exist and should be skipped. Division truncates toward zero.
+          Numbers are non-negative and may be multi-digit. The expression is always valid — no division by zero.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The core challenge here is <strong>operator precedence</strong> — <code>*</code> and <code>/</code>
+          bind tighter than <code>+</code> and <code>-</code>, so I can't just evaluate left to right.<br><br>
+
+          A naive approach would be two passes: first resolve all <code>*</code> and <code>/</code>,
+          then handle <code>+</code> and <code>-</code>. That works but is messy to implement.<br><br>
+
+          The cleaner insight: use a <strong>stack as an accumulator of additive terms</strong>.
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>For <code>+</code> and <code>-</code>: push the signed number onto the stack.</li>
+            <li>For <code>*</code> and <code>/</code>: pop the last number, compute eagerly, push the result.</li>
+          </ul>
+          This resolves <code>*</code> and <code>/</code> immediately so they don't affect the subsequent additions.
+          At the end, the stack holds only additive terms — sum them all up.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      Key state to track: <code>num</code> (current number being built), <code>op</code> (the operator
+      that preceded <code>num</code>). I initialize <code>op = '+'</code> so the very first number gets
+      pushed onto the stack correctly with a positive sign.
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good reasoning on the precedence. Walk me through an example — say <code>"3+2*2"</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Sure. I start with <code>op='+'</code>, <code>num=0</code>, <code>stack=[]</code>.<br><br>
+
+          Read <code>'3'</code> → <code>num=3</code>.<br>
+          Read <code>'+'</code> → operator hit. Apply <code>op='+'</code>: push <code>+3</code>.
+          Stack: <code>[3]</code>. Now <code>op='+'</code>, <code>num=0</code>.<br>
+          Read <code>'2'</code> → <code>num=2</code>.<br>
+          Read <code>'*'</code> → operator hit. Apply <code>op='+'</code>: push <code>+2</code>.
+          Stack: <code>[3, 2]</code>. Now <code>op='*'</code>, <code>num=0</code>.<br>
+          Read <code>'2'</code> → <code>num=2</code>.<br>
+          End of string → Apply <code>op='*'</code>: pop <code>2</code>, compute <code>2*2=4</code>,
+          push <code>4</code>. Stack: <code>[3, 4]</code>.<br>
+          Sum stack: <code>3 + 4 = 7</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Code</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Here's the pseudocode before I write the real thing:
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">calculate</span>(<span class="var">s</span>):
+    <span class="var">stack</span>, <span class="var">num</span>, <span class="var">op</span> = [], <span class="num">0</span>, <span class="str">'+'</span>    <span class="cm"># op='+ ' seeds the first number</span>
+
+    <span class="kw">for each</span> (<span class="var">i</span>, <span class="var">ch</span>) <span class="kw">in</span> <span class="fn">enumerate</span>(<span class="var">s</span>):
+        <span class="kw">if</span> <span class="var">ch</span> is a digit:
+            <span class="var">num</span> = <span class="var">num</span> * <span class="num">10</span> + <span class="fn">int</span>(<span class="var">ch</span>)     <span class="cm"># build multi-digit number</span>
+
+        <span class="kw">if</span> <span class="var">ch</span> is an operator <span class="kw">or</span> last character:
+            <span class="kw">if</span>   <span class="var">op</span> == <span class="str">'+'</span>: stack.<span class="fn">push</span>(<span class="var">num</span>)
+            <span class="kw">elif</span> <span class="var">op</span> == <span class="str">'-'</span>: stack.<span class="fn">push</span>(-<span class="var">num</span>)
+            <span class="kw">elif</span> <span class="var">op</span> == <span class="str">'*'</span>: stack.<span class="fn">push</span>(stack.<span class="fn">pop</span>() * <span class="var">num</span>)
+            <span class="kw">elif</span> <span class="var">op</span> == <span class="str">'/'</span>: stack.<span class="fn">push</span>(<span class="fn">int</span>(stack.<span class="fn">pop</span>() / <span class="var">num</span>))  <span class="cm"># truncate toward zero</span>
+            <span class="var">op</span>, <span class="var">num</span> = <span class="var">ch</span>, <span class="num">0</span>             <span class="cm"># save new operator, reset num</span>
+
+    <span class="kw">return</span> <span class="fn">sum</span>(<span class="var">stack</span>)</code></pre>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Why do you use <code>int(stack.pop() / num)</code> instead of <code>stack.pop() // num</code>
+          for the division case?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Great question. Python's <code>//</code> operator performs <em>floor</em> division, which rounds
+          toward negative infinity. So <code>-7 // 2 = -4</code>.<br><br>
+
+          But the problem requires <em>truncation toward zero</em>, meaning <code>-7 / 2 = -3</code>.
+          Using <code>int(a / b)</code> performs true floating-point division and then truncates toward zero,
+          which matches the expected behavior. Using <code>//</code> would give wrong answers for negative dividends.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Exactly right. Go ahead and write the final solution.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n) — we scan each character exactly once. Each number is pushed and
+          popped at most once, so the stack operations are amortized O(1) per character.<br><br>
+
+          <strong>Space:</strong> O(n) — in the worst case (all additions, like <code>"1+1+1+..."</code>),
+          every number gets pushed and none are popped early, giving O(n) stack size.<br><br>
+
+          This is optimal — we must read every character, so O(n) time is a lower bound.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Single pass; each number pushed/popped once</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--yellow);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Stack holds all terms in worst case</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Three follow-ups: (1) How would you extend this to support parentheses?
+          (2) Can you solve it in O(1) extra space?
+          (3) How would you handle exponentiation <code>**</code>?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>(1) Adding parentheses:</strong> This becomes LeetCode #224. When you encounter <code>'('</code>,
+          push the current running result and the current sign onto the stack, then reset state.
+          On <code>')'</code>, pop the saved result and sign, combine with the current value.
+          This essentially mirrors what our stack already does, just driven by brackets instead of end-of-expression.<br><br>
+
+          <strong>(2) O(1) space:</strong> We can do two passes — first scan for <code>*</code> and <code>/</code>
+          to produce a simplified sequence of terms (treating each resolved subexpression as a single value),
+          then sum. However this requires modifying the string or using indices cleverly.
+          In practice the stack approach is preferred for clarity; true O(1) space is tricky to implement cleanly.<br><br>
+
+          <strong>(3) Exponentiation <code>**</code>:</strong> This has higher precedence than <code>*</code>/<code>/</code>
+          and is right-associative, so we'd need a separate precedence level. We could extend the algorithm with
+          a second stack for exponentiation operands, or use a proper recursive descent / shunting-yard parser.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good coverage. The shunting-yard mention is exactly the right direction for a full expression evaluator.
+          That's all from me — thanks.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="solution"></div>
+
+    <!-- Full Solution -->
+    <h2 style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Basic Calculator II</span>
+        <span style="color:var(--green)">O(n) time · O(n) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">calculate</span>(<span class="var">self</span>, <span class="var">s</span>: <span class="bi">str</span>) -> <span class="bi">int</span>:
+        <span class="var">stack</span>: list[<span class="bi">int</span>] = []
+        <span class="var">num</span>, <span class="var">op</span> = <span class="num">0</span>, <span class="str">'+'</span>          <span class="cm"># seed op='+' so first number is pushed as-is</span>
+
+        <span class="kw">for</span> <span class="var">i</span>, <span class="var">ch</span> <span class="kw">in</span> <span class="bi">enumerate</span>(<span class="var">s</span>):
+            <span class="kw">if</span> <span class="var">ch</span>.<span class="fn">isdigit</span>():
+                <span class="var">num</span> = <span class="var">num</span> * <span class="num">10</span> + <span class="bi">int</span>(<span class="var">ch</span>)   <span class="cm"># build multi-digit numbers</span>
+
+            <span class="kw">if</span> (<span class="kw">not</span> <span class="var">ch</span>.<span class="fn">isdigit</span>() <span class="kw">and</span> <span class="var">ch</span> != <span class="str">' '</span>) <span class="kw">or</span> <span class="var">i</span> == <span class="bi">len</span>(<span class="var">s</span>) - <span class="num">1</span>:
+                <span class="cm"># flush num using the PREVIOUS operator</span>
+                <span class="kw">if</span>   <span class="var">op</span> == <span class="str">'+'</span>: <span class="var">stack</span>.<span class="fn">append</span>(<span class="var">num</span>)
+                <span class="kw">elif</span> <span class="var">op</span> == <span class="str">'-'</span>: <span class="var">stack</span>.<span class="fn">append</span>(-<span class="var">num</span>)
+                <span class="kw">elif</span> <span class="var">op</span> == <span class="str">'*'</span>: <span class="var">stack</span>.<span class="fn">append</span>(<span class="var">stack</span>.<span class="fn">pop</span>() * <span class="var">num</span>)
+                <span class="kw">elif</span> <span class="var">op</span> == <span class="str">'/'</span>: <span class="var">stack</span>.<span class="fn">append</span>(<span class="bi">int</span>(<span class="var">stack</span>.<span class="fn">pop</span>() / <span class="var">num</span>))   <span class="cm"># truncate toward zero</span>
+                <span class="var">op</span>, <span class="var">num</span> = <span class="var">ch</span>, <span class="num">0</span>           <span class="cm"># save new operator, reset accumulator</span>
+
+        <span class="kw">return</span> <span class="bi">sum</span>(<span class="var">stack</span>)</code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 面试要点</div>
+      <ul style="font-size:13.5px;margin-left:18px;line-height:1.9;">
+        <li>Initialize <code>op = '+'</code> so the first number is correctly pushed as a positive term</li>
+        <li>Apply the <strong>previous</strong> operator when you see the <strong>current</strong> operator or end-of-string</li>
+        <li>Use <code>int(a / b)</code>, not <code>a // b</code>, for truncation toward zero with negative numbers</li>
+        <li>The stack accumulates independent additive terms — multiply/divide terms are resolved eagerly</li>
+        <li>Handle both the "operator character" trigger and the "last character" trigger in the same branch</li>
+      </ul>
+    </div>
+
+    <a href="394-decode-string.html" class="back-link" style="margin-top:32px;">Next: #394 Decode String →</a>
+
+  </main>
+</div>
+</body>
+</html>

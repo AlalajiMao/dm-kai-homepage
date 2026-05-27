@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#42 Trapping Rain Water — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-soon">Soon</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #20 Valid Parens</a>
+      <a href="155-min-stack.html" class="sidebar-item"><span class="icon">⬇️</span> #155 Min Stack</a>
+      <a href="232-implement-queue-using-stacks.html" class="sidebar-item"><span class="icon">🔁</span> #232 Impl Queue</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="739-daily-temperatures.html" class="sidebar-item"><span class="icon">🌡️</span> #739 Daily Temps</a>
+      <a href="150-evaluate-reverse-polish-notation.html" class="sidebar-item"><span class="icon">🧮</span> #150 Eval RPN</a>
+      <a href="227-basic-calculator-ii.html" class="sidebar-item"><span class="icon">🔢</span> #227 Basic Calc II</a>
+      <a href="394-decode-string.html" class="sidebar-item"><span class="icon">📝</span> #394 Decode String</a>
+      <a href="496-next-greater-element-i.html" class="sidebar-item"><span class="icon">📈</span> #496 Next Greater I</a>
+      <a href="907-sum-of-subarray-minimums.html" class="sidebar-item"><span class="icon">➕</span> #907 Subarray Mins</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" class="sidebar-item"><span class="icon">🗑️</span> #1209 Remove Adj Dup</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="84-largest-rectangle-in-histogram.html" class="sidebar-item"><span class="icon">📊</span> #84 Largest Rect</a>
+      <a href="42-trapping-rain-water.html" class="sidebar-item active"><span class="icon">🌊</span> #42 Trap Rain</a>
+      <a href="32-longest-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #32 Longest Valid</a>
+      <a href="224-basic-calculator.html" class="sidebar-item"><span class="icon">🧮</span> #224 Basic Calc</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #42 · <a href="https://leetcode.com/problems/trapping-rain-water/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Trapping Rain Water</div>
+        <div class="problem-meta">
+          <span class="tag tag-hard">Hard</span>
+          <span class="tag tag-pattern">Monotonic Stack</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given <code>n</code> non-negative integers representing an elevation map where the width of
+      each bar is 1, compute how much water it can trap after raining.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLE</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        <code>Input:  height = [0,1,0,2,1,0,1,3,2,1,2,1]</code><br>
+        <code>Output: 6</code>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">
+        The elevation map forms a terrain; the six shaded units of water are trapped in the valleys.<br>
+        Constraints: <code>0 &lt;= height[i] &lt;= 10<sup>5</sup></code>, <code>1 &lt;= n &lt;= 2 × 10<sup>4</sup></code>.
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      Trapping Rain Water is one of two canonical <strong>hard monotonic stack problems</strong> (the other is #84 Largest Rectangle).
+      It also admits an elegant two-pointer solution. Interviewers often want to see <em>both</em> approaches and a comparison.
+      <span style="color:var(--text-muted)">（经典难题，掌握单调栈和双指针两种解法）</span>
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Imagine you have a bar chart representing terrain heights, and it rains. How much water gets
+          trapped between the bars? Given an integer array <code>height</code>, return the total units
+          of trapped water. Take a moment to think about it.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2: Clarification -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Before I dive in, a few quick clarifications:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Heights are non-negative integers — can they be zero? A height of 0 is just a gap in the terrain?</li>
+            <li>If the array has fewer than 3 elements, water can't be trapped — is the answer 0 in that case?</li>
+            <li>Water can only be trapped between bars, not outside the two ends — so the leftmost and rightmost bars act as boundaries with no water on the outer side?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          All correct. Heights are non-negative and can be zero. Arrays with fewer than 3 elements trap
+          no water. And yes — water can only be trapped between bars, never outside the edges.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3: Approach -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me think through a progression of approaches. The brute force observation is:
+          for each bar at position <code>i</code>, water above it is <code>min(max_left, max_right) - height[i]</code>,
+          where <code>max_left</code> and <code>max_right</code> are the tallest bars to the left and right respectively.
+          Scanning both directions for every bar gives O(n²) time.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good intuition on the formula. How can you improve beyond O(n²)?
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      We're recomputing max_left and max_right for every bar. If I precompute two arrays — left_max[i]
+      and right_max[i] — I can answer each bar in O(1) after a linear pass. That's O(n) time and O(n) space.
+      But there's also the two-pointer trick and the monotonic stack approach — each worth explaining.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The first improvement is to precompute prefix and suffix maximum arrays. One pass left-to-right
+          builds <code>left_max</code>, one pass right-to-left builds <code>right_max</code>, then a final
+          pass accumulates <code>sum(min(left_max[i], right_max[i]) - height[i])</code>. That's O(n) time
+          and O(n) space — much better.<br><br>
+          <strong>Two-pointer approach (O(n) time, O(1) space):</strong> Use pointers <code>lo</code> and
+          <code>hi</code> starting at each end. Maintain running <code>left_max</code> and <code>right_max</code>.
+          The key insight: if <code>height[lo] &lt; height[hi]</code>, we know the left side is the bottleneck —
+          the water above <code>lo</code> is exactly <code>left_max - height[lo]</code> regardless of
+          what's to the right, because the right side is at least as tall. So we process <code>lo</code>
+          and advance it inward. Mirror logic for the right side.<br><br>
+          <strong>Monotonic stack approach (O(n) time, O(n) space):</strong> Instead of thinking column-by-column,
+          think layer-by-layer — compute water horizontally. Maintain a monotonically decreasing stack of indices.
+          When we see <code>height[i] &gt; height[stack.top()]</code>, we've found the right wall of a valley.
+          Pop the bottom, use the new stack top as the left wall, and accumulate
+          <code>(min(left_height, right_height) − bottom_height) × width</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Great overview of all three. In the monotonic stack approach, why do you store indices rather
+          than heights? And what does it mean geometrically when you pop an element?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          We store indices because we need the <em>width</em> of the water layer —
+          <code>width = right_index − left_index − 1</code>. Heights alone don't give us positions.<br><br>
+          Geometrically, popping an element means we've found the bottom of a horizontal water layer.
+          The element below it in the stack is the left wall, and the current bar <code>i</code> is the right wall.
+          Water in that layer = <code>(min(height[left], height[right]) − height[bottom]) × width</code>.
+          We keep popping — filling layers upward — until the stack becomes empty or the right wall is
+          no longer taller than the new stack top. It's exactly like filling a container from the bottom up.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          After you pop the bottom, what happens if the stack is now empty? Why is that a special case?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          If the stack is empty after popping, there is no left wall — the valley has no containing
+          boundary on the left side, so no water can be held there. We <code>break</code> out of the
+          while loop and push the current index. This is why the check <code>if not stack: break</code>
+          comes immediately after the pop, before we try to access <code>stack[-1]</code> as the left wall.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4: Pseudocode -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode Walkthrough</div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Monotonic Stack (Horizontal Layers)</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">trap</span>(<span class="var">height</span>):
+    <span class="var">stack</span> = []          <span class="cm"># decreasing stack of indices</span>
+    <span class="var">water</span> = <span class="num">0</span>
+
+    <span class="kw">for</span> <span class="var">i</span>, <span class="var">h</span> <span class="kw">in</span> <span class="bi">enumerate</span>(<span class="var">height</span>):
+        <span class="kw">while</span> stack <span class="kw">and</span> <span class="var">height</span>[stack[<span class="num">-1</span>]] < <span class="var">h</span>:
+            <span class="var">bottom</span> = stack.<span class="fn">pop</span>()         <span class="cm"># valley floor</span>
+            <span class="kw">if not</span> stack:
+                <span class="kw">break</span>                    <span class="cm"># no left wall — skip</span>
+            <span class="var">left</span>           = stack[<span class="num">-1</span>]  <span class="cm"># left wall index</span>
+            <span class="var">width</span>          = <span class="var">i</span> - <span class="var">left</span> - <span class="num">1</span>
+            <span class="var">bounded_height</span> = <span class="bi">min</span>(<span class="var">height</span>[<span class="var">left</span>], <span class="var">h</span>) - <span class="var">height</span>[<span class="var">bottom</span>]
+            <span class="var">water</span>         += <span class="var">bounded_height</span> * <span class="var">width</span>
+        stack.<span class="fn">append</span>(<span class="var">i</span>)
+
+    <span class="kw">return</span> <span class="var">water</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace the first part of <code>[0,1,0,2,1,0,1,3,2,1,2,1]</code> to verify:
+          <div style="font-family:var(--mono);font-size:12.5px;line-height:2;margin-top:8px;">
+            i=0 h=0: push 0.   stack=[0]<br>
+            i=1 h=1: 1&gt;h[0]=0 → pop bottom=0, stack empty → break.  push 1.  stack=[1]<br>
+            i=2 h=0: 0&lt;1, push 2.   stack=[1,2]<br>
+            i=3 h=2: 2&gt;h[2]=0 → pop bottom=2, left=1, w=3-1-1=1, bounded=(min(1,2)-0)*1=1. water=1.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&gt;h[1]=1 → pop bottom=1, stack empty → break.  push 3.  stack=[3]. water=1<br>
+            i=4 h=1: 1&lt;2, push 4.   stack=[3,4]<br>
+            i=5 h=0: push 5.   stack=[3,4,5]<br>
+            i=6 h=1: 1&gt;h[5]=0 → pop bottom=5, left=4, w=6-4-1=1, bounded=(min(1,1)-0)*1=1. water=2.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1=h[4]=1, stop.  push 6.  stack=[3,4,6]<br>
+            i=7 h=3: 3&gt;h[6]=1 → pop bottom=6, left=4, w=7-4-1=2, bounded=(min(1,3)-1)*2=0. water=2.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&gt;h[4]=1 → pop bottom=4, left=3, w=7-3-1=3, bounded=(min(2,3)-1)*3=3. water=5.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&gt;h[3]=2 → pop bottom=3, stack empty → break.  push 7.  stack=[7]<br>
+            ... continuing to completion → total water = 6 ✅
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good trace. The while loop can pop multiple times in one iteration — why doesn't that
+          violate the O(n) complexity claim?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Amortised analysis: every index is pushed exactly once and popped at most once. The outer
+          loop runs <code>n</code> times producing at most <code>n</code> pushes; the while loop
+          across the entire run pops at most <code>n</code> times total. So total operations are
+          bounded by <code>2n</code> — still O(n).
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5: Complexity -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Approach</div>
+      <div class="cx-cell hd">Time</div>
+      <div class="cx-cell hd">Space</div>
+      <div class="cx-cell">Brute Force</div>
+      <div class="cx-cell" style="color:var(--red);">O(n²)</div>
+      <div class="cx-cell" style="color:var(--green);">O(1)</div>
+      <div class="cx-cell">Prefix/Suffix Arrays</div>
+      <div class="cx-cell" style="color:var(--green);font-weight:600;">O(n)</div>
+      <div class="cx-cell" style="color:var(--yellow);font-weight:600;">O(n)</div>
+      <div class="cx-cell">Monotonic Stack</div>
+      <div class="cx-cell" style="color:var(--green);font-weight:600;">O(n)</div>
+      <div class="cx-cell" style="color:var(--yellow);font-weight:600;">O(n)</div>
+      <div class="cx-cell">Two Pointers</div>
+      <div class="cx-cell" style="color:var(--green);font-weight:600;">O(n)</div>
+      <div class="cx-cell" style="color:var(--green);font-weight:600;">O(1)</div>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);">Two-pointer is the space-optimal solution. Stack approach is more generalisable (shares structure with #84).</p>
+
+    <!-- Stage 6: Follow-ups -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Can you walk me through the two-pointer approach? Why is it valid to process the shorter
+          side without knowing the full picture on the other side?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The key insight is a monotonicity argument. Suppose <code>height[lo] &lt; height[hi]</code>.
+          Then whatever the right side looks like, the water above position <code>lo</code> is determined
+          solely by <code>left_max</code>: it's <code>left_max - height[lo]</code> (or 0 if negative).
+          Why? Because we know <code>height[hi] &ge; height[lo]</code>, so the right boundary is at least
+          as tall as the left boundary. The water level at <code>lo</code> is limited by
+          <code>left_max</code> regardless of what's on the right. We can therefore safely accumulate
+          water for <code>lo</code> and advance it inward. The symmetric argument applies when
+          <code>height[hi] &le; height[lo]</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          How does this problem compare to #84 Largest Rectangle in Histogram? They both use a
+          monotonic stack — what's the fundamental geometric difference?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Both use a monotonic stack over bar heights, but the geometry is inverted:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li><strong>#84 Largest Rectangle:</strong> We want to <em>extend outward</em> from a bar — looking for the nearest shorter bars on each side, which bound the rectangle. We pop when we find a shorter bar.</li>
+            <li><strong>#42 Trapping Rain Water:</strong> We want to fill <em>inward into valleys</em> — we pop when we find a <em>taller</em> bar that acts as the right wall of a trapped region.</li>
+          </ul>
+          #84 pops on smaller elements (stack stays increasing by value), while #42 pops on larger elements
+          (stack stays decreasing by value — or equivalently, we pop when height increases). Both share
+          the amortised O(n) logic of each index being pushed and popped at most once.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Last one: what if the elevation map were 2D — a grid of heights — and you needed to compute
+          trapped water in 3D? How would you approach it?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          That's LC #407 "Trapping Rain Water II". The 1D approaches don't extend directly because
+          water can flow in four directions. The solution uses a <strong>min-heap (priority queue)</strong>:
+          seed it with all border cells, then use a BFS-like expansion. Always process the cell with
+          the smallest height on the frontier. When we expand to a neighbour, any water it can hold
+          is <code>max(0, current_boundary_height - neighbour_height)</code>. We push the neighbour
+          back with height <code>max(neighbour_height, current_boundary_height)</code> to propagate
+          the water level correctly. Time complexity O(mn log(mn)) — the heap dominates.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="solution"></div>
+
+    <!-- Full Solution -->
+    <h2 style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Monotonic Stack</span>
+        <span style="color:var(--green)">O(n) time · O(n) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">trap</span>(<span class="var">self</span>, <span class="var">height</span>: <span class="bi">list</span>[<span class="bi">int</span>]) -> <span class="bi">int</span>:
+        <span class="var">stack</span> = []
+        <span class="var">water</span> = <span class="num">0</span>
+        <span class="kw">for</span> <span class="var">i</span>, <span class="var">h</span> <span class="kw">in</span> <span class="bi">enumerate</span>(<span class="var">height</span>):
+            <span class="kw">while</span> stack <span class="kw">and</span> <span class="var">height</span>[stack[<span class="num">-1</span>]] < <span class="var">h</span>:
+                <span class="var">bottom</span> = stack.<span class="fn">pop</span>()
+                <span class="kw">if not</span> stack:
+                    <span class="kw">break</span>
+                <span class="var">left</span>           = stack[<span class="num">-1</span>]
+                <span class="var">width</span>          = <span class="var">i</span> - <span class="var">left</span> - <span class="num">1</span>
+                <span class="var">bounded_height</span> = <span class="bi">min</span>(<span class="var">height</span>[<span class="var">left</span>], <span class="var">h</span>) - <span class="var">height</span>[<span class="var">bottom</span>]
+                <span class="var">water</span>         += <span class="var">bounded_height</span> * <span class="var">width</span>
+            stack.<span class="fn">append</span>(<span class="var">i</span>)
+        <span class="kw">return</span> <span class="var">water</span></code></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Two Pointers (O(1) Space)</span>
+        <span style="color:var(--green)">O(n) time · O(1) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">trap</span>(<span class="var">self</span>, <span class="var">height</span>: <span class="bi">list</span>[<span class="bi">int</span>]) -> <span class="bi">int</span>:
+        <span class="var">lo</span>, <span class="var">hi</span>         = <span class="num">0</span>, <span class="bi">len</span>(<span class="var">height</span>) - <span class="num">1</span>
+        <span class="var">left_max</span>, <span class="var">right_max</span> = <span class="num">0</span>, <span class="num">0</span>
+        <span class="var">water</span>          = <span class="num">0</span>
+        <span class="kw">while</span> <span class="var">lo</span> < <span class="var">hi</span>:
+            <span class="kw">if</span> <span class="var">height</span>[<span class="var">lo</span>] < <span class="var">height</span>[<span class="var">hi</span>]:
+                <span class="kw">if</span> <span class="var">height</span>[<span class="var">lo</span>] >= <span class="var">left_max</span>:
+                    <span class="var">left_max</span> = <span class="var">height</span>[<span class="var">lo</span>]
+                <span class="kw">else</span>:
+                    <span class="var">water</span> += <span class="var">left_max</span> - <span class="var">height</span>[<span class="var">lo</span>]
+                <span class="var">lo</span> += <span class="num">1</span>
+            <span class="kw">else</span>:
+                <span class="kw">if</span> <span class="var">height</span>[<span class="var">hi</span>] >= <span class="var">right_max</span>:
+                    <span class="var">right_max</span> = <span class="var">height</span>[<span class="var">hi</span>]
+                <span class="kw">else</span>:
+                    <span class="var">water</span> += <span class="var">right_max</span> - <span class="var">height</span>[<span class="var">hi</span>]
+                <span class="var">hi</span> -= <span class="num">1</span>
+        <span class="kw">return</span> <span class="var">water</span></code></pre>
+    </div>
+
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 面试要点</div>
+      <ul style="font-size:13.5px;margin-left:18px;line-height:1.9;">
+        <li>The stack stores <strong>indices</strong>, not heights — you need positions to compute width</li>
+        <li>After popping <code>bottom</code>, always check <code>if not stack: break</code> before accessing <code>stack[-1]</code> as the left wall</li>
+        <li>Know <strong>all three O(n) approaches</strong>: prefix/suffix arrays, monotonic stack, two-pointer — interviewers may ask you to compare</li>
+        <li>Two-pointer is optimal on space (O(1)) but the correctness argument requires the monotonicity insight about the shorter side</li>
+        <li>Contrast with #84: rain water pops on <em>taller</em> bars (decreasing stack), histogram pops on <em>shorter</em> bars (increasing stack)</li>
+        <li>3D extension → LC #407 uses a min-heap instead of a stack</li>
+      </ul>
+    </div>
+
+    <p style="margin-top:32px;">
+      <a href="32-longest-valid-parentheses.html" style="font-size:14px;">
+        Next: #32 Longest Valid Parentheses →
+      </a>
+    </p>
+
+  </main>
+</div>
+</body>
+</html>

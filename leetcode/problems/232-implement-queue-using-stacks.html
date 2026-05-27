@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#232 Implement Queue using Stacks — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-soon">Soon</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #20 Valid Parens</a>
+      <a href="155-min-stack.html" class="sidebar-item"><span class="icon">⬇️</span> #155 Min Stack</a>
+      <a href="232-implement-queue-using-stacks.html" class="sidebar-item active"><span class="icon">🔁</span> #232 Impl Queue</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="739-daily-temperatures.html" class="sidebar-item"><span class="icon">🌡️</span> #739 Daily Temps</a>
+      <a href="150-evaluate-reverse-polish-notation.html" class="sidebar-item"><span class="icon">🧮</span> #150 Eval RPN</a>
+      <a href="227-basic-calculator-ii.html" class="sidebar-item"><span class="icon">🔢</span> #227 Basic Calc II</a>
+      <a href="394-decode-string.html" class="sidebar-item"><span class="icon">📝</span> #394 Decode String</a>
+      <a href="496-next-greater-element-i.html" class="sidebar-item"><span class="icon">📈</span> #496 Next Greater I</a>
+      <a href="907-sum-of-subarray-minimums.html" class="sidebar-item"><span class="icon">➕</span> #907 Subarray Mins</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" class="sidebar-item"><span class="icon">🗑️</span> #1209 Remove Adj Dup</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="84-largest-rectangle-in-histogram.html" class="sidebar-item"><span class="icon">📊</span> #84 Largest Rect</a>
+      <a href="42-trapping-rain-water.html" class="sidebar-item"><span class="icon">🌊</span> #42 Trap Rain</a>
+      <a href="32-longest-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #32 Longest Valid</a>
+      <a href="224-basic-calculator.html" class="sidebar-item"><span class="icon">🧮</span> #224 Basic Calc</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #232 · <a href="https://leetcode.com/problems/implement-queue-using-stacks/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Implement Queue using Stacks</div>
+        <div class="problem-meta">
+          <span class="tag tag-easy">Easy</span>
+          <span class="tag tag-pattern">Stack</span>
+          <span class="tag tag-pattern">Stack Simulation</span>
+          <span class="tag tag-pattern">Design</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Implement a <strong>first-in first-out (FIFO) queue</strong> using only two stacks.
+      The implemented queue should support all the functions of a normal queue.</p>
+      <ul style="margin-top:8px;margin-left:20px;font-size:14px;">
+        <li><code>MyQueue()</code> — initialises the queue.</li>
+        <li><code>void push(int x)</code> — pushes element <code>x</code> to the back of the queue.</li>
+        <li><code>int pop()</code> — removes and returns the element from the front.</li>
+        <li><code>int peek()</code> — returns the element at the front without removing it.</li>
+        <li><code>boolean empty()</code> — returns <code>true</code> if the queue is empty.</li>
+      </ul>
+      <p style="margin-top:8px;font-size:13px;color:var(--text-muted);">
+        You must use <strong>only</strong> standard stack operations: push to top, peek/pop from top, size, and empty.
+      </p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLE</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        <code>push(1), push(2)</code><br>
+        <code>peek()</code> → <span style="color:var(--green)">1</span><br>
+        <code>pop()</code>  → <span style="color:var(--green)">1</span><br>
+        <code>empty()</code> → <span style="color:var(--green)">false</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      A realistic interview dialogue showing <em>how to think out loud</em> — not just arrive at the answer,
+      but communicate the reasoning clearly.
+      <span style="color:var(--text-muted)">（模拟真实面试对话，展示如何清晰地表达思路）</span>
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Here's a classic design problem. I want you to build a queue — FIFO semantics — using
+          only stacks as your underlying data structure. You can use two stacks. The queue needs
+          <code>push</code>, <code>pop</code>, <code>peek</code>, and <code>empty</code>.
+          The operations you're allowed on a stack are push-to-top, pop-from-top, peek-top, size, and empty check.
+          What are your initial thoughts?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The core tension here is that a stack is LIFO — last in, first out — while a queue is FIFO.
+          A single stack reverses the order. But if you pour one stack into another, you reverse it again,
+          which restores the original order. That's the key. Let me think about how to structure
+          that cleverly with two stacks before asking my clarifying questions.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few questions to make sure I understand the constraints:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can <code>pop()</code> and <code>peek()</code> be called on an empty queue, or can I assume the queue is non-empty?</li>
+            <li>Is there any constraint on time complexity you're targeting — strictly O(1) per operation, or is amortised O(1) acceptable?</li>
+            <li>Any constraint on the number of total operations or element values?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Assume <code>pop()</code> and <code>peek()</code> are only called on non-empty queues.
+          Amortised O(1) is perfectly acceptable — that's the expected optimal here.
+          Values are integers in the range 1 to 10<sup>4</sup>, and you'll have at most 100 operations total.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me compare two approaches.<br><br>
+          <strong>Eager approach (brute force style):</strong> On every <code>push</code>, move
+          everything from stack2 to stack1, push the new element, then move it all back.
+          This gives O(n) per push but O(1) pop and peek. It works, but it's wasteful.<br><br>
+          <strong>Lazy transfer approach:</strong> Designate stack1 as the <em>inbox</em>
+          (new elements always push here) and stack2 as the <em>outbox</em> (pop and peek from here).
+          When you need to pop or peek and the outbox is empty, pour the entire inbox into the outbox
+          — this reverses the order, putting the oldest element on top. Crucially, you only do this
+          transfer when the outbox runs dry.<br><br>
+          Each element crosses from inbox to outbox at most <em>once</em> in its lifetime,
+          so the total transfer cost across all operations is O(n) for n elements.
+          That gives amortised O(1) per operation. I'll go with the lazy approach.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      The key invariant: the outbox is only ever replenished all at once, and only when empty.
+      This means we never mix "generations" — everything in the outbox arrived before everything in the inbox.
+      FIFO order is preserved automatically.
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good reasoning. Can you convince me the amortised argument is actually correct?
+          Isn't it possible that every single <code>pop()</code> triggers a full transfer?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          That's a fair challenge. A transfer only happens when the outbox is empty.
+          After a transfer, the outbox has k elements in it. Those k elements each get popped
+          one by one — k separate <code>pop()</code> calls, each O(1), before the outbox is
+          empty again. So the cost of that one transfer (O(k)) is spread over k future pops —
+          O(1) amortised per pop. The worst-case for any <em>single</em> pop is O(n),
+          but you can only hit that worst case once every n pops.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Code Walkthrough</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me write it out. I'll pull the transfer logic into a helper to keep things clean.
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Python 3 — Queue using Stacks (walkthrough)</span></div>
+      <pre><code><span class="kw">class</span> <span class="fn">MyQueue</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>):
+        <span class="var">self</span>.inbox  = []  <span class="cm"># stack 1: new elements pushed here</span>
+        <span class="var">self</span>.outbox = []  <span class="cm"># stack 2: dequeue from here (FIFO order)</span>
+
+    <span class="kw">def</span> <span class="fn">_transfer</span>(<span class="var">self</span>) -> <span class="bi">None</span>:
+        <span class="cm"># Only move when outbox is completely empty.</span>
+        <span class="cm"># Popping inbox and pushing to outbox reverses the order.</span>
+        <span class="kw">if</span> <span class="kw">not</span> <span class="var">self</span>.outbox:
+            <span class="kw">while</span> <span class="var">self</span>.inbox:
+                <span class="var">self</span>.outbox.<span class="fn">append</span>(<span class="var">self</span>.inbox.<span class="fn">pop</span>())
+
+    <span class="kw">def</span> <span class="fn">push</span>(<span class="var">self</span>, <span class="var">x</span>: <span class="bi">int</span>) -> <span class="bi">None</span>:
+        <span class="var">self</span>.inbox.<span class="fn">append</span>(<span class="var">x</span>)  <span class="cm"># always push to inbox — O(1)</span>
+
+    <span class="kw">def</span> <span class="fn">pop</span>(<span class="var">self</span>) -> <span class="bi">int</span>:
+        <span class="var">self</span>.<span class="fn">_transfer</span>()          <span class="cm"># ensure outbox has elements</span>
+        <span class="kw">return</span> <span class="var">self</span>.outbox.<span class="fn">pop</span>()  <span class="cm"># front of queue is top of outbox</span>
+
+    <span class="kw">def</span> <span class="fn">peek</span>(<span class="var">self</span>) -> <span class="bi">int</span>:
+        <span class="var">self</span>.<span class="fn">_transfer</span>()
+        <span class="kw">return</span> <span class="var">self</span>.outbox[-<span class="num">1</span>]   <span class="cm"># peek without removing</span>
+
+    <span class="kw">def</span> <span class="fn">empty</span>(<span class="var">self</span>) -> <span class="bi">bool</span>:
+        <span class="kw">return</span> <span class="kw">not</span> <span class="var">self</span>.inbox <span class="kw">and</span> <span class="kw">not</span> <span class="var">self</span>.outbox</code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace the example: <code>push(1), push(2), push(3)</code><br><br>
+          After pushes: inbox=[1,2,3], outbox=[]<br><br>
+          <code>pop()</code> — outbox is empty, transfer: pop inbox one by one → outbox=[3,2,1].
+          Now pop outbox → returns <strong>1</strong>. outbox=[3,2].<br><br>
+          <code>peek()</code> — outbox is not empty, no transfer needed.
+          outbox[-1] = <strong>2</strong>. ✓<br><br>
+          <code>push(4)</code> — inbox=[4], outbox=[3,2]. Both stacks live side by side, no conflict.<br><br>
+          <code>pop()</code> — outbox not empty, pop → returns <strong>2</strong>. ✓ (FIFO preserved)
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. What happens to <code>empty()</code> if there are elements in inbox but outbox is empty?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          That's exactly why I check <em>both</em> stacks in <code>empty()</code>:
+          <code>not self.inbox and not self.outbox</code>.
+          If inbox has elements and outbox is empty, the queue is not empty.
+          A common bug is checking only one of the two — that would give a wrong answer
+          in exactly that scenario.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>push:</strong> O(1) — single append to inbox.<br><br>
+          <strong>pop / peek:</strong> O(1) amortised. Worst case O(n) when transfer occurs,
+          but each element is transferred at most once total across all operations,
+          so the total transfer work for n elements is O(n), making it O(1) per operation amortised.<br><br>
+          <strong>empty:</strong> O(1) — two boolean checks.<br><br>
+          <strong>Space:</strong> O(n) — at most n elements split across the two stacks.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Operation</div><div class="cx-cell hd">Time</div><div class="cx-cell hd">Notes</div>
+      <div class="cx-cell">push(x)</div><div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div><div class="cx-cell" style="color:var(--text-secondary);">Append to inbox</div>
+      <div class="cx-cell">pop()</div><div class="cx-cell"><strong style="color:var(--yellow);">O(1) amort.</strong></div><div class="cx-cell" style="color:var(--text-secondary);">O(n) worst case on transfer</div>
+      <div class="cx-cell">peek()</div><div class="cx-cell"><strong style="color:var(--yellow);">O(1) amort.</strong></div><div class="cx-cell" style="color:var(--text-secondary);">Same as pop — may transfer</div>
+      <div class="cx-cell">empty()</div><div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div><div class="cx-cell" style="color:var(--text-secondary);">Two boolean checks</div>
+      <div class="cx-cell">Space</div><div class="cx-cell"><strong style="color:var(--yellow);">O(n)</strong></div><div class="cx-cell" style="color:var(--text-secondary);">n elements across both stacks</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          A few follow-ups: (1) Can you implement a queue with only <em>one</em> stack?
+          (2) How would you go the other direction — implement a stack using queues?
+          (3) Does your solution handle interleaved pushes and pops correctly?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>(1) Queue with one stack:</strong> You can use the call stack — recursion.
+          To dequeue, recurse down to the bottom of the stack, remove it, and return.
+          But that's O(n) per dequeue and uses O(n) call stack space.
+          Not practical — but it technically works with one explicit stack.<br><br>
+
+          <strong>(2) Stack using queues:</strong> The reverse problem. Use one queue.
+          On each <code>push</code>, enqueue the new element, then rotate the queue
+          (dequeue everything and re-enqueue it) so the new element lands at the front.
+          This makes push O(n) but pop O(1). Or do the rotation lazily on pop instead —
+          same trade-off, different direction.<br><br>
+
+          <strong>(3) Interleaved operations:</strong> Yes, absolutely. The key is that
+          the outbox is never partially filled — we only add to it when it's completely empty.
+          So any elements already in the outbox (pushed before the last transfer) are
+          always older than everything in the inbox. FIFO order is guaranteed at all times.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="solution"></div>
+
+    <!-- Full Solution -->
+    <h2 style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Implement Queue using Stacks</span>
+        <span style="color:var(--green)">O(1) amortised · O(n) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">MyQueue</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>):
+        <span class="var">self</span>.inbox  = []
+        <span class="var">self</span>.outbox = []
+
+    <span class="kw">def</span> <span class="fn">_transfer</span>(<span class="var">self</span>) -> <span class="bi">None</span>:
+        <span class="kw">if</span> <span class="kw">not</span> <span class="var">self</span>.outbox:
+            <span class="kw">while</span> <span class="var">self</span>.inbox:
+                <span class="var">self</span>.outbox.<span class="fn">append</span>(<span class="var">self</span>.inbox.<span class="fn">pop</span>())
+
+    <span class="kw">def</span> <span class="fn">push</span>(<span class="var">self</span>, <span class="var">x</span>: <span class="bi">int</span>) -> <span class="bi">None</span>:
+        <span class="var">self</span>.inbox.<span class="fn">append</span>(<span class="var">x</span>)
+
+    <span class="kw">def</span> <span class="fn">pop</span>(<span class="var">self</span>) -> <span class="bi">int</span>:
+        <span class="var">self</span>.<span class="fn">_transfer</span>()
+        <span class="kw">return</span> <span class="var">self</span>.outbox.<span class="fn">pop</span>()
+
+    <span class="kw">def</span> <span class="fn">peek</span>(<span class="var">self</span>) -> <span class="bi">int</span>:
+        <span class="var">self</span>.<span class="fn">_transfer</span>()
+        <span class="kw">return</span> <span class="var">self</span>.outbox[-<span class="num">1</span>]
+
+    <span class="kw">def</span> <span class="fn">empty</span>(<span class="var">self</span>) -> <span class="bi">bool</span>:
+        <span class="kw">return</span> <span class="kw">not</span> <span class="var">self</span>.inbox <span class="kw">and</span> <span class="kw">not</span> <span class="var">self</span>.outbox</code></pre>
+    </div>
+
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 面试要点</div>
+      <ul style="font-size:13.5px;margin-left:18px;line-height:1.9;">
+        <li>Transfer <strong>lazily</strong> — only when the outbox is empty, never on every push</li>
+        <li>Each element moves from inbox to outbox <strong>at most once</strong> — that's the amortised O(1) argument</li>
+        <li>In <code>empty()</code>, check <strong>both</strong> stacks — a common bug is checking only one</li>
+        <li>Explain the amortised analysis clearly: worst-case single pop is O(n), but you can only hit that once every n pops</li>
+        <li>The two-stack trick works because reversing twice restores FIFO order</li>
+      </ul>
+    </div>
+
+    <a href="739-daily-temperatures.html" class="back-link" style="margin-top:32px;">Next: #739 Daily Temperatures →</a>
+
+  </main>
+</div>
+</body>
+</html>

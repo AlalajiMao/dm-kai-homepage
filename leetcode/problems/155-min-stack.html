@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#155 Min Stack — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-soon">Soon</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="20-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #20 Valid Parens</a>
+      <a href="155-min-stack.html" class="sidebar-item active"><span class="icon">⬇️</span> #155 Min Stack</a>
+      <a href="232-implement-queue-using-stacks.html" class="sidebar-item"><span class="icon">🔁</span> #232 Impl Queue</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="739-daily-temperatures.html" class="sidebar-item"><span class="icon">🌡️</span> #739 Daily Temps</a>
+      <a href="150-evaluate-reverse-polish-notation.html" class="sidebar-item"><span class="icon">🧮</span> #150 Eval RPN</a>
+      <a href="227-basic-calculator-ii.html" class="sidebar-item"><span class="icon">🔢</span> #227 Basic Calc II</a>
+      <a href="394-decode-string.html" class="sidebar-item"><span class="icon">📝</span> #394 Decode String</a>
+      <a href="496-next-greater-element-i.html" class="sidebar-item"><span class="icon">📈</span> #496 Next Greater I</a>
+      <a href="907-sum-of-subarray-minimums.html" class="sidebar-item"><span class="icon">➕</span> #907 Subarray Mins</a>
+      <a href="1209-remove-all-adjacent-duplicates-ii.html" class="sidebar-item"><span class="icon">🗑️</span> #1209 Remove Adj Dup</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="84-largest-rectangle-in-histogram.html" class="sidebar-item"><span class="icon">📊</span> #84 Largest Rect</a>
+      <a href="42-trapping-rain-water.html" class="sidebar-item"><span class="icon">🌊</span> #42 Trap Rain</a>
+      <a href="32-longest-valid-parentheses.html" class="sidebar-item"><span class="icon">🔢</span> #32 Longest Valid</a>
+      <a href="224-basic-calculator.html" class="sidebar-item"><span class="icon">🧮</span> #224 Basic Calc</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../stack.html" class="back-link">← Back to Stack</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #155 · <a href="https://leetcode.com/problems/min-stack/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Min Stack</div>
+        <div class="problem-meta">
+          <span class="tag tag-easy">Easy</span>
+          <span class="tag tag-pattern">Stack</span>
+          <span class="tag tag-pattern">Auxiliary Info</span>
+          <span class="tag tag-pattern">Design</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Design a stack that supports <code>push</code>, <code>pop</code>, <code>top</code>, and retrieving
+      the minimum element — all in <strong>O(1) time</strong>.</p>
+      <ul style="margin-top:8px;margin-left:20px;font-size:14px;">
+        <li><code>MinStack()</code> — initialises the stack object.</li>
+        <li><code>void push(int val)</code> — pushes <code>val</code> onto the stack.</li>
+        <li><code>void pop()</code> — removes the element on top.</li>
+        <li><code>int top()</code> — returns the top element.</li>
+        <li><code>int getMin()</code> — returns the minimum element in the stack.</li>
+      </ul>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLE</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        <code>push(-2), push(0), push(-3)</code><br>
+        <code>getMin()</code> → <span style="color:var(--green)">-3</span><br>
+        <code>pop()</code><br>
+        <code>top()</code>    → <span style="color:var(--green)">0</span><br>
+        <code>getMin()</code> → <span style="color:var(--green)">-2</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      A realistic interview dialogue showing <em>how to think out loud</em> — not just arrive at the answer,
+      but communicate the reasoning clearly.
+      <span style="color:var(--text-muted)">（模拟真实面试对话，展示如何清晰地表达思路）</span>
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Alright, today's problem is a design question. I want you to build a stack data structure
+          that behaves exactly like a normal stack — push, pop, top — but also has one extra method:
+          <code>getMin()</code>, which returns the current minimum value in the stack.
+          The catch is that <em>every single operation</em>, including <code>getMin()</code>, must run in O(1) time.
+          Take a moment to think it over. What's your initial reaction?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Interesting — the O(1) constraint on <code>getMin()</code> is the tricky part.
+          My first instinct is to just track a single <code>current_min</code> variable,
+          but that breaks when you pop the minimum off the stack — you'd have no way to
+          recover the previous minimum without scanning everything. So I need a smarter approach.
+          Let me ask a couple of quick questions before diving in.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few things I want to confirm:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can <code>getMin()</code> or <code>pop()</code> be called on an empty stack, or can I assume the stack is non-empty when those are called?</li>
+            <li>Are there any constraints on the values — integer range, duplicates allowed?</li>
+            <li>Is there a constraint on memory use, or is extra space acceptable?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good instincts to ask. You can assume <code>pop()</code>, <code>top()</code>, and <code>getMin()</code>
+          are always called on a non-empty stack — no need to handle the empty case.
+          Values are standard 32-bit integers, and duplicates are absolutely allowed.
+          Extra space is fine as long as each operation is O(1).
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Okay, let me think through this systematically. The naive approach first:
+          scan the whole stack on every <code>getMin()</code> call. That's O(n) per query — doesn't meet the requirement.<br><br>
+          The key insight is that the minimum only changes at push and pop time. So instead of computing it on demand,
+          I can <em>store</em> the minimum alongside each element as I push. Specifically, I'll maintain a
+          <strong>parallel min-stack</strong>: every time I push a value, I also push
+          <code>min(val, current_min)</code> onto the min-stack. When I pop, I pop both stacks together.
+          This way, <code>getMin()</code> is just a peek at the top of the min-stack — O(1).<br><br>
+          The elegant part: even when the actual minimum is popped off, the min-stack
+          automatically reverts to the previous minimum. Does that approach make sense?
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      Walk through the example mentally: push(5) → min_stack=[5]; push(3) → min_stack=[5,3];
+      push(7) → min_stack=[5,3,3]; push(2) → min_stack=[5,3,3,2].
+      Pop() → both stacks lose the last element, min is back to 3. Perfect.
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          That's the right idea. One quick sanity check — what if we push duplicates of the current minimum?
+          Say the current min is 3 and we push another 3. How does your min-stack handle that?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          It handles it correctly because I always push <code>min(val, current_min)</code>
+          regardless. So pushing another 3 when min is already 3 pushes 3 onto the min-stack again.
+          When we pop that 3, the min-stack still shows 3 underneath — no information is lost.
+          Duplicates are safe.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Code Walkthrough</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me write out the implementation. I'll walk through it as I go.
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Python 3 — Min Stack (walkthrough)</span></div>
+      <pre><code><span class="kw">class</span> <span class="fn">MinStack</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>):
+        <span class="var">self</span>.stack     = []   <span class="cm"># main stack — stores actual values</span>
+        <span class="var">self</span>.min_stack = []   <span class="cm"># parallel stack — stores running minimum</span>
+
+    <span class="kw">def</span> <span class="fn">push</span>(<span class="var">self</span>, <span class="var">val</span>: <span class="bi">int</span>) -> <span class="bi">None</span>:
+        <span class="var">self</span>.stack.<span class="fn">append</span>(<span class="var">val</span>)
+        <span class="cm"># If min_stack is empty this is the first element — it IS the min.</span>
+        <span class="cm"># Otherwise, carry forward whichever is smaller.</span>
+        <span class="var">cur_min</span> = <span class="var">self</span>.min_stack[-<span class="num">1</span>] <span class="kw">if</span> <span class="var">self</span>.min_stack <span class="kw">else</span> <span class="var">val</span>
+        <span class="var">self</span>.min_stack.<span class="fn">append</span>(<span class="bi">min</span>(<span class="var">val</span>, <span class="var">cur_min</span>))
+
+    <span class="kw">def</span> <span class="fn">pop</span>(<span class="var">self</span>) -> <span class="bi">None</span>:
+        <span class="var">self</span>.stack.<span class="fn">pop</span>()       <span class="cm"># remove top value</span>
+        <span class="var">self</span>.min_stack.<span class="fn">pop</span>()   <span class="cm"># restore previous minimum</span>
+
+    <span class="kw">def</span> <span class="fn">top</span>(<span class="var">self</span>) -> <span class="bi">int</span>:
+        <span class="kw">return</span> <span class="var">self</span>.stack[-<span class="num">1</span>]
+
+    <span class="kw">def</span> <span class="fn">getMin</span>(<span class="var">self</span>) -> <span class="bi">int</span>:
+        <span class="kw">return</span> <span class="var">self</span>.min_stack[-<span class="num">1</span>]  <span class="cm"># O(1) — just peek the parallel stack</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace through the example to verify:<br><br>
+          <code>push(5)</code> → stack=[5], min_stack=[5]<br>
+          <code>push(3)</code> → stack=[5,3], min_stack=[5,3] &nbsp;← min(3,5)=3<br>
+          <code>push(7)</code> → stack=[5,3,7], min_stack=[5,3,3] &nbsp;← min(7,3)=3<br>
+          <code>push(2)</code> → stack=[5,3,7,2], min_stack=[5,3,3,2] &nbsp;← min(2,3)=2<br>
+          <code>getMin()</code> → min_stack[-1] = <strong>2</strong> ✓<br>
+          <code>pop()</code> → stack=[5,3,7], min_stack=[5,3,3]<br>
+          <code>getMin()</code> → min_stack[-1] = <strong>3</strong> ✓<br>
+          <code>pop()</code> → stack=[5,3], min_stack=[5,3]<br>
+          <code>top()</code> → stack[-1] = <strong>3</strong> ✓
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          That trace looks correct. Let's talk about the complexity.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Every operation — <code>push</code>, <code>pop</code>, <code>top</code>, <code>getMin</code> —
+          performs a constant number of list appends or index accesses. Python lists have O(1) amortised append
+          and O(1) indexed access, so all four are O(1) time.<br><br>
+          For space: I'm using two stacks, each of size at most n (where n is the number of elements currently
+          in the stack). So space is O(n) total — linear in the number of pushed elements.
+          There's no way to do better in the worst case since we must store all pushed values.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Operation</div><div class="cx-cell hd">Time</div><div class="cx-cell hd">Space</div>
+      <div class="cx-cell">push(val)</div><div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div><div class="cx-cell" style="color:var(--text-secondary);">O(1) per call</div>
+      <div class="cx-cell">pop()</div><div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div><div class="cx-cell" style="color:var(--text-secondary);">O(1) per call</div>
+      <div class="cx-cell">top()</div><div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div><div class="cx-cell" style="color:var(--text-secondary);">O(1) per call</div>
+      <div class="cx-cell">getMin()</div><div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div><div class="cx-cell" style="color:var(--text-secondary);">O(1) per call</div>
+      <div class="cx-cell">Overall space</div><div class="cx-cell">—</div><div class="cx-cell"><strong style="color:var(--yellow);">O(n)</strong></div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Nice work. Three follow-ups: (1) What if you also needed O(1) <code>getMax()</code>?
+          (2) Can you implement this with only <em>one</em> stack — no auxiliary structure?
+          (3) What if <code>pop()</code> needed to return the popped value?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>(1) Adding <code>getMax()</code>:</strong> Exactly the same pattern — just add a
+          <code>max_stack</code> that stores the running maximum. Push <code>max(val, max_stack[-1])</code>
+          each time, pop together. Both get O(1). The stacks are independent so there's no conflict.<br><br>
+
+          <strong>(2) Single-stack encoding:</strong> One trick is to store tuples <code>(val, current_min)</code>
+          on the main stack instead of a separate list. It's still O(n) space, but you've eliminated the second
+          list object. Another approach encodes the minimum difference into the pushed value, which can be space-efficient
+          for small ranges but gets complicated with overflow.<br><br>
+
+          <strong>(3) Returning the popped value:</strong> Trivial to add — just save
+          <code>val = self.stack[-1]</code> before popping, then return it. No structural change needed.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. One more thing — could you generalize this to a stack that tracks
+          <em>any aggregate</em> in O(1), not just the minimum?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes — as long as the aggregate can be recomputed incrementally and is reversible on pop.
+          Sum is a classic example: maintain a running sum alongside each entry. Max and min work too.
+          But something like the <em>median</em> doesn't fit this pattern because you can't update the
+          median in O(1) from the previous median when pushing or popping — you'd need a more
+          sophisticated structure like two heaps for that.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" id="solution"></div>
+
+    <!-- Full Solution -->
+    <h2 style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Min Stack</span>
+        <span style="color:var(--green)">O(1) all ops · O(n) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">MinStack</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>):
+        <span class="var">self</span>.stack     = []
+        <span class="var">self</span>.min_stack = []
+
+    <span class="kw">def</span> <span class="fn">push</span>(<span class="var">self</span>, <span class="var">val</span>: <span class="bi">int</span>) -> <span class="bi">None</span>:
+        <span class="var">self</span>.stack.<span class="fn">append</span>(<span class="var">val</span>)
+        <span class="var">self</span>.min_stack.<span class="fn">append</span>(
+            <span class="bi">min</span>(<span class="var">val</span>, <span class="var">self</span>.min_stack[-<span class="num">1</span>]) <span class="kw">if</span> <span class="var">self</span>.min_stack <span class="kw">else</span> <span class="var">val</span>
+        )
+
+    <span class="kw">def</span> <span class="fn">pop</span>(<span class="var">self</span>) -> <span class="bi">None</span>:
+        <span class="var">self</span>.stack.<span class="fn">pop</span>()
+        <span class="var">self</span>.min_stack.<span class="fn">pop</span>()
+
+    <span class="kw">def</span> <span class="fn">top</span>(<span class="var">self</span>) -> <span class="bi">int</span>:
+        <span class="kw">return</span> <span class="var">self</span>.stack[-<span class="num">1</span>]
+
+    <span class="kw">def</span> <span class="fn">getMin</span>(<span class="var">self</span>) -> <span class="bi">int</span>:
+        <span class="kw">return</span> <span class="var">self</span>.min_stack[-<span class="num">1</span>]</code></pre>
+    </div>
+
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 面试要点</div>
+      <ul style="font-size:13.5px;margin-left:18px;line-height:1.9;">
+        <li>Always pop <strong>both</strong> stacks together in <code>pop()</code> — forgetting this is the most common bug</li>
+        <li>The min-stack stores the <strong>running minimum</strong> at each depth, not just the current element's value</li>
+        <li>Handle the empty min-stack on the first <code>push()</code> — use an <code>if self.min_stack else val</code> guard</li>
+        <li>Duplicates are handled correctly without special-casing because we always push <code>min(val, cur_min)</code></li>
+        <li>This "parallel auxiliary stack" pattern extends to max, sum, or any incrementally-updatable aggregate</li>
+      </ul>
+    </div>
+
+    <a href="232-implement-queue-using-stacks.html" class="back-link" style="margin-top:32px;">Next: #232 Implement Queue using Stacks →</a>
+
+  </main>
+</div>
+</body>
+</html>
