@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#23 Merge k Sorted Lists — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item active"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #23 · <a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Merge k Sorted Lists</div>
+        <div class="problem-meta">
+          <span class="tag tag-hard">Hard</span>
+          <span class="tag tag-pattern">Merge + Heap</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>You are given an array of <code>k</code> linked-lists <code>lists</code>, each linked-list is sorted in ascending order.</p>
+      <p style="margin-top:8px;"><em>Merge all the linked-lists into one sorted linked-list and return it.</em></p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLE</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        Input: <code>lists = [1→4→5, 1→3→4, 2→6]</code><br>
+        Output: <code>1→1→2→3→4→4→5→6</code>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">At each step, pick the minimum head across all k lists. A min-heap keeps that minimum retrieval at O(log k) rather than O(k).</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      This is the generalization of #21 (merge two lists) to k lists. The brute-force approach scans all k heads
+      on every step — O(nk) total. The optimal approach uses a min-heap to find the minimum head in O(log k),
+      dropping the total to O(n log k). Python's heapq needs a tiebreaker to avoid comparing ListNode objects directly.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          You have k sorted linked lists. Merge them all into a single sorted linked list and return it.
+          For example, with lists <code>[1→4→5, 1→3→4, 2→6]</code> the answer is <code>1→1→2→3→4→4→5→6</code>.
+          What's your initial thinking?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          This is merge-two-lists extended to k lists. The key operation is always: pick the smallest current head
+          across all k lists. If I scan all k heads each time, that's O(k) per node — O(nk) total. I want to speed up
+          the "find the minimum" step, which is exactly what a min-heap does: O(log k) per extraction.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few quick questions:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can any of the k lists be empty or null? I'll skip those when initializing the heap.</li>
+            <li>Can k itself be zero (empty array of lists)?</li>
+            <li>Are node values integers? I need that to define heap order.</li>
+            <li>Are there duplicate values across lists? (The example has two 1s and two 4s, so yes — that's fine.)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Yes, individual lists can be null — skip them. k can be zero — return null. Values are integers.
+          Duplicates are allowed.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Three approaches in order of sophistication:<br><br>
+          <strong>Brute force — collect and sort:</strong> Walk all lists, collect every value, sort, rebuild. O(n log n) time, O(n) space. Simple but ignores the sorted structure.<br><br>
+          <strong>Sequential merge:</strong> Merge list 1 with list 2, then merge result with list 3, etc. Each merge is O(n·i) work in the worst case — total is O(nk). Better but still not optimal.<br><br>
+          <strong>Min-heap:</strong> Push the head of each list into a heap keyed by value. Repeatedly pop the minimum, append it to the result, and push its next node. O(n log k) time, O(k) space for the heap.<br><br>
+          <strong>Divide and conquer:</strong> Pair up lists, merge pairs, repeat. Same O(n log k) complexity as heap. Possibly better cache behavior but more code.<br><br>
+          I'll go with the heap — it's concise and directly reflects the intuition.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      Python's heapq compares tuple elements left to right. If two nodes have the same value, comparing ListNode objects
+      would raise a TypeError. Fix: use (node.val, index, node) where index is the list's position in the input array.
+      Index breaks ties deterministically without ever needing to compare nodes.
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. Walk me through the heap approach with pseudocode and a trace on the example.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">Here's the pseudocode:</div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">mergeKLists</span>(<span class="var">lists</span>):
+    <span class="var">heap</span> = []
+
+    <span class="cm"># Seed heap with first node of each non-empty list</span>
+    <span class="kw">for</span> <span class="var">i</span>, <span class="var">node</span> <span class="kw">in</span> <span class="fn">enumerate</span>(<span class="var">lists</span>):
+        <span class="kw">if</span> <span class="var">node</span>:
+            <span class="fn">heappush</span>(<span class="var">heap</span>, (<span class="var">node</span>.val, <span class="var">i</span>, <span class="var">node</span>))
+
+    <span class="var">dummy</span> = <span class="var">cur</span> = <span class="fn">ListNode</span>(<span class="num">0</span>)
+
+    <span class="kw">while</span> <span class="var">heap</span>:
+        <span class="var">val</span>, <span class="var">i</span>, <span class="var">node</span> = <span class="fn">heappop</span>(<span class="var">heap</span>)   <span class="cm"># pop minimum</span>
+        <span class="var">cur</span>.next = <span class="var">node</span>                  <span class="cm"># append to result</span>
+        <span class="var">cur</span> = <span class="var">cur</span>.next
+        <span class="kw">if</span> <span class="var">node</span>.next:
+            <span class="fn">heappush</span>(<span class="var">heap</span>, (<span class="var">node</span>.next.val, <span class="var">i</span>, <span class="var">node</span>.next))
+
+    <span class="kw">return</span> <span class="var">dummy</span>.next</code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Tracing <code>[1→4→5, 1→3→4, 2→6]</code> — I'll label lists L0, L1, L2.<br><br>
+
+          <strong>Seed heap:</strong> push (1,0,L0[1]), (1,1,L1[1]), (2,2,L2[2])<br>
+          Heap: [(1,0,1), (1,1,1), (2,2,2)]<br><br>
+
+          <strong>Pop (1,0,1):</strong> append 1. Push L0's next: (4,0,4). Result: <code>1</code><br>
+          <strong>Pop (1,1,1):</strong> append 1. Push L1's next: (3,1,3). Result: <code>1→1</code><br>
+          <strong>Pop (2,2,2):</strong> append 2. Push L2's next: (6,2,6). Result: <code>1→1→2</code><br>
+          <strong>Pop (3,1,3):</strong> append 3. Push (4,1,4). Result: <code>1→1→2→3</code><br>
+          <strong>Pop (4,0,4):</strong> append 4. Push (5,0,5). Result: <code>1→1→2→3→4</code><br>
+          <strong>Pop (4,1,4):</strong> append 4. No next — nothing pushed. Result: <code>1→1→2→3→4→4</code><br>
+          <strong>Pop (5,0,5):</strong> append 5. No next. Result: <code>1→1→2→3→4→4→5</code><br>
+          <strong>Pop (6,2,6):</strong> append 6. No next. Result: <code>1→1→2→3→4→4→5→6</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Perfect trace. Why do you need the index <code>i</code> in the heap tuple?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Python's heapq compares tuples element by element. If two nodes have equal values, it falls through to compare
+          the next element in the tuple. Without the index, it would try to compare two <code>ListNode</code> objects directly —
+          which raises a <code>TypeError</code> because ListNode doesn't define <code>__lt__</code>. The index <code>i</code>
+          is always unique per list, so it breaks ties before Python ever touches the node object.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n log k) — there are n total nodes across all lists. Each node is pushed once and popped once. Each heap operation is O(log k) because the heap holds at most k elements at any time.<br><br>
+          <strong>Space:</strong> O(k) — the heap holds at most one node per list. The output list is O(n) but that's required output, not auxiliary.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n log k)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">n heap push/pop operations, each O(log k) on a heap of size k</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(k)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Heap holds at most one node from each of the k lists</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Why is the heap approach O(n log k) and not O(nk)?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Without a heap, finding the minimum across k list heads requires scanning all k of them — O(k) work per node.
+          Across n nodes that's O(nk). The heap always contains exactly at most k elements — one per list — so each
+          push and pop is O(log k), not O(k). Total: O(n log k). For large k, log k grows much slower than k —
+          for k=1000, log k ≈ 10.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          How does divide and conquer compare to the heap approach?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Both are O(n log k) time. Divide and conquer merges pairs of lists — in log k rounds, each round touching all n nodes total.
+          The heap processes one node at a time with O(log k) overhead each. In practice, divide and conquer may have better
+          cache locality since it works on contiguous list segments. The heap is usually simpler to write correctly
+          in an interview. For Python specifically, the heap avoids recursion depth issues that D&amp;C might encounter on very large inputs.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What if k is 1? What if k is very large — say, 10,000?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          k=1: the heap has at most one element at a time — it degenerates to a linear scan, O(n log 1) = O(n). Correct.
+          k=10,000: the heap-based approach is fine — heap size is 10,000, log(10,000) ≈ 13, so each operation is still cheap.
+          Memory for the heap is O(k) = 10,000 nodes which is trivial. The algorithm scales well.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Merge k Sorted Lists</span>
+        <span style="color:var(--green)">O(n log k) time · O(k) space</span>
+      </div>
+      <pre><code><span class="kw">import</span> heapq
+
+<span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">mergeKLists</span>(<span class="var">self</span>, <span class="var">lists</span>: <span class="bi">List</span>[<span class="bi">Optional</span>[<span class="bi">ListNode</span>]]) -> <span class="bi">Optional</span>[<span class="bi">ListNode</span>]:
+        <span class="var">heap</span> = []
+        <span class="kw">for</span> <span class="var">i</span>, <span class="var">node</span> <span class="kw">in</span> <span class="fn">enumerate</span>(<span class="var">lists</span>):
+            <span class="kw">if</span> <span class="var">node</span>:
+                heapq.<span class="fn">heappush</span>(<span class="var">heap</span>, (<span class="var">node</span>.val, <span class="var">i</span>, <span class="var">node</span>))
+
+        <span class="var">dummy</span> = <span class="var">cur</span> = <span class="fn">ListNode</span>(<span class="num">0</span>)
+        <span class="kw">while</span> <span class="var">heap</span>:
+            <span class="var">val</span>, <span class="var">i</span>, <span class="var">node</span> = heapq.<span class="fn">heappop</span>(<span class="var">heap</span>)
+            <span class="var">cur</span>.next = <span class="var">node</span>
+            <span class="var">cur</span> = <span class="var">cur</span>.next
+            <span class="kw">if</span> <span class="var">node</span>.next:
+                heapq.<span class="fn">heappush</span>(<span class="var">heap</span>, (<span class="var">node</span>.next.val, <span class="var">i</span>, <span class="var">node</span>.next))
+
+        <span class="kw">return</span> <span class="var">dummy</span>.next</code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>Always use a dummy head to simplify result list construction — avoids special-casing the very first node.</li>
+        <li>In Python, heap tuple must be <code>(val, index, node)</code> — the index prevents a <code>TypeError</code> when two nodes share the same value and Python tries to compare ListNode objects.</li>
+        <li>Seed the heap with the first node of each non-empty list only — skip null entries upfront.</li>
+        <li>State the complexity clearly: "n total nodes, k-element heap, so O(n log k) time and O(k) space."</li>
+        <li>Mention divide-and-conquer as an equally valid O(n log k) alternative — same complexity, different constant factors.</li>
+        <li>This problem is a direct extension of #21 (merge two lists) — frame it that way to show pattern recognition.</li>
+      </ul>
+    </div>
+
+    <a href="ll-25-reverse-nodes-in-k-group.html" class="back-link" style="margin-top:24px;">Next: #25 Reverse Nodes in k-Group →</a>
+
+  </main>
+
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+</div>
+
+<script>
+(function(){
+  const tocLinks=document.querySelectorAll('.toc-link[data-id]');
+  const headings=Array.from(tocLinks).map(l=>document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id){tocLinks.forEach(l=>l.classList.toggle('toc-active',l.dataset.id===id));}
+  const obs=new IntersectionObserver(entries=>{
+    const vis=entries.filter(e=>e.isIntersecting).map(e=>e.target);
+    if(vis.length){vis.sort((a,b)=>a.getBoundingClientRect().top-b.getBoundingClientRect().top);setActive(vis[0].id);}
+  },{rootMargin:'0px 0px -70% 0px',threshold:0});
+  headings.forEach(h=>obs.observe(h));
+  if(headings.length)setActive(headings[0].id);
+})();
+</script>
+</body>
+</html>

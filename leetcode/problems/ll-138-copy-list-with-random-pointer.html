@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#138 Copy List with Random Pointer — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item active"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #138 · <a href="https://leetcode.com/problems/copy-list-with-random-pointer/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Copy List with Random Pointer</div>
+        <div class="problem-meta">
+          <span class="tag tag-medium">Medium</span>
+          <span class="tag tag-pattern">HashMap</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>A linked list of length <code>n</code> is given such that each node contains an additional <strong>random pointer</strong>,
+      which could point to any node in the list, or <code>null</code>.</p>
+      <p style="margin-top:8px;">Construct a <strong>deep copy</strong> of the list. The deep copy should consist of exactly <code>n</code> brand-new nodes, where
+      each new node has its value set to the value of its corresponding original node. Both the <code>next</code> and <code>random</code>
+      pointer of the new nodes should point to new nodes in the copied list, not to nodes in the original list.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLE</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        Input: <code>[[7,null],[13,0],[11,4],[10,2],[1,0]]</code><br>
+        (each pair is <code>[val, random_index]</code>)<br>
+        Output: Deep copy with identical structure
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Node 13's random points to index 0 (val 7). Node 11's random points to index 4 (val 1). All pointers in the copy must reference new nodes, never originals.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      The difficulty here is that random pointers can point forward or backward in the list — so when you try to set
+      <code>new_node.random</code>, the target copy may not exist yet. A hash map that maps each original node to its
+      copy solves this elegantly with a two-pass approach.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Each node in this linked list has a <code>next</code> pointer and also a <code>random</code> pointer that
+          can jump to any node in the list or be null. I want a complete deep copy — brand-new nodes with no
+          references back into the original list. How would you approach this?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The hard part is the random pointer. If I try to copy nodes and wire random pointers in a single pass,
+          the target copy might not exist yet — the random pointer could point forward to a node I haven't created.
+          I need to separate "create all nodes" from "connect all pointers." A hash map from original to copy lets me do that cleanly in two passes.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Before I start coding:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can the list be empty? I'll return null in that case.</li>
+            <li>Can random point to the same node as next, or to the node itself?</li>
+            <li>Is there any constraint on extra space, or is O(n) space for the hash map acceptable?</li>
+            <li>Do node values have to be unique? (Shouldn't matter — I'm using node identity, not values, as map keys.)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Yes, the list can be empty — return null. Random can point anywhere, including self-loops.
+          O(n) space is fine for now. Values are not necessarily unique.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Two approaches:<br><br>
+          <strong>Hash map, two passes — O(n) time, O(n) space:</strong><br>
+          Pass 1: traverse the original list; create a new node for every original node and store the mapping
+          <code>old_node → new_node</code> in a dictionary.<br>
+          Pass 2: traverse again; for each original node, set <code>new.next = map[old.next]</code>
+          and <code>new.random = map[old.random]</code> (with null checks).<br><br>
+          <strong>Interleave trick — O(n) time, O(1) space:</strong><br>
+          Insert each copy directly after its original: <code>A → A' → B → B' → ...</code>.
+          Wire randoms using <code>node.random.next</code>. Then detach the two lists.
+          More complex to implement but removes the hash map.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      The two-pass hash map is the correct answer to reach for in an interview — it is clear, correct, and
+      easy to justify. The O(1)-space interleave trick is an impressive follow-up. Never try to wire next and random
+      in a single pass — the forward-pointing randoms will reference original nodes that don't yet have copies.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          I'll implement the hash map approach. The code is short and easy to verify correct — I can mention the
+          interleave optimization afterward.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Sounds good. Show me the pseudocode and trace through <code>[[7,null],[13,0],[11,4]]</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">Here's the pseudocode:</div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">copyRandomList</span>(<span class="var">head</span>):
+    <span class="kw">if not</span> <span class="var">head</span>: <span class="kw">return</span> <span class="bi">None</span>
+
+    <span class="cm"># Pass 1: create all new nodes</span>
+    <span class="var">old_to_new</span> = {}
+    <span class="var">cur</span> = <span class="var">head</span>
+    <span class="kw">while</span> <span class="var">cur</span>:
+        <span class="var">old_to_new</span>[<span class="var">cur</span>] = <span class="fn">Node</span>(<span class="var">cur</span>.val)
+        <span class="var">cur</span> = <span class="var">cur</span>.next
+
+    <span class="cm"># Pass 2: wire next and random pointers</span>
+    <span class="var">cur</span> = <span class="var">head</span>
+    <span class="kw">while</span> <span class="var">cur</span>:
+        <span class="kw">if</span> <span class="var">cur</span>.next:
+            <span class="var">old_to_new</span>[<span class="var">cur</span>].next   = <span class="var">old_to_new</span>[<span class="var">cur</span>.next]
+        <span class="kw">if</span> <span class="var">cur</span>.random:
+            <span class="var">old_to_new</span>[<span class="var">cur</span>].random = <span class="var">old_to_new</span>[<span class="var">cur</span>.random]
+        <span class="var">cur</span> = <span class="var">cur</span>.next
+
+    <span class="kw">return</span> <span class="var">old_to_new</span>[<span class="var">head</span>]</code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Tracing <code>[[7,null],[13,0],[11,4]]</code> — nodes A(7), B(13), C(11).<br>
+          B's random → A (index 0). C's random → null (index 4 doesn't exist here, so I'll treat it as null for this trace).<br><br>
+
+          <strong>Pass 1 — create copies:</strong><br>
+          &nbsp;&nbsp;cur=A(7): old_to_new[A] = A'(7)<br>
+          &nbsp;&nbsp;cur=B(13): old_to_new[B] = B'(13)<br>
+          &nbsp;&nbsp;cur=C(11): old_to_new[C] = C'(11)<br>
+          All three copies exist. No pointers wired yet.<br><br>
+
+          <strong>Pass 2 — wire pointers:</strong><br>
+          &nbsp;&nbsp;cur=A: A'.next = B' &nbsp;(old_to_new[A.next=B]) · A'.random = None (A.random is null)<br>
+          &nbsp;&nbsp;cur=B: B'.next = C' &nbsp;(old_to_new[B.next=C]) · B'.random = A' (old_to_new[B.random=A])<br>
+          &nbsp;&nbsp;cur=C: C'.next = None (C.next is null) · C'.random = None<br><br>
+
+          Result: A'(7) → B'(13) → C'(11) → None, with B'.random = A'. Deep copy complete ✅<br>
+          No original nodes are referenced by any copy node.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Clear trace. Why can't you wire the random pointer in the same pass as creating the node?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Because random can point forward. If node A's random points to node C, and I try to set <code>A'.random = old_to_new[C]</code>
+          during Pass 1 at step A, C's copy hasn't been created yet — <code>old_to_new[C]</code> would raise a KeyError.
+          By separating creation and wiring into two passes, all copies exist by the time we wire any pointer in Pass 2.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n) — two passes, each visiting every node once.<br><br>
+          <strong>Space:</strong> O(n) — the hash map stores one entry per original node. The output list itself is O(n) but that's required output, not auxiliary space.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Two linear passes over n nodes</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--yellow);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Hash map stores n old→new mappings</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Can you solve this with O(1) extra space?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes — the interleave trick. Three phases:<br>
+          <em>Phase 1:</em> Insert each copy right after its original: A → A' → B → B' → ...<br>
+          <em>Phase 2:</em> Wire random pointers: <code>node.next.random = node.random.next</code>
+          (A'.random = A.random.next, which is the copy of A's random target).<br>
+          <em>Phase 3:</em> Detach the two lists by restoring all next pointers.<br>
+          This is O(1) auxiliary space but is significantly harder to implement without bugs, so I'd mention it as an optimization after getting the hash-map version working.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Where does this pattern appear in real systems?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Anywhere you need to deep copy an object graph with internal references — serialization, undo/redo buffers,
+          copy-on-write semantics, cloning a game state. The same hash-map pattern (identity map) is used in graph deep-copy
+          and in memoized serialization of cyclic object graphs. The key insight is always: build all copies first, then wire pointers.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Copy List with Random Pointer</span>
+        <span style="color:var(--green)">O(n) time · O(n) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">copyRandomList</span>(<span class="var">self</span>, <span class="var">head</span>: <span class="str">'Optional[Node]'</span>) -> <span class="str">'Optional[Node]'</span>:
+        <span class="kw">if not</span> <span class="var">head</span>:
+            <span class="kw">return</span> <span class="bi">None</span>
+
+        <span class="cm"># Pass 1: create all new nodes, map old → new</span>
+        <span class="var">old_to_new</span> = {}
+        <span class="var">cur</span> = <span class="var">head</span>
+        <span class="kw">while</span> <span class="var">cur</span>:
+            <span class="var">old_to_new</span>[<span class="var">cur</span>] = <span class="fn">Node</span>(<span class="var">cur</span>.val)
+            <span class="var">cur</span> = <span class="var">cur</span>.next
+
+        <span class="cm"># Pass 2: wire next and random pointers</span>
+        <span class="var">cur</span> = <span class="var">head</span>
+        <span class="kw">while</span> <span class="var">cur</span>:
+            <span class="kw">if</span> <span class="var">cur</span>.next:
+                <span class="var">old_to_new</span>[<span class="var">cur</span>].next   = <span class="var">old_to_new</span>[<span class="var">cur</span>.next]
+            <span class="kw">if</span> <span class="var">cur</span>.random:
+                <span class="var">old_to_new</span>[<span class="var">cur</span>].random = <span class="var">old_to_new</span>[<span class="var">cur</span>.random]
+            <span class="var">cur</span> = <span class="var">cur</span>.next
+
+        <span class="kw">return</span> <span class="var">old_to_new</span>[<span class="var">head</span>]</code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>State upfront <em>why</em> two passes are needed: forward-pointing randoms mean the target copy may not exist during Pass 1.</li>
+        <li>Use <code>old_to_new[cur.random]</code> — not <code>Node(cur.random.val)</code>. You must look up the <em>same</em> copy, not create a duplicate.</li>
+        <li>Always null-check: <code>if cur.next</code> and <code>if cur.random</code> before indexing the map.</li>
+        <li>The hash map keys are node objects (identity), not values — this handles duplicate values correctly.</li>
+        <li>Mention the O(1)-space interleave trick as a follow-up to show awareness of the optimization, but don't attempt it without getting the hash-map version working first.</li>
+        <li>This pattern generalizes to deep-copying any graph — the same hash map serves as the "already cloned" registry to handle cycles.</li>
+      </ul>
+    </div>
+
+    <a href="ll-23-merge-k-sorted-lists.html" class="back-link" style="margin-top:24px;">Next: #23 Merge k Sorted Lists →</a>
+
+  </main>
+
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+</div>
+
+<script>
+(function(){
+  const tocLinks=document.querySelectorAll('.toc-link[data-id]');
+  const headings=Array.from(tocLinks).map(l=>document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id){tocLinks.forEach(l=>l.classList.toggle('toc-active',l.dataset.id===id));}
+  const obs=new IntersectionObserver(entries=>{
+    const vis=entries.filter(e=>e.isIntersecting).map(e=>e.target);
+    if(vis.length){vis.sort((a,b)=>a.getBoundingClientRect().top-b.getBoundingClientRect().top);setActive(vis[0].id);}
+  },{rootMargin:'0px 0px -70% 0px',threshold:0});
+  headings.forEach(h=>obs.observe(h));
+  if(headings.length)setActive(headings[0].id);
+})();
+</script>
+</body>
+</html>

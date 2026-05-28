@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#146 LRU Cache — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item active"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #146 · <a href="https://leetcode.com/problems/lru-cache/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">LRU Cache</div>
+        <div class="problem-meta">
+          <span class="tag tag-hard">Hard</span>
+          <span class="tag tag-pattern">HashMap + Doubly-Linked List</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Design a data structure that follows the constraints of a <strong>Least Recently Used (LRU) cache</strong>.</p>
+      <p style="margin-top:8px;">Implement the <code>LRUCache</code> class with:</p>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li><code>LRUCache(int capacity)</code> — initialize with positive capacity.</li>
+        <li><code>int get(int key)</code> — return the value if key exists, else <code>-1</code>. Mark as recently used.</li>
+        <li><code>void put(int key, int value)</code> — insert or update key. If capacity is exceeded, evict the least recently used key.</li>
+      </ul>
+      <p style="margin-top:8px;">Both <code>get</code> and <code>put</code> must run in <strong>O(1) average time complexity</strong>.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLE</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        LRUCache(2)<br>
+        put(1,1) → cache: {1:1}<br>
+        put(2,2) → cache: {1:1, 2:2}<br>
+        get(1)   → 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(key 1 is now MRU)<br>
+        put(3,3) → evicts key 2 (LRU). cache: {1:1, 3:3}<br>
+        get(2)   → -1 &nbsp;&nbsp;&nbsp;&nbsp;(was evicted)<br>
+        get(3)   → 3
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">After get(1), the recency order is [2(LRU), 1(MRU)]. When put(3,3) comes in, key 2 is the LRU and gets evicted.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      The LRU Cache is a classic system design meets data structures question. The O(1) constraint on both
+      operations forces a specific combination: a hash map for O(1) key lookup, and a doubly-linked list for O(1)
+      promotion to "most recently used" and O(1) eviction of the "least recently used." Sentinel head/tail nodes
+      eliminate all edge cases in the pointer manipulation.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Design an LRU cache with a fixed capacity. It supports get and put, both in O(1) time.
+          When the cache is full and a new key is inserted, the least recently used key is evicted.
+          Both get and put count as a "use." How would you implement this?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The key challenge is two O(1) operations at once: look up a key by value, and track usage order so I can
+          find and evict the LRU item. A hash map alone handles lookup but not ordering. A linked list alone tracks order
+          but not lookup. Combining them gives me both: hash map for O(1) key-to-node lookup, doubly-linked list for
+          O(1) insertion, deletion, and order maintenance.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few quick clarifications:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>If I call put on an existing key, does it update the value and move it to MRU? (I'll assume yes.)</li>
+            <li>What if capacity is 1? My solution should handle that edge case naturally.</li>
+            <li>Are keys and values always integers?</li>
+            <li>Is thread safety a concern here, or just single-threaded correctness?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Yes — put on an existing key updates the value and marks it as most recently used. Keys and values are integers.
+          Single-threaded for now, though feel free to mention thread safety as a follow-up.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The classic O(1) design uses two data structures together:<br><br>
+          <strong>Hash map:</strong> <code>key → node</code> — gives O(1) access to any node by key.<br>
+          <strong>Doubly-linked list (DLL):</strong> nodes ordered by recency — head side is LRU, tail side is MRU.
+          The DLL must be doubly-linked because deleting an arbitrary node requires updating both its predecessor and
+          successor, and with only a singly-linked list we'd need O(n) to find the predecessor.<br><br>
+          <strong>Two sentinel nodes</strong> (dummy head and dummy tail) make pointer operations uniform:
+          we never have to check "is this the first/last real node?" — the sentinels absorb those edge cases.<br><br>
+          <strong>get(key):</strong> look up in map, move node to just before tail (MRU position), return value.<br>
+          <strong>put(key, value):</strong> if key exists, update and move to MRU. If not, create new node at MRU position.
+          If over capacity, remove the node just after head (LRU position) and delete from map.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      The sentinel head represents "before everything" (LRU side) and the sentinel tail represents "after everything" (MRU side).
+      Adding to MRU = inserting between tail.prev and tail. Removing LRU = removing head.next.
+      Every get and put becomes: remove node from its current position + insert at MRU. The two helpers _remove and _add_to_front
+      do exactly that. Keeping them as separate methods makes the code easier to reason about and test.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          I'll implement a <code>DLinkedNode</code> class and an <code>LRUCache</code> class.
+          Two private helpers: <code>_remove(node)</code> and <code>_add_to_front(node)</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Walk me through the pseudocode and trace the example: capacity=2, put(1,1), put(2,2), get(1), put(3,3), get(2).
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">Here's the pseudocode for the key operations:</div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="cm"># DLL layout: head(LRU sentinel) ↔ ... nodes ... ↔ tail(MRU sentinel)</span>
+<span class="cm"># head.next = LRU node;  tail.prev = MRU node</span>
+
+<span class="kw">function</span> <span class="fn">_remove</span>(<span class="var">node</span>):
+    <span class="var">node</span>.prev.next = <span class="var">node</span>.next
+    <span class="var">node</span>.next.prev = <span class="var">node</span>.prev
+
+<span class="kw">function</span> <span class="fn">_add_to_front</span>(<span class="var">node</span>):      <span class="cm"># insert between head and head.next</span>
+    <span class="var">node</span>.next      = <span class="var">head</span>.next
+    <span class="var">node</span>.prev      = <span class="var">head</span>
+    <span class="var">head</span>.next.prev = <span class="var">node</span>
+    <span class="var">head</span>.next      = <span class="var">node</span>
+
+<span class="kw">function</span> <span class="fn">get</span>(<span class="var">key</span>):
+    <span class="kw">if</span> <span class="var">key</span> <span class="kw">not in</span> <span class="var">cache</span>: <span class="kw">return</span> -<span class="num">1</span>
+    <span class="var">node</span> = <span class="var">cache</span>[<span class="var">key</span>]
+    <span class="fn">_remove</span>(<span class="var">node</span>)
+    <span class="fn">_add_to_front</span>(<span class="var">node</span>)
+    <span class="kw">return</span> <span class="var">node</span>.val
+
+<span class="kw">function</span> <span class="fn">put</span>(<span class="var">key</span>, <span class="var">value</span>):
+    <span class="kw">if</span> <span class="var">key</span> <span class="kw">in</span> <span class="var">cache</span>:
+        <span class="fn">_remove</span>(<span class="var">cache</span>[<span class="var">key</span>])
+    <span class="var">node</span> = <span class="fn">DLinkedNode</span>(<span class="var">key</span>, <span class="var">value</span>)
+    <span class="fn">_add_to_front</span>(<span class="var">node</span>)
+    <span class="var">cache</span>[<span class="var">key</span>] = <span class="var">node</span>
+    <span class="kw">if</span> <span class="fn">len</span>(<span class="var">cache</span>) > <span class="var">cap</span>:
+        <span class="var">lru</span> = <span class="var">tail</span>.prev           <span class="cm"># LRU is at tail end (MRU sentinel's prev)</span>
+        <span class="fn">_remove</span>(<span class="var">lru</span>)
+        <span class="kw">del</span> <span class="var">cache</span>[<span class="var">lru</span>.key]</code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Wait — let me correct the sentinel orientation. I'll use head as the LRU sentinel and tail as the MRU sentinel.
+          The MRU node is adjacent to the head (head.next = MRU), and the LRU node is adjacent to the tail (tail.prev = LRU).
+          So <code>_add_to_front</code> inserts between head and head.next (the MRU end), and eviction removes tail.prev (the LRU end).<br><br>
+          Let me trace: capacity=2.<br><br>
+
+          <strong>put(1,1):</strong> create node(1,1), insert at MRU. DLL: H ↔ [1] ↔ T. cache={1:node1}<br>
+          <strong>put(2,2):</strong> create node(2,2), insert at MRU. DLL: H ↔ [2] ↔ [1] ↔ T. cache={1,2}. Not over capacity.<br>
+          <em>Recency: MRU=2, LRU=1</em><br><br>
+
+          <strong>get(1):</strong> found. Remove node1 from middle, re-insert at MRU.<br>
+          DLL: H ↔ [1] ↔ [2] ↔ T. <em>Recency: MRU=1, LRU=2</em> Return 1.<br><br>
+
+          <strong>put(3,3):</strong> key 3 not in cache. Create node(3,3), insert at MRU.<br>
+          DLL: H ↔ [3] ↔ [1] ↔ [2] ↔ T. len=3 > cap=2.<br>
+          Evict tail.prev = node2. Remove it. del cache[2].<br>
+          DLL: H ↔ [3] ↔ [1] ↔ T. cache={1,3}<br><br>
+
+          <strong>get(2):</strong> key 2 not in cache → return -1 ✅<br>
+          <strong>get(3):</strong> found → return 3 ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good trace. Why do you need a doubly-linked list specifically — would a singly-linked list work?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          No. To delete an arbitrary node in O(1), I need to update both its predecessor's <code>next</code> and
+          its successor's <code>prev</code>. With a singly-linked list, given only the node itself, I can't access
+          its predecessor without scanning from the head — O(n). The doubly-linked list gives me <code>node.prev</code>
+          directly, making deletion O(1).
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time — get:</strong> O(1) — one hash map lookup, one remove, one insert. All O(1).<br>
+          <strong>Time — put:</strong> O(1) — same operations plus optionally one eviction (remove + map delete), all O(1).<br><br>
+          <strong>Space:</strong> O(capacity) — the hash map and DLL together store at most <code>capacity</code> nodes plus 2 sentinel nodes.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time (get)</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Hash map lookup + DLL remove + DLL insert, all constant</div>
+      <div class="cx-cell">Time (put)</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Same as get, plus optional O(1) eviction from DLL tail</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(cap)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">At most capacity nodes in both hash map and DLL</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What if get and put are called concurrently from multiple threads?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          This implementation is not thread-safe. Concurrent writes could corrupt the DLL pointer state or the hash map.
+          To make it thread-safe I'd wrap get and put with a mutex lock — in Python, <code>threading.Lock()</code> around
+          the method body. Alternatively, use a read-write lock to allow concurrent reads when no write is happening.
+          For high-throughput scenarios, lock striping by key hash is another option. But that's system design territory —
+          in a coding interview I'd call out the issue and propose the simple mutex approach.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          How would you implement an LFU (Least Frequently Used) cache instead?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          LFU is significantly harder — that's LC #460. The idea: maintain a hash map of frequency buckets, where
+          each bucket is itself an ordered collection of keys at that frequency. Also maintain a <code>min_freq</code>
+          counter. On access, move the key from its current bucket to the next higher bucket. On eviction,
+          remove the LRU item from the <code>min_freq</code> bucket. Each bucket can be implemented as a doubly-linked list
+          for O(1) ordering, with another hash map for key-to-node access within each bucket.
+          The overall data structure is more complex but still achieves O(1) amortized per operation.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Why did you choose to store the key inside the DLL node rather than just the value?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Eviction. When I remove the LRU node from the DLL tail, I need to also delete it from the hash map —
+          which requires the key. If the node only stores its value, I'd have to search the hash map to find
+          which key maps to this node — O(n). Storing the key in the node makes eviction O(1): <code>del cache[lru.key]</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — LRU Cache</span>
+        <span style="color:var(--green)">O(1) get/put · O(capacity) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">DLinkedNode</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">key</span>=<span class="num">0</span>, <span class="var">val</span>=<span class="num">0</span>):
+        <span class="var">self</span>.key  = <span class="var">key</span>
+        <span class="var">self</span>.val  = <span class="var">val</span>
+        <span class="var">self</span>.prev = <span class="var">self</span>.next = <span class="bi">None</span>
+
+
+<span class="kw">class</span> <span class="fn">LRUCache</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">capacity</span>: <span class="bi">int</span>):
+        <span class="var">self</span>.cap   = <span class="var">capacity</span>
+        <span class="var">self</span>.cache = {}            <span class="cm"># key -> DLinkedNode</span>
+        <span class="cm"># sentinel head (LRU side) and tail (MRU side)</span>
+        <span class="var">self</span>.head  = <span class="fn">DLinkedNode</span>()
+        <span class="var">self</span>.tail  = <span class="fn">DLinkedNode</span>()
+        <span class="var">self</span>.head.next = <span class="var">self</span>.tail
+        <span class="var">self</span>.tail.prev = <span class="var">self</span>.head
+
+    <span class="kw">def</span> <span class="fn">_remove</span>(<span class="var">self</span>, <span class="var">node</span>: <span class="fn">DLinkedNode</span>) -> <span class="bi">None</span>:
+        <span class="var">node</span>.prev.next = <span class="var">node</span>.next
+        <span class="var">node</span>.next.prev = <span class="var">node</span>.prev
+
+    <span class="kw">def</span> <span class="fn">_add_to_front</span>(<span class="var">self</span>, <span class="var">node</span>: <span class="fn">DLinkedNode</span>) -> <span class="bi">None</span>:
+        <span class="cm"># Insert between head and head.next (MRU position)</span>
+        <span class="var">node</span>.next      = <span class="var">self</span>.head.next
+        <span class="var">node</span>.prev      = <span class="var">self</span>.head
+        <span class="var">self</span>.head.next.prev = <span class="var">node</span>
+        <span class="var">self</span>.head.next      = <span class="var">node</span>
+
+    <span class="kw">def</span> <span class="fn">get</span>(<span class="var">self</span>, <span class="var">key</span>: <span class="bi">int</span>) -> <span class="bi">int</span>:
+        <span class="kw">if</span> <span class="var">key</span> <span class="kw">not in</span> <span class="var">self</span>.cache:
+            <span class="kw">return</span> -<span class="num">1</span>
+        <span class="var">node</span> = <span class="var">self</span>.cache[<span class="var">key</span>]
+        <span class="var">self</span>.<span class="fn">_remove</span>(<span class="var">node</span>)
+        <span class="var">self</span>.<span class="fn">_add_to_front</span>(<span class="var">node</span>)
+        <span class="kw">return</span> <span class="var">node</span>.val
+
+    <span class="kw">def</span> <span class="fn">put</span>(<span class="var">self</span>, <span class="var">key</span>: <span class="bi">int</span>, <span class="var">value</span>: <span class="bi">int</span>) -> <span class="bi">None</span>:
+        <span class="kw">if</span> <span class="var">key</span> <span class="kw">in</span> <span class="var">self</span>.cache:
+            <span class="var">self</span>.<span class="fn">_remove</span>(<span class="var">self</span>.cache[<span class="var">key</span>])
+        <span class="var">node</span> = <span class="fn">DLinkedNode</span>(<span class="var">key</span>, <span class="var">value</span>)
+        <span class="var">self</span>.<span class="fn">_add_to_front</span>(<span class="var">node</span>)
+        <span class="var">self</span>.cache[<span class="var">key</span>] = <span class="var">node</span>
+        <span class="kw">if</span> <span class="fn">len</span>(<span class="var">self</span>.cache) > <span class="var">self</span>.cap:
+            <span class="var">lru</span> = <span class="var">self</span>.tail.prev        <span class="cm"># LRU node is adjacent to tail sentinel</span>
+            <span class="var">self</span>.<span class="fn">_remove</span>(<span class="var">lru</span>)
+            <span class="kw">del</span> <span class="var">self</span>.cache[<span class="var">lru</span>.key]</code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>State the two-structure insight upfront: hash map for O(1) lookup, doubly-linked list for O(1) ordering and eviction.</li>
+        <li>Use sentinel head and tail nodes — they eliminate all "is this the first/last node?" edge cases and make <code>_remove</code> and <code>_add_to_front</code> uniform.</li>
+        <li>Store the key inside each DLL node — eviction requires deleting from the hash map, which needs the key. This is the most common detail candidates forget.</li>
+        <li>Extract <code>_remove</code> and <code>_add_to_front</code> as private helpers — both <code>get</code> and <code>put</code> call them, so the helpers eliminate repetition and make the logic auditable.</li>
+        <li>In Python, <code>OrderedDict</code> implements exactly this pattern internally and can be used for a one-liner LRU. Mention it as trivia but implement the DLL version to demonstrate understanding.</li>
+        <li>The key interview concept: whenever you need O(1) ordered eviction, think HashMap + Doubly-Linked List. This pattern extends to LFU (LC #460) with buckets per frequency.</li>
+      </ul>
+    </div>
+
+    <a href="ll-206-reverse-linked-list.html" class="back-link" style="margin-top:24px;">Next: #206 Reverse Linked List →</a>
+
+  </main>
+
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+</div>
+
+<script>
+(function(){
+  const tocLinks=document.querySelectorAll('.toc-link[data-id]');
+  const headings=Array.from(tocLinks).map(l=>document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id){tocLinks.forEach(l=>l.classList.toggle('toc-active',l.dataset.id===id));}
+  const obs=new IntersectionObserver(entries=>{
+    const vis=entries.filter(e=>e.isIntersecting).map(e=>e.target);
+    if(vis.length){vis.sort((a,b)=>a.getBoundingClientRect().top-b.getBoundingClientRect().top);setActive(vis[0].id);}
+  },{rootMargin:'0px 0px -70% 0px',threshold:0});
+  headings.forEach(h=>obs.observe(h));
+  if(headings.length)setActive(headings[0].id);
+})();
+</script>
+</body>
+</html>

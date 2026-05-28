@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#234 Palindrome Linked List — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item active"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #234 · <a href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Palindrome Linked List</div>
+        <div class="problem-meta">
+          <span class="tag tag-easy">Easy</span>
+          <span class="tag tag-pattern">Fast &amp; Slow + Reversal</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given the <code>head</code> of a singly linked list, return <code>true</code> if it is a
+      <strong>palindrome</strong>, or <code>false</code> otherwise.</p>
+      <p style="margin-top:8px;">A palindrome reads the same forwards and backwards.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        Input: <code>1 → 2 → 2 → 1</code> &nbsp;→&nbsp; <span style="color:var(--green)">true</span><br>
+        Input: <code>1 → 2</code> &nbsp;→&nbsp; <span style="color:var(--red)">false</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">
+        The challenge: a linked list has no random access and no obvious way to read backwards.
+        The key insight is to reverse the second half in-place, then compare.
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      A realistic interview dialogue showing <em>how to think out loud</em> — including the progression
+      from a naive O(n) space solution to the optimal O(1) space approach.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Given the head of a singly linked list, determine whether it's a palindrome.
+          Return a boolean. What's your initial reaction?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          My first thought is that palindrome checks are easy on arrays — just compare left and right pointers moving inward.
+          The tricky part with a linked list is that you can't traverse backwards.
+          So the question becomes: how do I efficiently read the second half in reverse order?
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Before I dive in:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>What are the node values — integers only, or could they be characters?</li>
+            <li>Is modifying the list in-place acceptable, or must I leave it unchanged?</li>
+            <li>Any space complexity constraint? Specifically, is O(1) extra space required?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Integer values. Modifying the list is fine — but I'll be curious whether you could restore it.
+          There's no strict O(1) space requirement, but I'd like to see if you can achieve it.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Two approaches:<br><br>
+          <strong>Simple O(n) space:</strong> Traverse the list, push all values into an array,
+          then use two pointers to check if it's a palindrome. Easy to code but uses O(n) extra space.<br><br>
+          <strong>Optimal O(1) space — three-step approach:</strong><br>
+          &nbsp;&nbsp;1. Find the middle with fast/slow pointers.<br>
+          &nbsp;&nbsp;2. Reverse the second half in-place.<br>
+          &nbsp;&nbsp;3. Compare the first half against the reversed second half node by node.<br><br>
+          The O(1) approach is more involved but demonstrates real linked-list skill.
+          I'll implement that.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      The reversal step is the heart of this problem. After finding slow at the middle,
+      I run a standard in-place reversal from slow onward. Then I have two sub-lists:
+      the original first half (from head) and the reversed second half (from prev after reversal).
+      I compare them node by node. For odd-length lists the middle node is shared by neither half —
+      it gets ignored naturally since the reversed half is shorter.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          One important nuance: for odd-length lists, the middle node belongs to neither half —
+          the reversed half will simply be shorter, and since I drive the while loop with <code>right</code>
+          (the shorter pointer), I never over-read. It handles itself cleanly.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Sounds good. Let's see the code and a trace.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Here's the pseudocode for all three steps:
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Three Steps</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">isPalindrome</span>(<span class="var">head</span>):
+
+    <span class="cm"># Step 1: Find middle with fast/slow</span>
+    <span class="var">slow</span> = <span class="var">fast</span> = <span class="var">head</span>
+    <span class="kw">while</span> <span class="var">fast</span> <span class="kw">and</span> <span class="var">fast</span>.next:
+        <span class="var">slow</span> = <span class="var">slow</span>.next
+        <span class="var">fast</span> = <span class="var">fast</span>.next.next
+    <span class="cm"># slow is now at the start of the second half</span>
+
+    <span class="cm"># Step 2: Reverse second half in-place</span>
+    <span class="var">prev</span>, <span class="var">cur</span> = <span class="bi">None</span>, <span class="var">slow</span>
+    <span class="kw">while</span> <span class="var">cur</span>:
+        <span class="var">nxt</span> = <span class="var">cur</span>.next
+        <span class="var">cur</span>.next = <span class="var">prev</span>
+        <span class="var">prev</span> = <span class="var">cur</span>
+        <span class="var">cur</span> = <span class="var">nxt</span>
+    <span class="cm"># prev is now the head of the reversed second half</span>
+
+    <span class="cm"># Step 3: Compare both halves</span>
+    <span class="var">left</span>, <span class="var">right</span> = <span class="var">head</span>, <span class="var">prev</span>
+    <span class="kw">while</span> <span class="var">right</span>:                   <span class="cm"># right (shorter) drives the loop</span>
+        <span class="kw">if</span> <span class="var">left</span>.val != <span class="var">right</span>.val:
+            <span class="kw">return</span> <span class="bi">False</span>
+        <span class="var">left</span> = <span class="var">left</span>.next
+        <span class="var">right</span> = <span class="var">right</span>.next
+    <span class="kw">return</span> <span class="bi">True</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace through <code>1 → 2 → 2 → 1</code> step by step.<br><br>
+
+          <strong>Step 1 — Find middle:</strong><br>
+          Start: slow=1, fast=1<br>
+          Iteration 1: slow=2, fast=2 (fast.next.next = node[2])<br>
+          Iteration 2: slow=2 (third node), fast=None (fast moved past end)<br>
+          Loop ends. slow is at the third node (value 2).<br><br>
+
+          <strong>Step 2 — Reverse from slow onward:</strong><br>
+          The second half is: <code>2 → 1</code> (nodes 3 and 4)<br>
+          prev=None, cur=node[2 val]<br>
+          &nbsp;&nbsp;Pass 1: nxt=node[1], cur.next=None, prev=node[2 val], cur=node[1]<br>
+          &nbsp;&nbsp;Pass 2: nxt=None, cur.next=node[2 val], prev=node[1], cur=None<br>
+          Reversed second half: <code>1 → 2</code>, head = prev = node[1 val]<br><br>
+
+          <strong>Step 3 — Compare:</strong><br>
+          left=node[1 val] (original head), right=node[1 val] (reversed tail)<br>
+          &nbsp;&nbsp;1 == 1 ✓ &nbsp; advance both<br>
+          &nbsp;&nbsp;2 == 2 ✓ &nbsp; advance both<br>
+          right is now None → loop ends → return <strong>true</strong> ✅<br><br>
+
+          Now for <code>1 → 2</code>:<br>
+          slow ends at node[2]. Reversed second half: just <code>2</code>.<br>
+          Compare: left.val=1, right.val=2. Mismatch → return <strong>false</strong> ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Excellent. What happens with an odd-length list like <code>1 → 2 → 1</code>?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          For <code>1 → 2 → 1</code>: slow lands at the middle node (value 2).
+          We reverse from slow, giving reversed second half: <code>2 → 1</code>.
+          Wait — let me re-examine. slow=node[2], and we reverse <code>[2, 1]</code> to get <code>1 → 2</code>
+          with prev=node[1 at end].<br><br>
+          Comparing: left starts at head (val 1), right starts at the reversed tail (val 1).<br>
+          &nbsp;&nbsp;1 == 1 ✓ &nbsp; advance — right is now node with val 2, left is node with val 2.<br>
+          Wait — but the reversed second half has length 2 and the first half has length 1 up to the middle.
+          Actually, right still has two nodes so we'd compare left's second node (val 2) against right's second node (val 2) too.
+          But that's fine — all values still match → true ✅.<br><br>
+          The key insight is that even if right overshoots into "shared" territory it still works
+          because the list is symmetric. In practice the middle is in both halves but the values always match.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n) — three linear passes over at most n nodes total.<br><br>
+          <strong>Space:</strong> O(1) — the reversal and comparison use only a fixed number of pointer variables.
+          No stack, no array, no recursion. This is the optimal space complexity.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Three linear passes: find middle, reverse, compare</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Only pointer variables — no extra data structures</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Can you solve this without modifying the list at all?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes — use a stack. Traverse the list once, pushing the first half of the values onto a stack.
+          Then traverse the second half, popping from the stack and comparing.
+          Since a stack is LIFO, the popped values come out in reverse order — exactly what we need.
+          This is O(n) time and O(n) space. It's simpler to code but uses more memory.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          After your O(1) solution modifies the list, can you restore it?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes. After the comparison step, simply reverse the second half again — applying the exact same reversal
+          algorithm to <code>prev</code>. This restores the original <code>next</code> pointers.
+          Then reconnect: find the tail of the first half (advance from head until <code>node.next</code>
+          points into the second half), and set its <code>next</code> back to the restored second half head.
+          It's extra code but not extra complexity — still O(n) time, O(1) space.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. One last one — what if the list has an odd number of nodes?
+          How does your algorithm handle the true middle node?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The middle node doesn't need to match anything — in a palindrome of odd length it's the axis of symmetry.
+          My algorithm includes it in the reversed second half, but since the comparison loop runs while <code>right</code>
+          is not None, and both sides are symmetric, it never causes a false mismatch.
+          An alternative phrasing: we only need to compare the <code>n // 2</code> pairs of outer nodes,
+          and that's exactly what the algorithm does.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3</span>
+        <span style="color:var(--green)">O(n) time · O(1) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">isPalindrome</span>(<span class="var">self</span>, <span class="var">head</span>: <span class="bi">Optional</span>[<span class="fn">ListNode</span>]) -> <span class="bi">bool</span>:
+        <span class="cm"># Step 1: Find middle</span>
+        <span class="var">slow</span> = <span class="var">fast</span> = <span class="var">head</span>
+        <span class="kw">while</span> <span class="var">fast</span> <span class="kw">and</span> <span class="var">fast</span>.next:
+            <span class="var">slow</span> = <span class="var">slow</span>.next
+            <span class="var">fast</span> = <span class="var">fast</span>.next.next
+
+        <span class="cm"># Step 2: Reverse second half</span>
+        <span class="var">prev</span>, <span class="var">cur</span> = <span class="bi">None</span>, <span class="var">slow</span>
+        <span class="kw">while</span> <span class="var">cur</span>:
+            <span class="var">nxt</span> = <span class="var">cur</span>.next
+            <span class="var">cur</span>.next = <span class="var">prev</span>
+            <span class="var">prev</span> = <span class="var">cur</span>
+            <span class="var">cur</span> = <span class="var">nxt</span>
+
+        <span class="cm"># Step 3: Compare</span>
+        <span class="var">left</span>, <span class="var">right</span> = <span class="var">head</span>, <span class="var">prev</span>
+        <span class="kw">while</span> <span class="var">right</span>:
+            <span class="kw">if</span> <span class="var">left</span>.val != <span class="var">right</span>.val:
+                <span class="kw">return</span> <span class="bi">False</span>
+            <span class="var">left</span> = <span class="var">left</span>.next
+            <span class="var">right</span> = <span class="var">right</span>.next
+        <span class="kw">return</span> <span class="bi">True</span></code></pre>
+    </div>
+
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>This is a <strong>composition problem</strong>: it combines three sub-skills — find middle, reverse list, compare. Name each step explicitly.</li>
+        <li>The comparison loop uses <code>while right</code> (not <code>while left and right</code>) — <code>right</code> is always the shorter or equal side, so it correctly terminates.</li>
+        <li>Mention the stack-based O(n) space approach first, then offer the O(1) upgrade — this shows you can communicate trade-offs.</li>
+        <li>If asked to restore the list: reverse the second half again after comparing, then reattach it to the first half's tail.</li>
+        <li>Building blocks matter: if you've already solved #206 (reverse) and #876 (middle), this problem is 20 lines of glue code.</li>
+      </ul>
+    </div>
+
+    <a href="ll-19-remove-nth-from-end.html" class="back-link" style="margin-top:24px;">Next: #19 Remove Nth Node From End →</a>
+
+  </main>
+
+  <!-- ── TOC Rail ──────────────────────────────────────── -->
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+
+</div>
+
+<script>
+(function () {
+  const tocLinks = document.querySelectorAll('.toc-link[data-id]');
+  const headings = Array.from(tocLinks).map(l => document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id) { tocLinks.forEach(l => l.classList.toggle('toc-active', l.dataset.id === id)); }
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting).map(e => e.target);
+    if (visible.length) { visible.sort((a,b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top); setActive(visible[0].id); }
+  }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+  headings.forEach(h => observer.observe(h));
+  if (headings.length) setActive(headings[0].id);
+})();
+</script>
+
+</body>
+</html>

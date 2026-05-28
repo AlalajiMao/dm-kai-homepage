@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#2 Add Two Numbers — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item active"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #2 · <a href="https://leetcode.com/problems/add-two-numbers/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Add Two Numbers</div>
+        <div class="problem-meta">
+          <span class="tag tag-medium">Medium</span>
+          <span class="tag tag-pattern">Simulation</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>You are given two non-empty linked lists representing two non-negative integers. The digits are stored in <strong>reverse order</strong>, and each node contains a single digit. Add the two numbers and return the sum as a linked list.</p>
+      <p style="margin-top:8px;">You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLE</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        Input: &nbsp;l1 = <code>2 → 4 → 3</code> &nbsp;(represents 342), &nbsp;l2 = <code>5 → 6 → 4</code> &nbsp;(represents 465)<br>
+        Output: <code>7 → 0 → 8</code> &nbsp;(represents 807, because 342 + 465 = 807)
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Because the digits are stored in reverse order, the ones digit comes first — this means we can add left-to-right, exactly as grade-school addition works with carry.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      This problem is a clean exercise in simulating grade-school addition on a linked list structure.
+      The key insight is that the reversed storage order is actually a gift — it means the least-significant digit comes first,
+      which is exactly the order you want for addition with carry propagation.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Let's jump right in. You have two linked lists — each stores a non-negative integer with digits in reverse order,
+          one digit per node. For example, <code>2 → 4 → 3</code> represents 342, and <code>5 → 6 → 4</code> represents 465.
+          Add the two numbers and return the sum as a linked list in the same format. Take a moment to think about what this looks like.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Interesting — the reversed storage is actually helpful here. It means the head of each list is the ones digit,
+          which is exactly where addition starts. I can simulate the grade-school column-by-column addition,
+          walking both lists in tandem and carrying over when the digit sum exceeds 9.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Before I write anything, let me ask a few things:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can the two lists have different lengths? For example, one is 3 digits and the other is 5?</li>
+            <li>What if the sum produces a carry out of the most significant digit — so the result is one node longer than either input?</li>
+            <li>Are there any constraints on node values? Can I assume each node holds exactly 0–9?</li>
+            <li>Should I return a new list, or can I reuse the input nodes?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good questions. Yes, the lists can have different lengths — handle whichever is shorter by treating missing nodes as 0.
+          Yes, the sum can produce a carry past the end, so your result may need an extra node.
+          Each node holds a single digit 0–9. Return a new list — don't worry about reusing nodes.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me think about approaches:<br><br>
+          <strong>Naive approach — convert to integers:</strong> Walk each list to reconstruct the integers,
+          add them, then convert the sum back to a linked list. This works, but is artificial —
+          it throws away the structure of the problem and doesn't translate to languages without big integers.<br><br>
+          <strong>Optimal — direct simulation:</strong> Walk both lists simultaneously, digit by digit.
+          At each position, compute <code>total = l1.val + l2.val + carry</code>.
+          The new node's digit is <code>total % 10</code> and the carry forwarded is <code>total // 10</code>.
+          When one list runs out, treat its contribution as 0. Continue as long as either list still has nodes
+          <em>or</em> carry is non-zero (to handle that final overflow case).<br><br>
+          I'll use a dummy head node so I never need to special-case the first node — the same pattern I'd use
+          for any linked-list construction.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      Dummy head is the key ergonomic trick here. Without it, I'd have to check "is this the first node?" on every iteration.
+      With it: just do cur.next = ListNode(digit) and cur = cur.next every time. Return dummy.next at the end.
+      The carry loop condition — "while l1 or l2 or carry" — neatly handles all three termination cases in one line.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          I'll go with the simulation. The loop condition will be <code>while l1 or l2 or carry</code> — that single condition
+          handles unequal lengths and the final carry simultaneously. Ready to trace through it?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Yes — walk me through pseudocode first, then trace the example.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">Here's the pseudocode:</div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">addTwoNumbers</span>(<span class="var">l1</span>, <span class="var">l2</span>):
+    <span class="var">dummy</span> = <span class="fn">ListNode</span>(<span class="num">0</span>)     <span class="cm"># sentinel head</span>
+    <span class="var">cur</span>   = <span class="var">dummy</span>
+    <span class="var">carry</span> = <span class="num">0</span>
+
+    <span class="kw">while</span> <span class="var">l1</span> <span class="kw">or</span> <span class="var">l2</span> <span class="kw">or</span> <span class="var">carry</span>:
+        <span class="var">val</span> = <span class="var">carry</span>
+        <span class="kw">if</span> <span class="var">l1</span>:
+            <span class="var">val</span> += <span class="var">l1</span>.val
+            <span class="var">l1</span>  = <span class="var">l1</span>.next
+        <span class="kw">if</span> <span class="var">l2</span>:
+            <span class="var">val</span> += <span class="var">l2</span>.val
+            <span class="var">l2</span>  = <span class="var">l2</span>.next
+        <span class="var">carry</span>, <span class="var">digit</span> = <span class="fn">divmod</span>(<span class="var">val</span>, <span class="num">10</span>)   <span class="cm"># carry = val // 10, digit = val % 10</span>
+        <span class="var">cur</span>.next = <span class="fn">ListNode</span>(<span class="var">digit</span>)
+        <span class="var">cur</span>      = <span class="var">cur</span>.next
+
+    <span class="kw">return</span> <span class="var">dummy</span>.next</code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Now let me trace through l1 = <code>2 → 4 → 3</code> (342) and l2 = <code>5 → 6 → 4</code> (465). Expected result: <code>7 → 0 → 8</code> (807).<br><br>
+
+          <strong>Initial state:</strong> dummy → [?], cur = dummy, carry = 0<br><br>
+
+          <strong>Iteration 1 — ones place:</strong><br>
+          &nbsp;&nbsp;val = 0 + l1.val(2) + l2.val(5) = 7<br>
+          &nbsp;&nbsp;divmod(7, 10) → carry = 0, digit = 7<br>
+          &nbsp;&nbsp;Append node(7). Advance l1 → 4, l2 → 6.<br>
+          &nbsp;&nbsp;List so far: dummy → <strong>7</strong><br><br>
+
+          <strong>Iteration 2 — tens place:</strong><br>
+          &nbsp;&nbsp;val = 0 + l1.val(4) + l2.val(6) = 10<br>
+          &nbsp;&nbsp;divmod(10, 10) → carry = 1, digit = 0<br>
+          &nbsp;&nbsp;Append node(0). Advance l1 → 3, l2 → 4.<br>
+          &nbsp;&nbsp;List so far: dummy → 7 → <strong>0</strong><br><br>
+
+          <strong>Iteration 3 — hundreds place:</strong><br>
+          &nbsp;&nbsp;val = 1(carry) + l1.val(3) + l2.val(4) = 8<br>
+          &nbsp;&nbsp;divmod(8, 10) → carry = 0, digit = 8<br>
+          &nbsp;&nbsp;Append node(8). Advance l1 → None, l2 → None.<br>
+          &nbsp;&nbsp;List so far: dummy → 7 → 0 → <strong>8</strong><br><br>
+
+          <strong>Loop check:</strong> l1 = None, l2 = None, carry = 0 → all falsy, loop exits.<br>
+          Return dummy.next = <code>7 → 0 → 8</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good trace. What would happen if both lists were just <code>[5]</code>? Would you get the right answer?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes. Iteration 1: val = 5 + 5 = 10, carry = 1, digit = 0, append node(0). Both lists exhausted.
+          Iteration 2: l1 and l2 are None, but carry = 1, so the loop runs again. val = 1, carry = 0, digit = 1, append node(1).
+          Loop exits. Result: <code>0 → 1</code>, which represents 10. Correct — 5 + 5 = 10.
+          That's exactly why the <code>or carry</code> in the loop condition matters.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(max(m, n)) where m and n are the lengths of the two lists.
+          We process each position at most once, and at most one extra iteration for a final carry.<br><br>
+          <strong>Space:</strong> O(max(m, n)) for the output list. The result has at most max(m, n) + 1 nodes.
+          We use only a constant number of extra variables (carry, val, cur) — so auxiliary space is O(1),
+          but the output itself is O(max(m, n)).
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(max(m,n))</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">One pass through the longer list, plus at most one extra carry step</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(max(m,n))</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Output list has at most max(m,n)+1 nodes; auxiliary variables are O(1)</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What if the digits were stored in forward order — most significant digit first — instead of reversed?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          That's LeetCode #445. The challenge is that carry propagates right-to-left, but we're traversing left-to-right.
+          Three options: reverse both input lists first (then apply this exact algorithm, then reverse the result);
+          use stacks to process digits from the end without modifying inputs; or use recursion to reach the tail first
+          and propagate carry on the way back up. Reversing is the simplest — it reuses this solution directly.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What's the maximum number length this solution can handle?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          In Python, integers have arbitrary precision, so there's no overflow concern — this solution handles lists
+          of any length limited only by memory. In Java or C++, you'd need to be careful: using <code>int</code> for the carry
+          is fine since carry is always 0 or 1, but if you tried the "convert to integer" approach instead,
+          you'd overflow a 64-bit integer for lists longer than about 19 nodes.
+          The simulation approach is actually <em>better</em> than the conversion approach precisely because it avoids overflow entirely.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What if the numbers could be negative?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          I'd handle the sign separately. Determine the sign of each number from a leading sign node or a separate flag.
+          If both are the same sign, add the magnitudes and apply the shared sign to the result.
+          If they differ, subtract the smaller magnitude from the larger and apply the sign of the larger.
+          The digit-by-digit traversal logic can be adapted for subtraction with borrowing, though it's more complex
+          — or you could just convert to integers, do the signed arithmetic, and reconstruct.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Add Two Numbers</span>
+        <span style="color:var(--green)">O(max(m,n)) time · O(max(m,n)) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">addTwoNumbers</span>(<span class="var">self</span>, <span class="var">l1</span>: <span class="bi">Optional</span>[<span class="bi">ListNode</span>], <span class="var">l2</span>: <span class="bi">Optional</span>[<span class="bi">ListNode</span>]) -> <span class="bi">Optional</span>[<span class="bi">ListNode</span>]:
+        <span class="var">dummy</span> = <span class="fn">ListNode</span>(<span class="num">0</span>)
+        <span class="var">cur</span>   = <span class="var">dummy</span>
+        <span class="var">carry</span> = <span class="num">0</span>
+
+        <span class="kw">while</span> <span class="var">l1</span> <span class="kw">or</span> <span class="var">l2</span> <span class="kw">or</span> <span class="var">carry</span>:
+            <span class="var">val</span> = <span class="var">carry</span>
+            <span class="kw">if</span> <span class="var">l1</span>:
+                <span class="var">val</span> += <span class="var">l1</span>.val
+                <span class="var">l1</span>   = <span class="var">l1</span>.next
+            <span class="kw">if</span> <span class="var">l2</span>:
+                <span class="var">val</span> += <span class="var">l2</span>.val
+                <span class="var">l2</span>   = <span class="var">l2</span>.next
+            <span class="var">carry</span>, <span class="var">digit</span> = <span class="fn">divmod</span>(<span class="var">val</span>, <span class="num">10</span>)
+            <span class="var">cur</span>.next = <span class="fn">ListNode</span>(<span class="var">digit</span>)
+            <span class="var">cur</span>      = <span class="var">cur</span>.next
+
+        <span class="kw">return</span> <span class="var">dummy</span>.next</code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>The reversed storage order is a gift — it means head = ones digit, so you can add left-to-right without any reversal.</li>
+        <li>The loop condition <code>while l1 or l2 or carry</code> handles unequal lengths and a final overflow carry in one clause.</li>
+        <li>Use a dummy head node — it removes the need to special-case constructing the first output node.</li>
+        <li><code>divmod(val, 10)</code> gives <code>(carry, digit)</code> in one call — clean and readable.</li>
+        <li>Start <code>val = carry</code> (not 0) so the carry from the previous step is automatically included.</li>
+        <li>If asked about forward-order digits (LC #445), mention: reverse both lists, apply this algorithm, reverse the result.</li>
+      </ul>
+    </div>
+
+    <a href="ll-92-reverse-linked-list-ii.html" class="back-link" style="margin-top:24px;">Next: #92 Reverse Linked List II →</a>
+
+  </main>
+
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+</div>
+
+<script>
+(function () {
+  const tocLinks = document.querySelectorAll('.toc-link[data-id]');
+  const headings = Array.from(tocLinks).map(l => document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id) { tocLinks.forEach(l => l.classList.toggle('toc-active', l.dataset.id === id)); }
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting).map(e => e.target);
+    if (visible.length) { visible.sort((a,b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top); setActive(visible[0].id); }
+  }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+  headings.forEach(h => observer.observe(h));
+  if (headings.length) setActive(headings[0].id);
+})();
+</script>
+</body>
+</html>

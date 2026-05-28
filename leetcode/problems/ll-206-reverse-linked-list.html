@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#206 Reverse Linked List — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item active"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #206 · <a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Reverse Linked List</div>
+        <div class="problem-meta">
+          <span class="tag tag-easy">Easy</span>
+          <span class="tag tag-pattern">In-place Reversal</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given the <code>head</code> of a singly linked list, reverse the list, and return <em>the reversed list</em>.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        Input: <code>1 → 2 → 3 → 4 → 5 → null</code><br>
+        Output: <code>5 → 4 → 3 → 2 → 1 → null</code><br><br>
+        Input: <code>1 → 2 → null</code><br>
+        Output: <code>2 → 1 → null</code>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Each node's <code>next</code> pointer is redirected to the previous node, turning the chain around in place.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      Reversing a linked list is one of the most fundamental pointer-manipulation exercises in interviews.
+      The key is managing three pointers without losing your place in the list.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Alright, let's start. You're given the head of a singly linked list. I want you to reverse it
+          in place and return the new head. For example, if the list is <code>1 → 2 → 3 → 4 → 5</code>,
+          after reversing it should be <code>5 → 4 → 3 → 2 → 1</code>. Take a moment to think — what comes to mind first?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          My first reaction is that I need to flip each node's <code>next</code> pointer so it points backward instead of forward.
+          The challenge is that once I overwrite a pointer, I lose access to the rest of the list — so I need to save
+          the next node before making any changes.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few quick questions before I dive in:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can the list be empty, or can it have just one node? I want to make sure I handle those base cases.</li>
+            <li>Are the node values relevant, or just the structure of the list?</li>
+            <li>Should I reverse it iteratively, or is a recursive solution also acceptable?</li>
+            <li>Any constraint on space? Is O(1) extra space required?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good questions. Yes — an empty list or a single node are valid inputs and should just return <code>head</code>.
+          Values don't matter, only the structure. Either iterative or recursive is fine — we'll discuss both.
+          Start with whatever feels cleaner to you.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me think through two approaches:<br><br>
+          <strong>Brute force — collect and rebuild:</strong> Traverse the list, push all node values into an array,
+          then do a second pass assigning values in reverse. That works but is O(n) space and requires two passes.
+          It also relies on node values rather than pointer surgery, which feels off for this problem.<br><br>
+          <strong>Optimal — three-pointer in-place:</strong> Use <code>prev = None</code> and <code>cur = head</code>.
+          On each iteration, save <code>nxt = cur.next</code>, flip <code>cur.next = prev</code>,
+          then advance <code>prev = cur</code> and <code>cur = nxt</code>. When <code>cur</code> is None, <code>prev</code>
+          is the new head. This is O(1) space and a single pass.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      The three-pointer dance: save next before cutting the link, flip the link, then slide both pointers forward.
+      At all times, prev is the "already-reversed" portion and cur is the "yet-to-be-reversed" portion.
+      When cur falls off the end, prev is pointing at the new head.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          I'll go with the iterative three-pointer approach — it's O(1) space, one pass, and clearly expresses
+          the pointer manipulation we want. Ready to walk through it?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Yes, go ahead. Walk me through the pseudocode and a trace on the example.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Here's the pseudocode:
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">reverseList</span>(<span class="var">head</span>):
+    <span class="var">prev</span> = <span class="bi">None</span>
+    <span class="var">cur</span>  = <span class="var">head</span>
+
+    <span class="kw">while</span> <span class="var">cur</span> <span class="kw">is not</span> <span class="bi">None</span>:
+        <span class="var">nxt</span>      = <span class="var">cur</span>.next      <span class="cm"># 1. save the rest of the list</span>
+        <span class="var">cur</span>.next = <span class="var">prev</span>         <span class="cm"># 2. flip the pointer backward</span>
+        <span class="var">prev</span>     = <span class="var">cur</span>          <span class="cm"># 3. advance prev</span>
+        <span class="var">cur</span>      = <span class="var">nxt</span>          <span class="cm"># 4. advance cur</span>
+
+    <span class="kw">return</span> <span class="var">prev</span>                  <span class="cm"># prev is the new head</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace through <code>1 → 2 → 3 → null</code> step by step:<br><br>
+
+          <strong>Initial:</strong> prev=<code>None</code>, cur=<code>1</code><br><br>
+
+          <strong>Iteration 1 (cur=1):</strong><br>
+          &nbsp;&nbsp;nxt = <code>2</code> &nbsp;(save next)<br>
+          &nbsp;&nbsp;1.next = <code>None</code> &nbsp;(flip: 1 now points back to None)<br>
+          &nbsp;&nbsp;prev = <code>1</code>, cur = <code>2</code><br>
+          &nbsp;&nbsp;List so far (reversed part): <code>1 → None</code><br><br>
+
+          <strong>Iteration 2 (cur=2):</strong><br>
+          &nbsp;&nbsp;nxt = <code>3</code><br>
+          &nbsp;&nbsp;2.next = <code>1</code> &nbsp;(flip: 2 now points back to 1)<br>
+          &nbsp;&nbsp;prev = <code>2</code>, cur = <code>3</code><br>
+          &nbsp;&nbsp;List so far (reversed part): <code>2 → 1 → None</code><br><br>
+
+          <strong>Iteration 3 (cur=3):</strong><br>
+          &nbsp;&nbsp;nxt = <code>None</code><br>
+          &nbsp;&nbsp;3.next = <code>2</code> &nbsp;(flip: 3 now points back to 2)<br>
+          &nbsp;&nbsp;prev = <code>3</code>, cur = <code>None</code><br>
+          &nbsp;&nbsp;Full reversed: <code>3 → 2 → 1 → None</code><br><br>
+
+          <strong>Loop ends</strong> (cur is None). Return prev = <code>3</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Clean trace. What happens if the input is an empty list or just one node?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Both are handled naturally — no special casing needed.<br><br>
+          If <code>head</code> is <code>None</code>: the while loop never executes, we return <code>prev = None</code>.<br>
+          If there's one node: one iteration runs — <code>nxt = None</code>, <code>node.next = None</code> (unchanged),
+          <code>prev = node</code>, <code>cur = None</code> — return the single node. Correct in both cases.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n) — we visit every node exactly once.<br><br>
+          <strong>Space:</strong> O(1) — only three pointers (<code>prev</code>, <code>cur</code>, <code>nxt</code>)
+          regardless of list length. No auxiliary data structure.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Single pass — each node visited exactly once</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Only three pointer variables, no extra allocation</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Nice solution. Follow-up: can you implement this recursively?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes. The recursive idea: the base case is <code>head is None</code> or <code>head.next is None</code> — return <code>head</code> directly.
+          Otherwise, recursively reverse the tail, which gives us a new head. The key insight is that after the recursive call,
+          the original <code>head.next</code> node is now the tail of the reversed sublist — so we set <code>head.next.next = head</code>
+          to extend the reversal, then set <code>head.next = None</code> to drop the old forward link.
+          Space is O(n) due to the call stack — the iterative approach is better if space matters.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What if you could only use O(1) extra space?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The iterative three-pointer solution I already described satisfies that exactly — only
+          <code>prev</code>, <code>cur</code>, and <code>nxt</code> are used, all constant-space temporaries.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Last one — how would you extend this to reverse only nodes in groups of k?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          That's LeetCode #25 — Reverse Nodes in k-Group. The approach is: check whether at least k nodes remain;
+          if so, reverse exactly k of them using the same three-pointer technique, then recursively connect to
+          the result of reversing the next k-group. If fewer than k nodes remain, leave them as-is.
+          It reuses this exact reversal logic as a building block.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Reverse Linked List</span>
+        <span style="color:var(--green)">O(n) time · O(1) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">reverseList</span>(<span class="var">self</span>, <span class="var">head</span>: <span class="bi">Optional</span>[<span class="bi">ListNode</span>]) -> <span class="bi">Optional</span>[<span class="bi">ListNode</span>]:
+        <span class="var">prev</span>, <span class="var">cur</span> = <span class="bi">None</span>, <span class="var">head</span>
+
+        <span class="kw">while</span> <span class="var">cur</span>:
+            <span class="var">nxt</span>      = <span class="var">cur</span>.next      <span class="cm"># save the rest of the list</span>
+            <span class="var">cur</span>.next = <span class="var">prev</span>         <span class="cm"># flip the current pointer</span>
+            <span class="var">prev</span>     = <span class="var">cur</span>          <span class="cm"># advance prev forward</span>
+            <span class="var">cur</span>      = <span class="var">nxt</span>          <span class="cm"># advance cur forward</span>
+
+        <span class="kw">return</span> <span class="var">prev</span>               <span class="cm"># prev is the new head</span></code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>Always save <code>nxt = cur.next</code> <strong>before</strong> overwriting <code>cur.next</code> — this is the most common mistake.</li>
+        <li>Start with <code>prev = None</code> — the original head becomes the tail, so its <code>next</code> must point to <code>None</code>.</li>
+        <li>The loop exits when <code>cur is None</code>, at which point <code>prev</code> holds the new head — never return <code>cur</code>.</li>
+        <li>Both empty-list and single-node inputs are handled without any special casing.</li>
+        <li>If asked for recursive: <code>head.next.next = head</code> then <code>head.next = None</code> — but this is O(n) space on the call stack.</li>
+        <li>This pattern is the building block for #92 (Reverse LL II) and #25 (Reverse k-Group) — mention that connection.</li>
+      </ul>
+    </div>
+
+    <a href="ll-21-merge-two-sorted-lists.html" class="back-link" style="margin-top:24px;">Next: #21 Merge Two Sorted Lists →</a>
+
+  </main>
+
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+</div>
+
+<script>
+(function () {
+  const tocLinks = document.querySelectorAll('.toc-link[data-id]');
+  const headings = Array.from(tocLinks).map(l => document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id) { tocLinks.forEach(l => l.classList.toggle('toc-active', l.dataset.id === id)); }
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting).map(e => e.target);
+    if (visible.length) { visible.sort((a,b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top); setActive(visible[0].id); }
+  }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+  headings.forEach(h => observer.observe(h));
+  if (headings.length) setActive(headings[0].id);
+})();
+</script>
+</body>
+</html>

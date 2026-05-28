@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#141 Linked List Cycle — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item active"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #141 · <a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Linked List Cycle</div>
+        <div class="problem-meta">
+          <span class="tag tag-easy">Easy</span>
+          <span class="tag tag-pattern">Fast &amp; Slow Pointers</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given the <code>head</code> of a linked list, determine if the linked list has a cycle in it.</p>
+      <p style="margin-top:8px;">There is a cycle in a linked list if some node in the list can be reached again
+      by continuously following the <code>next</code> pointer.</p>
+      <p style="margin-top:8px;">Return <code>true</code> if there is a cycle in the linked list. Otherwise, return <code>false</code>.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        Input: <code>3 → 2 → 0 → -4</code>, tail connects back to index 1<br>
+        Output: <span style="color:var(--green)">true</span><br><br>
+        Input: <code>1 → 2</code>, no cycle<br>
+        Output: <span style="color:var(--red)">false</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">In the first example, <code>-4</code>'s <code>next</code> points back to the node with value <code>2</code>, forming a loop.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      Cycle detection is the canonical showcase for Floyd's tortoise-and-hare algorithm.
+      Getting the O(1) space solution — not just the hash-set shortcut — is what separates a strong
+      answer from an average one.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Alright. You have the head of a linked list. I want to know: does it contain a cycle?
+          A cycle means if you keep following <code>next</code> pointers from any node, you eventually
+          come back to a node you've already visited — rather than reaching <code>null</code>.
+          Think about how you'd detect that. What's your first instinct?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          My first instinct is to track every node I've seen. If I ever arrive at a node I've already recorded,
+          there's a cycle. But that's O(n) space. I know there's a smarter way using two pointers at different speeds —
+          if a cycle exists, they'll eventually collide.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Before I code, a few clarifications:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can the list be empty or have just one node? Should those return <code>false</code>?</li>
+            <li>Is there any constraint on the number of nodes — do I need to worry about integer overflow in node counts?</li>
+            <li>Is the O(1) space constraint required, or is any correct solution fine?</li>
+            <li>Can there be multiple cycles, or is it at most one loop back?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Empty or single-node lists have no cycle — return <code>false</code>. The list can have up to
+          10<sup>4</sup> nodes, so no overflow concern. There's at most one cycle. Any correct solution
+          is acceptable, but let's discuss both approaches and their tradeoffs.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Two approaches:<br><br>
+          <strong>Hash set — O(n) time, O(n) space:</strong> Traverse the list, adding each node's identity
+          (not value — actual object reference) to a set. If we ever encounter a node already in the set, return <code>true</code>.
+          If we reach <code>None</code>, return <code>false</code>. Simple but uses linear extra space.<br><br>
+          <strong>Floyd's cycle detection — O(n) time, O(1) space:</strong> Use two pointers, <code>slow</code> and <code>fast</code>.
+          <code>slow</code> advances one step per iteration; <code>fast</code> advances two steps. If a cycle exists,
+          <code>fast</code> laps <code>slow</code> inside the loop and they'll meet at the same node.
+          If no cycle, <code>fast</code> reaches <code>None</code> first.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      Why does Floyd's work? Imagine a circular running track. If one runner is twice as fast as another,
+      the fast one will always eventually lap the slow one — they must meet. In a list with no cycle,
+      the fast runner falls off the edge (hits None) before any meeting can happen.
+      The gap between them closes by 1 each step inside the cycle, so they always meet within
+      at most cycle_length iterations after fast enters the cycle.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          I'll go with Floyd's approach — it's optimal in both time and space, and it's the expected
+          answer at this level. Ready to trace through it?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Go ahead.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">hasCycle</span>(<span class="var">head</span>):
+    <span class="var">slow</span> = <span class="var">head</span>
+    <span class="var">fast</span> = <span class="var">head</span>
+
+    <span class="kw">while</span> <span class="var">fast</span> <span class="kw">is not</span> <span class="bi">None</span> <span class="kw">and</span> <span class="var">fast</span>.next <span class="kw">is not</span> <span class="bi">None</span>:
+        <span class="var">slow</span> = <span class="var">slow</span>.next            <span class="cm"># tortoise: 1 step</span>
+        <span class="var">fast</span> = <span class="var">fast</span>.next.next     <span class="cm"># hare:     2 steps</span>
+
+        <span class="kw">if</span> <span class="var">slow</span> <span class="kw">is</span> <span class="var">fast</span>:           <span class="cm"># same node object → cycle found</span>
+            <span class="kw">return</span> <span class="bi">True</span>
+
+    <span class="kw">return</span> <span class="bi">False</span>                   <span class="cm"># fast fell off the end → no cycle</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace through the cycle example: <code>3 → 2 → 0 → -4 → (back to 2)</code>.<br>
+          I'll label the nodes by value for clarity: nodes are A(3), B(2), C(0), D(-4), and D.next = B.<br><br>
+
+          <strong>Initial:</strong> slow=A(3), fast=A(3)<br><br>
+
+          <strong>Step 1:</strong><br>
+          &nbsp;&nbsp;slow = B(2)<br>
+          &nbsp;&nbsp;fast = A.next.next = C(0)<br>
+          &nbsp;&nbsp;slow(B) ≠ fast(C)<br><br>
+
+          <strong>Step 2:</strong><br>
+          &nbsp;&nbsp;slow = C(0)<br>
+          &nbsp;&nbsp;fast = C.next.next = D.next = B(2)<br>
+          &nbsp;&nbsp;slow(C) ≠ fast(B)<br><br>
+
+          <strong>Step 3:</strong><br>
+          &nbsp;&nbsp;slow = D(-4)<br>
+          &nbsp;&nbsp;fast = B.next.next = C.next = C(0)... wait, B.next=C, C.next=D → fast = D(-4)<br>
+          &nbsp;&nbsp;slow(D) == fast(D) → return <code>True</code> ✅<br><br>
+
+          They meet at node D(-4) after 3 steps.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. Now trace through a list with no cycle — say <code>1 → 2 → null</code>.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Nodes: A(1), B(2), B.next = None.<br><br>
+
+          <strong>Initial:</strong> slow=A(1), fast=A(1)<br><br>
+
+          <strong>Step 1:</strong><br>
+          &nbsp;&nbsp;Condition: fast(A) is not None ✓, fast.next(B) is not None ✓ → enter loop<br>
+          &nbsp;&nbsp;slow = B(2)<br>
+          &nbsp;&nbsp;fast = A.next.next = B.next = <code>None</code><br>
+          &nbsp;&nbsp;slow(B) ≠ fast(None)<br><br>
+
+          <strong>Step 2:</strong><br>
+          &nbsp;&nbsp;Condition: fast is None → exit loop<br><br>
+
+          Return <code>False</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n). If there's no cycle, fast reaches None in roughly n/2 iterations.
+          If there's a cycle, once fast enters the cycle, it gains one step on slow per iteration —
+          so they meet within at most cycle_length additional steps. Total is bounded by O(n).<br><br>
+          <strong>Space:</strong> O(1). Only two pointer variables — <code>slow</code> and <code>fast</code>.
+          No hash set, no auxiliary structure.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Fast pointer covers at most 2n steps before cycle or end</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Only two pointer variables, no auxiliary storage</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Can you find where the cycle starts, not just whether one exists?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes — that's LeetCode #142. After Floyd's detects a meeting point inside the cycle, reset one pointer
+          to <code>head</code> and leave the other at the meeting point. Now advance <em>both</em> pointers
+          one step at a time. They will meet again exactly at the cycle entry node.
+          The math behind this: if the distance from head to cycle start is <code>F</code>,
+          and the meeting point is <code>C</code> steps into the cycle, then <code>F ≡ C (mod cycle_length)</code> —
+          so walking <code>F</code> more steps from both positions lands them at the start simultaneously.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What's wrong with using a visited set instead?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Nothing functionally wrong — it's O(n) time and correctly detects any cycle. The downside is
+          O(n) space: we allocate a hash set that grows with the list. In memory-constrained environments
+          (embedded systems, very large lists), that extra allocation matters. Also, storing object
+          references (node identities) means the set grows proportionally to the number of nodes visited.
+          Floyd's avoids all of that with just two pointer variables.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What if node values are guaranteed to be unique integers from 1 to n — could you use that?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Technically yes — you could mark visited nodes by negating their values or setting them to a
+          sentinel, then checking if you arrive at an already-marked node. But this <em>mutates</em> the
+          input list, which is almost never acceptable in an interview. Floyd's algorithm is the clean,
+          non-destructive, O(1)-space solution — it's always the right answer here.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Linked List Cycle (Floyd's Algorithm)</span>
+        <span style="color:var(--green)">O(n) time · O(1) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">hasCycle</span>(<span class="var">self</span>, <span class="var">head</span>: <span class="bi">Optional</span>[<span class="bi">ListNode</span>]) -> <span class="bi">bool</span>:
+        <span class="var">slow</span> = <span class="var">fast</span> = <span class="var">head</span>
+
+        <span class="kw">while</span> <span class="var">fast</span> <span class="kw">and</span> <span class="var">fast</span>.next:
+            <span class="var">slow</span> = <span class="var">slow</span>.next           <span class="cm"># tortoise: advance 1 step</span>
+            <span class="var">fast</span> = <span class="var">fast</span>.next.next    <span class="cm"># hare:     advance 2 steps</span>
+
+            <span class="kw">if</span> <span class="var">slow</span> <span class="kw">is</span> <span class="var">fast</span>:          <span class="cm"># same node object → cycle detected</span>
+                <span class="kw">return</span> <span class="bi">True</span>
+
+        <span class="kw">return</span> <span class="bi">False</span>                  <span class="cm"># fast reached None → no cycle</span></code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>Check <code>fast and fast.next</code> — checking only <code>fast</code> would crash when <code>fast.next</code> is <code>None</code> and you try to advance two steps.</li>
+        <li>Use <code>slow is fast</code> (identity), not <code>slow == fast</code> (equality by value) — two different nodes could hold the same value.</li>
+        <li>Both pointers start at <code>head</code> — the check comes <em>after</em> advancing, so the initial equal state doesn't trigger a false positive.</li>
+        <li>Know the follow-up: #142 (find cycle start) uses the same detection, then resets one pointer to <code>head</code> and walks both at speed 1.</li>
+        <li>The hash-set approach is acceptable but always mention Floyd's and its O(1) space advantage — that's what interviewers want to hear.</li>
+        <li>This fast/slow pointer pattern also solves #876 (middle of list) and #234 (palindrome check) — showing that connection demonstrates pattern recognition.</li>
+      </ul>
+    </div>
+
+    <a href="ll-876-middle-of-linked-list.html" class="back-link" style="margin-top:24px;">Next: #876 Middle of the Linked List →</a>
+
+  </main>
+
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+</div>
+
+<script>
+(function () {
+  const tocLinks = document.querySelectorAll('.toc-link[data-id]');
+  const headings = Array.from(tocLinks).map(l => document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id) { tocLinks.forEach(l => l.classList.toggle('toc-active', l.dataset.id === id)); }
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting).map(e => e.target);
+    if (visible.length) { visible.sort((a,b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top); setActive(visible[0].id); }
+  }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+  headings.forEach(h => observer.observe(h));
+  if (headings.length) setActive(headings[0].id);
+})();
+</script>
+</body>
+</html>

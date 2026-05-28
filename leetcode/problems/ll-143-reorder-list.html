@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#143 Reorder List — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item active"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #143 · <a href="https://leetcode.com/problems/reorder-list/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Reorder List</div>
+        <div class="problem-meta">
+          <span class="tag tag-medium">Medium</span>
+          <span class="tag tag-pattern">Fast &amp; Slow + Reversal + Merge</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given the head of a singly linked list <code>L<sub>0</sub> → L<sub>1</sub> → … → L<sub>n</sub></code>,
+      reorder it in-place to: <code>L<sub>0</sub> → L<sub>n</sub> → L<sub>1</sub> → L<sub>n-1</sub> → L<sub>2</sub> → L<sub>n-2</sub> → …</code></p>
+      <p style="margin-top:8px;">You may not alter the values in the list's nodes. Only nodes themselves may be changed. Modify the list in-place — do not return anything.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        Input: <code>1 → 2 → 3 → 4</code><br>
+        Output: <code>1 → 4 → 2 → 3</code><br><br>
+        Input: <code>1 → 2 → 3 → 4 → 5</code><br>
+        Output: <code>1 → 5 → 2 → 4 → 3</code>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">The pattern zippers the front half with the reversed back half. The middle node (for odd-length lists) ends up as the final node.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      Reorder List is a synthesis problem — it combines three fundamental linked-list techniques back-to-back:
+      fast/slow pointer to find the middle, in-place reversal of the second half, and alternating merge of two lists.
+      Recognizing this decomposition is the key insight.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          You're given a linked list. I want you to reorder it so that the first node is followed by the last,
+          then the second, then the second-to-last, and so on — interleaving front and back.
+          For example, <code>1 → 2 → 3 → 4 → 5</code> becomes <code>1 → 5 → 2 → 4 → 3</code>.
+          Do it in-place, without changing node values. Take a moment to think.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          I can see a pattern here — the result interleaves the first half of the list
+          with the <em>reversed</em> second half. So if I can split the list in half, reverse the back portion,
+          and then merge the two halves by alternating nodes, I'll get the desired order.
+          That's three separate steps I already know how to do.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few quick checks before I code:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>The function returns nothing — I modify head's chain in-place, correct? Not return a new list?</li>
+            <li>What if the list has 0 or 1 nodes? Should I do nothing?</li>
+            <li>What about 2 nodes — is <code>1 → 2</code> already in the correct form?</li>
+            <li>For even vs. odd length: in the even case the two halves are equal length; in the odd case the first half is one longer — is that right?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Correct on all counts. Modify in-place, return nothing. Empty and single-node lists are trivially already reordered.
+          Two nodes is also already correct — <code>1 → 2</code> stays as-is. Handle even and odd lengths — you're right about the half-length difference.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me compare two approaches:<br><br>
+          <strong>Array/deque approach:</strong> Collect all nodes into a list or deque, then use two pointers
+          (front and back) to weave them back into a chain. Works in O(n) time and O(n) space.
+          Simple to implement but wastes space — you're storing references to all nodes.<br><br>
+          <strong>Three-step in-place:</strong>
+          <ol style="margin-top:8px;margin-left:18px;">
+            <li><strong>Find the middle</strong> using fast/slow pointers. Slow ends up at the midpoint.</li>
+            <li><strong>Reverse the second half</strong> in-place using the standard three-pointer reversal — starting from <code>slow.next</code>, and severing <code>slow.next = None</code> to cut the list in two.</li>
+            <li><strong>Merge the two halves</strong> by alternating: take one node from the front list, then one from the back (reversed) list, repeat until the back list is exhausted.</li>
+          </ol>
+          This is O(n) time and O(1) space — no auxiliary storage.<br><br>
+          I'll go with the three-step approach since it demonstrates the in-place linked-list techniques directly.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      The merge step is subtler than it looks. I need to save first.next and second.next before relinking,
+      because I'm about to overwrite both. Also, the second list is always one node shorter than or equal to the first
+      (the middle node stays in the first half), so I loop "while second" — when second is exhausted, the first list
+      tail is correctly in place already.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Ready to walk through pseudocode and a full trace?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Go ahead — trace <code>1 → 2 → 3 → 4 → 5</code> in detail.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">Here's the three-step pseudocode:</div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Find Middle · Reverse · Merge</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">reorderList</span>(<span class="var">head</span>):
+    <span class="cm"># ── Step 1: Find middle via fast/slow pointers ──────────</span>
+    <span class="var">slow</span> = <span class="var">fast</span> = <span class="var">head</span>
+    <span class="kw">while</span> <span class="var">fast</span> <span class="kw">and</span> <span class="var">fast</span>.next:
+        <span class="var">slow</span> = <span class="var">slow</span>.next
+        <span class="var">fast</span> = <span class="var">fast</span>.next.next
+    <span class="cm"># slow is now at the middle node</span>
+
+    <span class="cm"># ── Step 2: Reverse the second half ─────────────────────</span>
+    <span class="var">prev</span>, <span class="var">cur</span> = <span class="bi">None</span>, <span class="var">slow</span>.next
+    <span class="var">slow</span>.next = <span class="bi">None</span>          <span class="cm"># sever the list at the middle</span>
+    <span class="kw">while</span> <span class="var">cur</span>:
+        <span class="var">nxt</span>      = <span class="var">cur</span>.next
+        <span class="var">cur</span>.next = <span class="var">prev</span>
+        <span class="var">prev</span>     = <span class="var">cur</span>
+        <span class="var">cur</span>      = <span class="var">nxt</span>
+    <span class="cm"># prev is now the head of the reversed second half</span>
+
+    <span class="cm"># ── Step 3: Merge two halves by interleaving ────────────</span>
+    <span class="var">first</span>, <span class="var">second</span> = <span class="var">head</span>, <span class="var">prev</span>
+    <span class="kw">while</span> <span class="var">second</span>:
+        <span class="var">tmp1</span>         = <span class="var">first</span>.next
+        <span class="var">tmp2</span>         = <span class="var">second</span>.next
+        <span class="var">first</span>.next   = <span class="var">second</span>   <span class="cm"># weave second after first</span>
+        <span class="var">second</span>.next  = <span class="var">tmp1</span>    <span class="cm"># weave tmp1 after second</span>
+        <span class="var">first</span>        = <span class="var">tmp1</span>    <span class="cm"># advance first</span>
+        <span class="var">second</span>       = <span class="var">tmp2</span>    <span class="cm"># advance second</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Now let me trace <code>1 → 2 → 3 → 4 → 5</code> through all three steps.<br><br>
+
+          <strong>Step 1 — Find middle (fast/slow):</strong><br>
+          &nbsp;&nbsp;Start: slow=1, fast=1<br>
+          &nbsp;&nbsp;Step: slow=2, fast=3 &nbsp;&nbsp;(fast moved two, slow moved one)<br>
+          &nbsp;&nbsp;Step: slow=3, fast=5 &nbsp;&nbsp;(fast moved two, slow moved one)<br>
+          &nbsp;&nbsp;fast.next = None → loop stops. slow = node(3) = <strong>middle</strong>.<br>
+          &nbsp;&nbsp;First half: <code>1 → 2 → 3</code> &nbsp;Second half (starting at slow.next): <code>4 → 5</code><br><br>
+
+          <strong>Step 2 — Reverse second half:</strong><br>
+          &nbsp;&nbsp;Cut: slow.next = None &nbsp;&nbsp;→ first half is now <code>1 → 2 → 3 → None</code><br>
+          &nbsp;&nbsp;Reverse <code>4 → 5</code>:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;prev=None, cur=4: nxt=5, 4.next=None, prev=4, cur=5<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;prev=4, cur=5: nxt=None, 5.next=4, prev=5, cur=None<br>
+          &nbsp;&nbsp;Reversed second half: <code>5 → 4 → None</code> &nbsp;(prev = node(5))<br><br>
+
+          <strong>Step 3 — Merge by interleaving:</strong><br>
+          &nbsp;&nbsp;first=1, second=5<br><br>
+
+          &nbsp;&nbsp;<em>Iteration 1:</em><br>
+          &nbsp;&nbsp;tmp1=2 (first.next), tmp2=4 (second.next)<br>
+          &nbsp;&nbsp;1.next = 5 → 4 → None &nbsp;&nbsp;[weave: 1 → 5]<br>
+          &nbsp;&nbsp;5.next = 2 → 3 → None &nbsp;&nbsp;[weave: 5 → 2]<br>
+          &nbsp;&nbsp;Advance: first=2, second=4<br>
+          &nbsp;&nbsp;Chain so far: <code>1 → 5 → 2 → 3 → None</code><br><br>
+
+          &nbsp;&nbsp;<em>Iteration 2:</em><br>
+          &nbsp;&nbsp;tmp1=3 (first.next), tmp2=None (second.next)<br>
+          &nbsp;&nbsp;2.next = 4 → None &nbsp;&nbsp;[weave: 2 → 4]<br>
+          &nbsp;&nbsp;4.next = 3 → None &nbsp;&nbsp;[weave: 4 → 3]<br>
+          &nbsp;&nbsp;Advance: first=3, second=None<br>
+          &nbsp;&nbsp;Chain so far: <code>1 → 5 → 2 → 4 → 3 → None</code><br><br>
+
+          &nbsp;&nbsp;<em>Loop check:</em> second = None → loop exits.<br>
+          Final list: <code>1 → 5 → 2 → 4 → 3</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Very thorough. What happens for an even-length list, say <code>1 → 2 → 3 → 4</code>?
+          Does the middle split still work?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes. For <code>1 → 2 → 3 → 4</code>:<br><br>
+          Fast/slow: slow=1 fast=1 → slow=2 fast=3 → fast.next=4, fast.next.next=None → loop stops. slow = node(2).<br>
+          First half: <code>1 → 2</code>. Second half (slow.next): <code>3 → 4</code> → reversed to <code>4 → 3</code>.<br>
+          Merge: 1→4→2→3. Result: <code>1 → 4 → 2 → 3</code> ✅<br><br>
+          The even case actually produces a cleaner split since both halves are exactly length n/2.
+          The merge loop handles it cleanly — second has the same length as first, so second reaches None at the same time first does.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n) — each of the three steps is a single linear pass through the list or half the list.
+          Step 1 (find middle): O(n). Step 2 (reverse second half): O(n/2). Step 3 (merge): O(n/2). Total: O(n).<br><br>
+          <strong>Space:</strong> O(1) — only a constant number of pointer variables are used across all three steps.
+          The reversal and merge both work entirely in-place with no auxiliary allocation.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Three sequential linear passes; each is O(n) or O(n/2)</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Only pointer variables — slow, fast, prev, cur, first, second, tmp1, tmp2</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Why do you split at the middle specifically? Could you split at any other point?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The problem requires interleaving from the front and the back simultaneously, consuming equal numbers of nodes
+          from each end. The middle split ensures the two halves are as equal as possible — length n/2 each (or one node
+          longer for the first half when n is odd). If you split anywhere else, one half would run out before the other
+          and you'd get malformed output. The middle is the unique split point that makes the interleaving well-defined
+          for any list length.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          How is this problem different from LC #92 (Reverse Linked List II)?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          LC #92 reverses a contiguous subrange of a list and leaves the surrounding nodes in place —
+          the result is still one straight chain, just with a segment flipped. LC #143 (this problem)
+          reverses the second half and then interleaves it with the first half, weaving two separate chains
+          into one. The reversal step uses the same mechanics as #92, but the merge step is entirely new —
+          it's an alternating splice rather than a simple pointer reattachment.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Why loop on <code>while second</code> in the merge step, rather than <code>while first</code>?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The second half is always less than or equal to the length of the first half — for odd-length lists,
+          the first half has one extra node (the middle), and for even-length lists they're equal.
+          By looping on <code>while second</code>, once the second half is exhausted, the first half's tail
+          is already in its correct final position (it naturally has no more nodes to interleave after),
+          so we can stop. If I looped on <code>while first</code> for an odd-length list, I'd dereference
+          <code>second</code> when it's None on the last iteration and crash.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Reorder List</span>
+        <span style="color:var(--green)">O(n) time · O(1) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">reorderList</span>(<span class="var">self</span>, <span class="var">head</span>: <span class="bi">Optional</span>[<span class="bi">ListNode</span>]) -> <span class="bi">None</span>:
+        <span class="cm"># ── Step 1: Find middle via fast/slow pointers ──────────</span>
+        <span class="var">slow</span> = <span class="var">fast</span> = <span class="var">head</span>
+        <span class="kw">while</span> <span class="var">fast</span> <span class="kw">and</span> <span class="var">fast</span>.next:
+            <span class="var">slow</span> = <span class="var">slow</span>.next
+            <span class="var">fast</span> = <span class="var">fast</span>.next.next
+
+        <span class="cm"># ── Step 2: Reverse the second half ─────────────────────</span>
+        <span class="var">prev</span>, <span class="var">cur</span> = <span class="bi">None</span>, <span class="var">slow</span>.next
+        <span class="var">slow</span>.next = <span class="bi">None</span>          <span class="cm"># sever the list at the midpoint</span>
+        <span class="kw">while</span> <span class="var">cur</span>:
+            <span class="var">nxt</span>      = <span class="var">cur</span>.next
+            <span class="var">cur</span>.next = <span class="var">prev</span>
+            <span class="var">prev</span>     = <span class="var">cur</span>
+            <span class="var">cur</span>      = <span class="var">nxt</span>
+
+        <span class="cm"># ── Step 3: Merge two halves by interleaving ────────────</span>
+        <span class="var">first</span>, <span class="var">second</span> = <span class="var">head</span>, <span class="var">prev</span>
+        <span class="kw">while</span> <span class="var">second</span>:
+            <span class="var">tmp1</span>, <span class="var">tmp2</span> = <span class="var">first</span>.next, <span class="var">second</span>.next
+            <span class="var">first</span>.next  = <span class="var">second</span>    <span class="cm"># splice second after first</span>
+            <span class="var">second</span>.next = <span class="var">tmp1</span>     <span class="cm"># splice tmp1 after second</span>
+            <span class="var">first</span>       = <span class="var">tmp1</span>     <span class="cm"># advance to next first-half node</span>
+            <span class="var">second</span>      = <span class="var">tmp2</span>     <span class="cm"># advance to next second-half node</span></code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>State the decomposition upfront: find middle → reverse second half → interleave merge. Interviewers reward clear structure.</li>
+        <li>Always <code>slow.next = None</code> after finding the middle — if you forget to sever, the reversed half still points into the original chain and you get an infinite loop during the merge.</li>
+        <li>In the merge step, save both <code>tmp1 = first.next</code> and <code>tmp2 = second.next</code> <em>before</em> relinking anything — you need both to advance the pointers afterward.</li>
+        <li>Loop on <code>while second</code>, not <code>while first</code>. Second is always ≤ length of first; the first-half tail self-terminates when second is exhausted.</li>
+        <li>The fast/slow pointer stops when fast or fast.next is None — for even-length lists, fast lands on the last node; for odd, fast falls off the end. Either way, slow = correct middle.</li>
+        <li>This problem is a combination of #876 (find middle), #206 (reverse), and the merge logic from #21 — mention that to show you see the building blocks.</li>
+      </ul>
+    </div>
+
+    <a href="ll-142-linked-list-cycle-ii.html" class="back-link" style="margin-top:24px;">Next: #142 Linked List Cycle II →</a>
+
+  </main>
+
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+</div>
+
+<script>
+(function () {
+  const tocLinks = document.querySelectorAll('.toc-link[data-id]');
+  const headings = Array.from(tocLinks).map(l => document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id) { tocLinks.forEach(l => l.classList.toggle('toc-active', l.dataset.id === id)); }
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting).map(e => e.target);
+    if (visible.length) { visible.sort((a,b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top); setActive(visible[0].id); }
+  }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+  headings.forEach(h => observer.observe(h));
+  if (headings.length) setActive(headings[0].id);
+})();
+</script>
+</body>
+</html>

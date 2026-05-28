@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#876 Middle of Linked List — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item active"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #876 · <a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Middle of the Linked List</div>
+        <div class="problem-meta">
+          <span class="tag tag-easy">Easy</span>
+          <span class="tag tag-pattern">Fast &amp; Slow Pointers</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given the <code>head</code> of a singly linked list, return the <strong>middle node</strong> of the linked list.</p>
+      <p style="margin-top:8px;">If there are <strong>two middle nodes</strong>, return the <strong>second middle node</strong>.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        Input: <code>1 → 2 → 3 → 4 → 5</code> &nbsp;→&nbsp; Output: node <code>3</code> (the unique middle)<br>
+        Input: <code>1 → 2 → 3 → 4 → 5 → 6</code> &nbsp;→&nbsp; Output: node <code>4</code> (the second of two middles)
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">
+        For a list of length 5, index 2 (0-based) is the single middle.
+        For a list of length 6, indices 2 and 3 are both "middles" — return index 3.
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      A realistic interview dialogue showing <em>how to think out loud</em> — from initial reaction through edge cases,
+      trace, and follow-ups.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Here's the problem: you're given the head of a singly linked list.
+          Return the middle node. If the list has an even number of nodes and therefore two middles,
+          return the second one. Take a moment to think about it — what's your first reaction?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          My immediate thought is that this is a classic fast-and-slow pointer problem.
+          I've seen this pattern come up a lot, so I want to make sure I understand
+          the exact requirement before jumping in — specifically around even-length lists.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few quick questions before I code:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can the list be empty, or is it guaranteed to have at least one node?</li>
+            <li>You said return the second middle for even-length lists — just to confirm, for a 6-node list that means index 3 (the 4th node), right?</li>
+            <li>Should I return the node itself, or just its value?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          The list is guaranteed to have at least one node, so no empty case.
+          Yes — for 6 nodes, return the 4th node (0-indexed: index 3). And return the node itself, not just its value.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Perfect. One more: is there a space complexity requirement? I want to know whether an O(1)-space solution is expected,
+          or whether using an array to store nodes is acceptable.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Start with whatever is most natural, then we can discuss the optimal approach.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          There are two main approaches here.<br><br>
+          <strong>Brute force — two passes:</strong> First traverse the entire list to count the length <code>n</code>,
+          then traverse again to reach the <code>n // 2</code>th node (0-indexed).
+          That's O(n) time but requires two full traversals and O(1) space.<br><br>
+          <strong>Optimal — fast/slow pointers:</strong> Use two pointers starting at head.
+          On each step, <code>slow</code> moves one node and <code>fast</code> moves two.
+          When <code>fast</code> can no longer advance (it's <code>None</code> or its next is <code>None</code>),
+          <code>slow</code> is exactly at the middle — in one pass, O(1) space.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      The key insight: fast travels at 2× speed. When fast has covered the full list,
+      slow has covered exactly half. For even-length lists, the condition
+      <code>while fast and fast.next</code> stops with fast on the last node
+      (not past it), which naturally lands slow on the second middle. That's the behavior we want.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          I'll go with the fast/slow pointer approach — single pass, O(1) space.
+          The condition <code>while fast and fast.next</code> is the precise condition
+          that gives us the second middle for even-length lists, which matches the requirement.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. Go ahead and walk me through it.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Here's the pseudocode:
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">middleNode</span>(<span class="var">head</span>):
+    <span class="var">slow</span> = <span class="var">fast</span> = <span class="var">head</span>          <span class="cm"># both start at head</span>
+
+    <span class="kw">while</span> <span class="var">fast</span> <span class="kw">and</span> <span class="var">fast</span>.next:   <span class="cm"># fast can still advance two steps</span>
+        <span class="var">slow</span> = <span class="var">slow</span>.next          <span class="cm"># slow moves +1</span>
+        <span class="var">fast</span> = <span class="var">fast</span>.next.next     <span class="cm"># fast moves +2</span>
+
+    <span class="kw">return</span> <span class="var">slow</span>                   <span class="cm"># slow is at the middle</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace through both examples manually.<br><br>
+          <strong>Odd-length list: 1 → 2 → 3 → 4 → 5</strong><br>
+          Start: slow=1, fast=1<br>
+          Step 1: slow=2, fast=3 &nbsp;&nbsp;(fast moved to node 3)<br>
+          Step 2: slow=3, fast=5 &nbsp;&nbsp;(fast moved to node 5)<br>
+          Check: fast=5, fast.next=None → loop ends<br>
+          Return slow=<strong>node 3</strong> ✅<br><br>
+
+          <strong>Even-length list: 1 → 2 → 3 → 4 → 5 → 6</strong><br>
+          Start: slow=1, fast=1<br>
+          Step 1: slow=2, fast=3<br>
+          Step 2: slow=3, fast=5<br>
+          Check: fast=5, fast.next=6 (not None) → continue<br>
+          Step 3: slow=4, fast=None (fast moved past end)<br>
+          Check: fast=None → loop ends<br>
+          Return slow=<strong>node 4</strong> ✅ (second middle, as required)
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Great trace. Just to make sure you understand the loop condition — why
+          do we check both <code>fast</code> and <code>fast.next</code>?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <code>fast</code> being truthy handles odd-length lists — fast lands on <code>None</code>
+          after the last node and we stop. <code>fast.next</code> handles the case where
+          fast is on the last node — we can't move two steps forward from there,
+          so we stop. Both checks prevent a <code>NoneType</code> attribute error
+          when we do <code>fast.next.next</code> inside the loop.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n) — we traverse at most n/2 steps with the slow pointer,
+          and fast covers n steps total, but we still touch all nodes once. Linear.<br><br>
+          <strong>Space:</strong> O(1) — only two pointer variables, no extra data structures.
+          This is the optimal solution for both dimensions.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Fast pointer visits every node; slow visits n/2</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Only two pointer variables, no extra storage</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Follow-up: what if you wanted the <em>first</em> middle for even-length lists instead of the second?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Change the loop condition to <code>while fast.next and fast.next.next</code>.
+          This stops fast one step earlier — when fast is at the second-to-last node
+          rather than the last node — so slow ends up one position to the left, at the first middle.
+          For the 6-node example, slow would return node 3 instead of node 4.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Interesting. Where else does finding the middle of a linked list show up as a sub-problem?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Two big ones come to mind immediately:<br><br>
+          <strong>Palindrome check (LeetCode #234):</strong> Find the middle, reverse the second half in-place,
+          then compare left and right halves. The whole algorithm depends on correctly locating the middle first.<br><br>
+          <strong>Merge sort on a linked list:</strong> You find the middle to split the list into two halves,
+          recursively sort each half, then merge. The fast/slow pointer is the standard way to find the split point.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Perfect. That's exactly the context this pattern lives in. Great job.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3</span>
+        <span style="color:var(--green)">O(n) time · O(1) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">middleNode</span>(<span class="var">self</span>, <span class="var">head</span>: <span class="bi">Optional</span>[<span class="fn">ListNode</span>]) -> <span class="bi">Optional</span>[<span class="fn">ListNode</span>]:
+        <span class="var">slow</span> = <span class="var">fast</span> = <span class="var">head</span>
+
+        <span class="kw">while</span> <span class="var">fast</span> <span class="kw">and</span> <span class="var">fast</span>.next:
+            <span class="var">slow</span> = <span class="var">slow</span>.next
+            <span class="var">fast</span> = <span class="var">fast</span>.next.next
+
+        <span class="kw">return</span> <span class="var">slow</span></code></pre>
+    </div>
+
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>The condition <code>while fast and fast.next</code> is the exact formulation for "second middle" — memorise this.</li>
+        <li>To get the <strong>first middle</strong> for even-length lists, use <code>while fast.next and fast.next.next</code> instead.</li>
+        <li>Always trace both an odd-length and an even-length example to verify the off-by-one behaviour.</li>
+        <li>Mention this sub-problem by name when solving palindrome or merge-sort problems — it signals pattern recognition.</li>
+        <li>The two-pointer approach is strictly better than the two-pass approach: same O(n) time, same O(1) space, but one traversal.</li>
+      </ul>
+    </div>
+
+    <a href="ll-234-palindrome-linked-list.html" class="back-link" style="margin-top:24px;">Next: #234 Palindrome Linked List →</a>
+
+  </main>
+
+  <!-- ── TOC Rail ──────────────────────────────────────── -->
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+
+</div>
+
+<script>
+(function () {
+  const tocLinks = document.querySelectorAll('.toc-link[data-id]');
+  const headings = Array.from(tocLinks).map(l => document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id) { tocLinks.forEach(l => l.classList.toggle('toc-active', l.dataset.id === id)); }
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting).map(e => e.target);
+    if (visible.length) { visible.sort((a,b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top); setActive(visible[0].id); }
+  }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+  headings.forEach(h => observer.observe(h));
+  if (headings.length) setActive(headings[0].id);
+})();
+</script>
+
+</body>
+</html>

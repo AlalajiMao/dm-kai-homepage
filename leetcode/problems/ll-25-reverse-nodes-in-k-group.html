@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#25 Reverse Nodes in k-Group — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item active"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #25 · <a href="https://leetcode.com/problems/reverse-nodes-in-k-group/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Reverse Nodes in k-Group</div>
+        <div class="problem-meta">
+          <span class="tag tag-hard">Hard</span>
+          <span class="tag tag-pattern">In-place Reversal</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given the <code>head</code> of a linked list, reverse the nodes of the list <code>k</code> at a time, and return the modified list.</p>
+      <p style="margin-top:8px;"><code>k</code> is a positive integer and is less than or equal to the length of the linked list.
+      If the number of nodes is not a multiple of <code>k</code> then the left-out nodes at the end should remain as they are.</p>
+      <p style="margin-top:8px;">You may not alter the values in the list's nodes, only the nodes themselves may be changed.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        Input: <code>1→2→3→4→5</code>, k=2 &nbsp; Output: <code>2→1→4→3→5</code><br>
+        Input: <code>1→2→3→4→5</code>, k=3 &nbsp; Output: <code>3→2→1→4→5</code>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Groups of k are reversed in place. The final group (fewer than k nodes) is left untouched.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      This problem builds directly on #206 (reverse a full list) and #92 (reverse a subrange). The key insight is
+      the front-insert reversal technique: repeatedly pull the node immediately after <code>cur</code> and insert it
+      at the front of the group, k-1 times. A dummy head and careful pointer bookkeeping keep this O(1) extra space.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Given a linked list and a number k, reverse every k consecutive nodes.
+          If fewer than k nodes remain at the tail, leave them as-is.
+          For example, <code>1→2→3→4→5</code> with k=2 becomes <code>2→1→4→3→5</code>.
+          How would you approach this?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          I know how to reverse an entire linked list using three pointers. This is the same operation,
+          but applied to groups of k nodes repeatedly. The challenge is: after reversing a group, I need to
+          correctly connect it to the previous group and to the next group, which hasn't been reversed yet.
+          A dummy head will simplify those connections.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few questions first:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>If k=1, the list should be returned unchanged — that should work naturally with my approach.</li>
+            <li>Is the list guaranteed to have at least k nodes? Or could it have fewer, in which case I return it unchanged?</li>
+            <li>Can I use O(1) extra space (no stack, no extra list)?</li>
+            <li>Can I change node values, or only node structure? (The problem says structure only.)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          The list may have fewer than k nodes — return it unchanged in that case. O(1) extra space is required.
+          Only pointer surgery — no value swapping.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Two approaches:<br><br>
+          <strong>Recursive:</strong> Reverse k nodes, recursively reverse the rest, and connect. Clean to reason about
+          but uses O(n/k) stack frames — not O(1) space.<br><br>
+          <strong>Iterative with front-insert (O(1) space):</strong> Use a dummy head and a <code>pre</code> pointer
+          tracking the node just before the current group. For each group:
+          <ol style="margin-top:8px;margin-left:18px;">
+            <li>Check if k nodes remain (walk k steps; if not, stop).</li>
+            <li>Reverse the k nodes in place using front-insert: k-1 times, pull the node right after <code>cur</code>
+            and insert it right after <code>pre</code>.</li>
+            <li>After reversal, <code>cur</code> (original group head) is now the tail — advance <code>pre</code> to <code>cur</code>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      Front-insert in a group: pre→[A→B→C→D] rest. We want [C→B→A→D].
+      Iteration 1: pull B, insert after pre: pre→B→A→C→D. Wait — let me re-think.
+      With cur=A, we do k-1 iterations: each time pull cur.next and place it at pre.next.
+      Iter 1: nxt=B, B.next=A (pre.next), pre.next=B → pre→B→A→C→D, cur=A.
+      Iter 2: nxt=C, C.next=B (pre.next), pre.next=C → pre→C→B→A→D, cur=A.
+      Done! cur (A) is now the tail. Advance pre=cur=A for next group.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          I'll go with the iterative front-insert approach — O(1) space, no recursion limit concerns.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Walk me through the pseudocode and trace on <code>1→2→3→4→5</code> with k=2.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">Here's the pseudocode:</div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">reverseKGroup</span>(<span class="var">head</span>, <span class="var">k</span>):
+    <span class="var">dummy</span> = <span class="fn">ListNode</span>(<span class="num">0</span>, <span class="var">head</span>)
+    <span class="var">pre</span>   = <span class="var">dummy</span>
+
+    <span class="kw">while</span> <span class="bi">True</span>:
+        <span class="cm"># 1. Check if k nodes remain</span>
+        <span class="var">check</span> = <span class="var">pre</span>
+        <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="var">k</span>):
+            <span class="var">check</span> = <span class="var">check</span>.next
+            <span class="kw">if not</span> <span class="var">check</span>: <span class="kw">return</span> <span class="var">dummy</span>.next   <span class="cm"># fewer than k nodes left</span>
+
+        <span class="cm"># 2. Reverse k nodes starting from pre.next</span>
+        <span class="var">cur</span> = <span class="var">pre</span>.next
+        <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="var">k</span> - <span class="num">1</span>):
+            <span class="var">nxt</span>      = <span class="var">cur</span>.next
+            <span class="var">cur</span>.next = <span class="var">nxt</span>.next      <span class="cm"># cut nxt out</span>
+            <span class="var">nxt</span>.next = <span class="var">pre</span>.next      <span class="cm"># nxt points to current front</span>
+            <span class="var">pre</span>.next = <span class="var">nxt</span>           <span class="cm"># insert nxt at front of group</span>
+
+        <span class="cm"># 3. cur is now the tail of the reversed group</span>
+        <span class="var">pre</span> = <span class="var">cur</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Tracing <code>dummy→1→2→3→4→5</code>, k=2. <code>pre</code>=dummy.<br><br>
+
+          <strong>Group 1 check:</strong> walk 2 steps from pre: reach node 2. Not null — proceed.<br>
+          cur=1. Run k-1=1 iteration of the inner loop:<br>
+          &nbsp;&nbsp;nxt=2, cur(1).next=3, nxt(2).next=1 (pre.next), pre.next=2<br>
+          &nbsp;&nbsp;List: dummy→2→1→3→4→5<br>
+          pre = cur = 1 (node 1 is now the tail of group 1).<br><br>
+
+          <strong>Group 2 check:</strong> walk 2 steps from pre(=node 1): reach node 4. Not null — proceed.<br>
+          cur=3. Run k-1=1 iteration:<br>
+          &nbsp;&nbsp;nxt=4, cur(3).next=5, nxt(4).next=3 (pre.next), pre.next=4<br>
+          &nbsp;&nbsp;List: dummy→2→1→4→3→5<br>
+          pre = cur = 3 (node 3 is now tail of group 2).<br><br>
+
+          <strong>Group 3 check:</strong> walk 2 steps from pre(=node 3): first step reaches 5, second step reaches null. Return dummy.next = 2.<br>
+          Final result: <code>2→1→4→3→5</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Clear trace. What does <code>cur</code> represent before and after reversing each group?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Before the inner loop, <code>cur = pre.next</code> — it is the <em>head</em> of the current group (the first node to be reversed).
+          After the inner loop, because we insert nodes in front of it, all k-1 other nodes in the group have been
+          moved ahead of it — making <code>cur</code> the <em>tail</em> of the reversed group.
+          That's why we set <code>pre = cur</code>: we advance <code>pre</code> to the tail of the current group,
+          ready to be the anchor for the next group's reversal.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n) — each node is visited at most twice: once during the k-step check, and once during the k-1 inner loop reversals. Total work per node is O(1) amortized.<br><br>
+          <strong>Space:</strong> O(1) — only the dummy node and a constant number of pointer variables. No recursion, no extra storage.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Each node touched at most twice across check + reversal phases</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Dummy node plus a fixed number of pointer variables</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What happens when k=1 or k equals the list length?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          k=1: the inner loop runs k-1=0 times — no nodes are moved. The check advances one step per iteration, <code>pre</code> advances one node per group, and the list is returned unchanged. Correct.<br><br>
+          k=n (full list length): the check succeeds once, we reverse all n nodes in one group, then the next check walk finds null immediately and we return. Equivalent to a full list reversal.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Could you implement a recursive version? What's the trade-off?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes. Recursive approach: check if k nodes remain; if not, return head. Otherwise, reverse k nodes, then
+          recursively call on the remaining list and wire the result to the tail of the current reversed group.
+          The code is arguably more readable — each call handles exactly one group. But it uses O(n/k) stack frames,
+          which for k=1 is O(n) — potentially hitting recursion limits on very long lists. The iterative solution is
+          strictly better on space.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          How would you reverse from the end instead of the beginning?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          That's trickier. I'd first compute the list length L. Then the first group to reverse starts at
+          position L mod k (since we want full groups from the end). I'd skip the initial partial group,
+          then apply the same iterative reversal to the remaining full groups. Alternatively, reverse the whole list,
+          apply the k-group reversal, then reverse the full result again — but that reverses the group ordering.
+          The length-computation approach is cleaner.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Reverse Nodes in k-Group</span>
+        <span style="color:var(--green)">O(n) time · O(1) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">reverseKGroup</span>(<span class="var">self</span>, <span class="var">head</span>: <span class="bi">Optional</span>[<span class="bi">ListNode</span>], <span class="var">k</span>: <span class="bi">int</span>) -> <span class="bi">Optional</span>[<span class="bi">ListNode</span>]:
+        <span class="var">dummy</span> = <span class="fn">ListNode</span>(<span class="num">0</span>, <span class="var">head</span>)
+        <span class="var">pre</span>   = <span class="var">dummy</span>
+
+        <span class="kw">while</span> <span class="bi">True</span>:
+            <span class="cm"># Check if k nodes remain</span>
+            <span class="var">check</span> = <span class="var">pre</span>
+            <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="var">k</span>):
+                <span class="var">check</span> = <span class="var">check</span>.next
+                <span class="kw">if not</span> <span class="var">check</span>:
+                    <span class="kw">return</span> <span class="var">dummy</span>.next
+
+            <span class="cm"># Reverse k nodes starting from pre.next (front-insert technique)</span>
+            <span class="var">cur</span> = <span class="var">pre</span>.next
+            <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="var">k</span> - <span class="num">1</span>):
+                <span class="var">nxt</span>      = <span class="var">cur</span>.next
+                <span class="var">cur</span>.next = <span class="var">nxt</span>.next
+                <span class="var">nxt</span>.next = <span class="var">pre</span>.next
+                <span class="var">pre</span>.next = <span class="var">nxt</span>
+
+            <span class="var">pre</span> = <span class="var">cur</span>  <span class="cm"># cur is now the tail of the reversed group</span></code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>Always verify k nodes remain before reversing — walk k steps from <code>pre</code> and check for null at each step.</li>
+        <li>The front-insert reversal: <code>cur</code> (the original group head) stays fixed; you insert nodes in front of it one by one. After k-1 inserts, <code>cur</code> is the tail.</li>
+        <li>Use a dummy head so <code>pre</code> always has a valid previous node, even for the very first group.</li>
+        <li>After reversing a group, set <code>pre = cur</code> — <code>cur</code> is now the tail of the just-reversed group and the anchor for the next group.</li>
+        <li>k=1 (no change) and k=n (full reversal) both work without special casing — verify this in your head before submitting.</li>
+        <li>This problem is a direct extension of #206 and #92 — mentioning that connection shows strong pattern recognition.</li>
+      </ul>
+    </div>
+
+    <a href="ll-146-lru-cache.html" class="back-link" style="margin-top:24px;">Next: #146 LRU Cache →</a>
+
+  </main>
+
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+</div>
+
+<script>
+(function(){
+  const tocLinks=document.querySelectorAll('.toc-link[data-id]');
+  const headings=Array.from(tocLinks).map(l=>document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id){tocLinks.forEach(l=>l.classList.toggle('toc-active',l.dataset.id===id));}
+  const obs=new IntersectionObserver(entries=>{
+    const vis=entries.filter(e=>e.isIntersecting).map(e=>e.target);
+    if(vis.length){vis.sort((a,b)=>a.getBoundingClientRect().top-b.getBoundingClientRect().top);setActive(vis[0].id);}
+  },{rootMargin:'0px 0px -70% 0px',threshold:0});
+  headings.forEach(h=>obs.observe(h));
+  if(headings.length)setActive(headings[0].id);
+})();
+</script>
+</body>
+</html>

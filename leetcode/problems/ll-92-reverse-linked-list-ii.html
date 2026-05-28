@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#92 Reverse Linked List II — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item active"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #92 · <a href="https://leetcode.com/problems/reverse-linked-list-ii/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Reverse Linked List II</div>
+        <div class="problem-meta">
+          <span class="tag tag-medium">Medium</span>
+          <span class="tag tag-pattern">In-place Reversal</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given the <code>head</code> of a singly linked list and two integers <code>left</code> and <code>right</code>
+      where <code>left &lt;= right</code>, reverse the nodes of the list from position <code>left</code> to position
+      <code>right</code>, and return <em>the reversed list</em>. Positions are <strong>1-indexed</strong>.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        Input: <code>1 → 2 → 3 → 4 → 5</code>, left = 2, right = 4<br>
+        Output: <code>1 → 4 → 3 → 2 → 5</code><br><br>
+        Input: <code>5</code>, left = 1, right = 1<br>
+        Output: <code>5</code>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">The nodes before position <code>left</code> and after position <code>right</code> are left untouched. Only the segment in between is reversed.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      This is a surgical reversal — you're not reversing the whole list, just a subrange.
+      The elegant solution is the "front-insert" technique: repeatedly pull the node just after <code>cur</code>
+      and reattach it immediately after <code>pre</code>. No separate reversal pass and no splice-and-rejoin needed.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          You're given a linked list and two 1-indexed positions, <code>left</code> and <code>right</code>.
+          Reverse the portion of the list from position <code>left</code> through position <code>right</code> in one pass,
+          and return the modified list. For example, on <code>1 → 2 → 3 → 4 → 5</code> with left=2 and right=4,
+          the result should be <code>1 → 4 → 3 → 2 → 5</code>. How would you approach this?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          My first instinct is that this is a constrained version of reversing a full list.
+          I need to be careful about stitching the reversed segment back into the surrounding list — specifically
+          keeping the node just before position <code>left</code> connected to the new head of the reversed segment,
+          and the old head of the segment connected to the node after position <code>right</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me ask a few things to make sure I handle edge cases:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can <code>left</code> equal 1? That means the reversal starts at the head — I need to handle that without a "node before left" existing.</li>
+            <li>Can <code>left</code> equal <code>right</code>? That means reversing a single node — the list should be unchanged.</li>
+            <li>Can <code>right</code> equal the last node's position? That means the reversal goes to the tail.</li>
+            <li>Is the list guaranteed to have at least <code>right</code> nodes?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          All of those are valid inputs — yes, left can be 1, left can equal right, right can be the tail.
+          The list is guaranteed to have at least <code>right</code> nodes. Handle all cases correctly.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Two approaches come to mind:<br><br>
+          <strong>Three-step approach — cut, reverse, rejoin:</strong> Walk to position <code>left-1</code>,
+          detach the segment from <code>left</code> to <code>right</code>, reverse it using the standard three-pointer
+          technique, then rejoin both ends. This works but requires saving four boundary pointers and it's easy to get the splicing wrong.<br><br>
+          <strong>Front-insert technique (one pass):</strong> Walk <code>pre</code> to the node just before position <code>left</code>.
+          Set <code>cur = pre.next</code> — this is the left-th node, and it will become the tail of the reversed segment.
+          Then repeat <code>right - left</code> times: extract <code>nxt = cur.next</code>, remove it from its current position
+          (<code>cur.next = nxt.next</code>), and insert it right after <code>pre</code> (<code>nxt.next = pre.next</code>, <code>pre.next = nxt</code>).<br><br>
+          The key insight of front-insert: each extracted node gets placed at the front of the reversed section,
+          naturally building the reversal without a separate pass. And <code>cur</code> stays fixed as the growing tail.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      A dummy head before node 1 solves the left=1 edge case completely. Without it, pre would need to be None
+      and I'd need special-case logic. With dummy: pre is always a real node — I walk it (left-1) steps, which
+      is 0 steps when left=1, so pre ends up as dummy. Then the same front-insert loop works without any branching.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          I'll use the front-insert technique with a dummy head to uniformly handle left=1.
+          It's a single pass, O(1) extra space, and there's no separate splice/rejoin step.
+          Want me to walk through a trace?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Yes — pseudocode first, then trace on <code>1 → 2 → 3 → 4 → 5</code>, left=2, right=4.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">Here's the pseudocode:</div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — front-insert technique</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">reverseBetween</span>(<span class="var">head</span>, <span class="var">left</span>, <span class="var">right</span>):
+    <span class="var">dummy</span>      = <span class="fn">ListNode</span>(<span class="num">0</span>, <span class="var">head</span>)    <span class="cm"># dummy.next = head</span>
+    <span class="var">pre</span>        = <span class="var">dummy</span>
+
+    <span class="cm"># Step 1: advance pre to (left-1)-th node</span>
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="var">left</span> - <span class="num">1</span>):
+        <span class="var">pre</span> = <span class="var">pre</span>.next
+
+    <span class="var">cur</span> = <span class="var">pre</span>.next    <span class="cm"># cur = left-th node; will become tail of reversed section</span>
+
+    <span class="cm"># Step 2: front-insert (right - left) times</span>
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="var">right</span> - <span class="var">left</span>):
+        <span class="var">nxt</span>      = <span class="var">cur</span>.next      <span class="cm"># node to move</span>
+        <span class="var">cur</span>.next = <span class="var">nxt</span>.next      <span class="cm"># unlink nxt</span>
+        <span class="var">nxt</span>.next = <span class="var">pre</span>.next      <span class="cm"># nxt points to current front of reversed section</span>
+        <span class="var">pre</span>.next = <span class="var">nxt</span>           <span class="cm"># pre points to nxt (new front)</span>
+
+    <span class="kw">return</span> <span class="var">dummy</span>.next</code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Now let me trace through <code>1 → 2 → 3 → 4 → 5</code> with left=2, right=4.<br>
+          We need to run the loop <code>right - left = 2</code> times.<br><br>
+
+          <strong>Setup:</strong><br>
+          &nbsp;&nbsp;dummy → 1 → 2 → 3 → 4 → 5<br>
+          &nbsp;&nbsp;Walk pre one step (left-1 = 1): pre = node(1)<br>
+          &nbsp;&nbsp;cur = pre.next = node(2) — this is the left boundary, will become the tail<br><br>
+
+          <strong>Iteration 1 (extract node 3, insert after pre=1):</strong><br>
+          &nbsp;&nbsp;nxt = cur.next = node(3)<br>
+          &nbsp;&nbsp;cur.next = nxt.next → 2.next = node(4) &nbsp;&nbsp;[unlink 3: 2 → 4 → 5]<br>
+          &nbsp;&nbsp;nxt.next = pre.next → 3.next = node(2) &nbsp;&nbsp;[3 points to current front: 3 → 2 → 4 → 5]<br>
+          &nbsp;&nbsp;pre.next = nxt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1 points to 3]<br>
+          &nbsp;&nbsp;List: dummy → 1 → <strong>3 → 2</strong> → 4 → 5 &nbsp;&nbsp;(cur still = node(2))<br><br>
+
+          <strong>Iteration 2 (extract node 4, insert after pre=1):</strong><br>
+          &nbsp;&nbsp;nxt = cur.next = node(4)<br>
+          &nbsp;&nbsp;cur.next = nxt.next → 2.next = node(5) &nbsp;&nbsp;[unlink 4: 2 → 5]<br>
+          &nbsp;&nbsp;nxt.next = pre.next → 4.next = node(3) &nbsp;&nbsp;[4 points to current front: 4 → 3 → 2 → 5]<br>
+          &nbsp;&nbsp;pre.next = nxt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1 points to 4]<br>
+          &nbsp;&nbsp;List: dummy → 1 → <strong>4 → 3 → 2</strong> → 5 &nbsp;&nbsp;(cur still = node(2))<br><br>
+
+          <strong>Loop ends</strong> (ran right-left=2 times).<br>
+          Return dummy.next = <code>1 → 4 → 3 → 2 → 5</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Very clear. What happens when left equals right?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The loop runs <code>right - left = 0</code> times, so nothing happens at all.
+          We walk <code>pre</code> to the node before position <code>left</code>, set <code>cur</code>,
+          then immediately return <code>dummy.next</code> — the list is completely unchanged. Exactly correct.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n) — we walk at most <code>left - 1</code> steps to position pre,
+          then at most <code>right - left</code> steps for the reversal loop. Total steps ≤ right ≤ n.<br><br>
+          <strong>Space:</strong> O(1) — only a constant number of pointer variables. The dummy node is a fixed single allocation, not proportional to input size.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Walk to left, then loop right−left times; total steps ≤ n</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Only pre, cur, nxt pointer variables — no auxiliary structure</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          How does this extend to reversing nodes in groups of k — LeetCode #25?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          LC #25 is essentially applying this algorithm repeatedly. First, check whether at least k nodes remain
+          starting from the current position — if not, leave the tail as-is. If yes, reverse the next k nodes
+          using the same front-insert technique (or the standard three-pointer reversal), advance past those k nodes,
+          and repeat. The front-insert loop becomes the inner loop of the outer k-group loop.
+          This solution is essentially a direct generalization of what I wrote here.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          You mentioned this is a one-pass solution. Can you confirm — how many times does any node get touched?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Every node is touched at most twice: once when <code>pre</code> walks past it in the setup phase
+          (nodes before position <code>left</code>), and once when it's either extracted by the loop or skipped as
+          <code>nxt.next</code> during a pointer update. Nodes after position <code>right</code> are never touched at all.
+          So yes — it's a true single linear pass; no node is revisited.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What's the relationship between this problem and LC #206 (full reversal)?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          LC #206 is the special case where left=1 and right=n (the full list). In that degenerate case,
+          the dummy head becomes pre, we don't advance pre at all, and the loop runs n-1 times covering every node.
+          The front-insert technique degenerates to the same result as the three-pointer iteration, just expressed differently.
+          Conversely, #92 is the generalization of #206 — same core idea, just bounded by left and right.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Reverse Linked List II</span>
+        <span style="color:var(--green)">O(n) time · O(1) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">reverseBetween</span>(<span class="var">self</span>, <span class="var">head</span>: <span class="bi">Optional</span>[<span class="bi">ListNode</span>], <span class="var">left</span>: <span class="bi">int</span>, <span class="var">right</span>: <span class="bi">int</span>) -> <span class="bi">Optional</span>[<span class="bi">ListNode</span>]:
+        <span class="var">dummy</span> = <span class="fn">ListNode</span>(<span class="num">0</span>, <span class="var">head</span>)
+        <span class="var">pre</span>   = <span class="var">dummy</span>
+
+        <span class="cm"># Advance pre to the node just before position left</span>
+        <span class="kw">for</span> <span class="var">_</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">left</span> - <span class="num">1</span>):
+            <span class="var">pre</span> = <span class="var">pre</span>.next
+
+        <span class="var">cur</span> = <span class="var">pre</span>.next   <span class="cm"># left-th node; becomes the tail of the reversed section</span>
+
+        <span class="cm"># Front-insert each node from (left+1) to right, placing it after pre</span>
+        <span class="kw">for</span> <span class="var">_</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">right</span> - <span class="var">left</span>):
+            <span class="var">nxt</span>      = <span class="var">cur</span>.next    <span class="cm"># node to extract and move</span>
+            <span class="var">cur</span>.next = <span class="var">nxt</span>.next    <span class="cm"># unlink nxt from its current position</span>
+            <span class="var">nxt</span>.next = <span class="var">pre</span>.next    <span class="cm"># nxt points to the current front of reversed section</span>
+            <span class="var">pre</span>.next = <span class="var">nxt</span>         <span class="cm"># attach nxt as the new front</span>
+
+        <span class="kw">return</span> <span class="var">dummy</span>.next</code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>Always use a dummy head — it eliminates the left=1 edge case entirely, no branching needed.</li>
+        <li><code>cur</code> is the left-th node; it stays fixed and becomes the <em>tail</em> of the reversed segment as nodes pile up in front of it.</li>
+        <li>The four pointer updates in the inner loop must happen in this exact order: save nxt, unlink nxt, attach nxt to reversed front, update pre.next.</li>
+        <li>The loop runs exactly <code>right - left</code> times — not <code>right - left + 1</code>. The left-th node itself doesn't need to be moved, only the nodes after it.</li>
+        <li>When left == right: the loop runs 0 times — correct, no change, no special case needed.</li>
+        <li>Connect this to LC #25 (Reverse k-Group): this exact loop is the inner subroutine applied every k nodes.</li>
+      </ul>
+    </div>
+
+    <a href="ll-143-reorder-list.html" class="back-link" style="margin-top:24px;">Next: #143 Reorder List →</a>
+
+  </main>
+
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+</div>
+
+<script>
+(function () {
+  const tocLinks = document.querySelectorAll('.toc-link[data-id]');
+  const headings = Array.from(tocLinks).map(l => document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id) { tocLinks.forEach(l => l.classList.toggle('toc-active', l.dataset.id === id)); }
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting).map(e => e.target);
+    if (visible.length) { visible.sort((a,b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top); setActive(visible[0].id); }
+  }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+  headings.forEach(h => observer.observe(h));
+  if (headings.length) setActive(headings[0].id);
+})();
+</script>
+</body>
+</html>

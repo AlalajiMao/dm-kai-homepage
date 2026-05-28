@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#21 Merge Two Sorted Lists — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item active"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #21 · <a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Merge Two Sorted Lists</div>
+        <div class="problem-meta">
+          <span class="tag tag-easy">Easy</span>
+          <span class="tag tag-pattern">Merge + Dummy Head</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>You are given the heads of two sorted linked lists <code>list1</code> and <code>list2</code>.</p>
+      <p style="margin-top:8px;">Merge the two lists into one <strong>sorted</strong> list. The list should be made by
+      splicing together the nodes of the first two lists.</p>
+      <p style="margin-top:8px;">Return <em>the head of the merged linked list</em>.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLE</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        Input: <code>l1 = 1 → 2 → 4</code>, <code>l2 = 1 → 3 → 4</code><br>
+        Output: <code>1 → 1 → 2 → 3 → 4 → 4</code>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">We interleave the nodes from both lists by always picking the smaller of the two current heads.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      Merging sorted lists is a core primitive — it appears inside merge sort and is the foundation of
+      the k-way merge heap used in #23. Mastering the dummy-head pattern here pays dividends across many problems.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Here's today's problem. You have two linked lists, both individually sorted in non-decreasing order.
+          Your job is to merge them into a single sorted linked list using the existing nodes — no new nodes should
+          be created. If the input is <code>1 → 2 → 4</code> and <code>1 → 3 → 4</code>, the result should be
+          <code>1 → 1 → 2 → 3 → 4 → 4</code>. What's your initial read of the problem?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          This is essentially the merge step from merge sort, but applied to linked lists instead of arrays.
+          Since both lists are already sorted, at each step I can compare the two current heads and greedily
+          pick the smaller one to append to the result. The tricky part is managing the pointer to the
+          growing result list cleanly.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few things I want to confirm:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Can either or both lists be empty? If one is empty, should I just return the other?</li>
+            <li>Are there duplicate values within or across the two lists? (Looks like yes from the example.)</li>
+            <li>The lists are sorted in non-decreasing order — equal elements are possible?</li>
+            <li>Should the merge be stable — preserving relative order among equal elements?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Yes — either or both can be empty, just return the other. Duplicates are possible within and across lists.
+          Sorted means non-decreasing. You don't need to worry about stability — just produce a valid sorted merged list.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me think through the options:<br><br>
+          <strong>Brute force — collect all values:</strong> Dump both lists into a Python list, sort the combined list,
+          then rebuild linked nodes. That's O(n + m) time for traversal, O((n+m) log(n+m)) for the sort, and O(n+m) space
+          for the auxiliary array. We can do better — we don't need to sort because both halves are already sorted.<br><br>
+          <strong>Optimal — two-pointer merge with a dummy head:</strong> Create a dummy sentinel node to anchor the result list.
+          Use a <code>cur</code> pointer starting at <code>dummy</code>. While both <code>l1</code> and <code>l2</code> are non-null,
+          compare their values and append the smaller node to <code>cur.next</code>, then advance that list's pointer and
+          advance <code>cur</code>. When one list is exhausted, attach the remaining tail of the other.
+          Return <code>dummy.next</code> as the merged head.
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      The dummy head is the key insight here. Without it, I'd need a separate branch to initialize the head of the result list.
+      With a dummy, the logic is uniform: always do cur.next = (smaller node), advance. The dummy's cost is one extra node —
+      negligible — but it eliminates all the messy "is this the first node?" bookkeeping.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The dummy-head approach is O(n + m) time and O(1) extra space — we're just rewiring existing nodes.
+          Shall I walk through the pseudocode and a trace?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Please do.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">mergeTwoLists</span>(<span class="var">l1</span>, <span class="var">l2</span>):
+    <span class="var">dummy</span> = <span class="fn">ListNode</span>(<span class="num">0</span>)     <span class="cm"># sentinel — never returned directly</span>
+    <span class="var">cur</span>   = <span class="var">dummy</span>
+
+    <span class="kw">while</span> <span class="var">l1</span> <span class="kw">and</span> <span class="var">l2</span>:
+        <span class="kw">if</span> <span class="var">l1</span>.val <= <span class="var">l2</span>.val:
+            <span class="var">cur</span>.next = <span class="var">l1</span>         <span class="cm"># append l1's node</span>
+            <span class="var">l1</span>       = <span class="var">l1</span>.next
+        <span class="kw">else</span>:
+            <span class="var">cur</span>.next = <span class="var">l2</span>         <span class="cm"># append l2's node</span>
+            <span class="var">l2</span>       = <span class="var">l2</span>.next
+        <span class="var">cur</span> = <span class="var">cur</span>.next           <span class="cm"># advance the result pointer</span>
+
+    <span class="var">cur</span>.next = <span class="var">l1</span> <span class="kw">if</span> <span class="var">l1</span> <span class="kw">else</span> <span class="var">l2</span>   <span class="cm"># attach the remaining tail</span>
+    <span class="kw">return</span> <span class="var">dummy</span>.next             <span class="cm"># skip the sentinel</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace through <code>l1 = 1→2→4</code>, <code>l2 = 1→3→4</code>:<br><br>
+
+          <strong>Initial:</strong> dummy→[0], cur=dummy, l1=1, l2=1<br><br>
+
+          <strong>Step 1:</strong> l1.val(1) &lt;= l2.val(1) → cur.next = l1(1), l1→2, cur→node(1)<br>
+          &nbsp;&nbsp;Result so far: dummy→<code>1</code><br><br>
+
+          <strong>Step 2:</strong> l1.val(2) &gt; l2.val(1) → cur.next = l2(1), l2→3, cur→node(1)<br>
+          &nbsp;&nbsp;Result so far: dummy→1→<code>1</code><br><br>
+
+          <strong>Step 3:</strong> l1.val(2) &lt;= l2.val(3) → cur.next = l1(2), l1→4, cur→node(2)<br>
+          &nbsp;&nbsp;Result so far: dummy→1→1→<code>2</code><br><br>
+
+          <strong>Step 4:</strong> l1.val(4) &gt; l2.val(3) → cur.next = l2(3), l2→4, cur→node(3)<br>
+          &nbsp;&nbsp;Result so far: dummy→1→1→2→<code>3</code><br><br>
+
+          <strong>Step 5:</strong> l1.val(4) &lt;= l2.val(4) → cur.next = l1(4), l1→None, cur→node(4)<br>
+          &nbsp;&nbsp;Result so far: dummy→1→1→2→3→<code>4</code><br><br>
+
+          <strong>Loop ends</strong> (l1 is None). cur.next = l2(4) → attach remaining tail.<br>
+          Final: dummy→1→1→2→3→4→<code>4</code><br>
+          Return dummy.next = <code>1→1→2→3→4→4</code> ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. What if <code>l1</code> is empty?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          If <code>l1</code> is <code>None</code>, the while loop body never executes. We hit
+          <code>cur.next = l1 if l1 else l2</code>, which sets <code>cur.next = l2</code>.
+          So we return <code>dummy.next = l2</code> — exactly the right answer.
+          Same logic applies if both are empty: we return <code>dummy.next = None</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n + m) where n and m are the lengths of the two lists — each node is visited at most once.<br><br>
+          <strong>Space:</strong> O(1) — we create one dummy node (constant) and reuse existing nodes.
+          No additional allocation proportional to input size.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n + m)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Each node from both lists touched exactly once</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Only one dummy sentinel node allocated</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          How would you extend this to merge k sorted linked lists?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          For k lists (LeetCode #23), a naive approach — repeatedly call this merge function on pairs —
+          gives O(kN) time where N is the total number of nodes. The efficient approach uses a min-heap of size k:
+          push the head of each non-null list into the heap. Then repeatedly pop the minimum node, append it to the result,
+          and push that node's <code>next</code> onto the heap if it exists. This runs in O(N log k) time since
+          each heap operation is O(log k) and we do N of them.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Can you solve this recursively?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes — base cases: if either list is <code>None</code>, return the other. Otherwise, pick the smaller head,
+          set its <code>next</code> to <code>merge(rest_of_that_list, other_list)</code>, and return it.
+          It's elegant but uses O(n + m) stack space, so the iterative version is preferred in production.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          What if one of the lists were circular?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A circular list has no <code>None</code> terminator, so the while loop would spin forever.
+          I'd need to detect the cycle first — using Floyd's algorithm — find the tail, temporarily break the cycle,
+          merge, then decide whether to re-attach. In practice, the problem contract guarantees acyclic lists,
+          but it's worth mentioning as a defensive check.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3 — Merge Two Sorted Lists</span>
+        <span style="color:var(--green)">O(n+m) time · O(1) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">mergeTwoLists</span>(
+        <span class="var">self</span>,
+        <span class="var">l1</span>: <span class="bi">Optional</span>[<span class="bi">ListNode</span>],
+        <span class="var">l2</span>: <span class="bi">Optional</span>[<span class="bi">ListNode</span>]
+    ) -> <span class="bi">Optional</span>[<span class="bi">ListNode</span>]:
+        <span class="var">dummy</span> = <span class="fn">ListNode</span>(<span class="num">0</span>)    <span class="cm"># sentinel — anchors the result list</span>
+        <span class="var">cur</span>   = <span class="var">dummy</span>
+
+        <span class="kw">while</span> <span class="var">l1</span> <span class="kw">and</span> <span class="var">l2</span>:
+            <span class="kw">if</span> <span class="var">l1</span>.val <= <span class="var">l2</span>.val:
+                <span class="var">cur</span>.next = <span class="var">l1</span>
+                <span class="var">l1</span>       = <span class="var">l1</span>.next
+            <span class="kw">else</span>:
+                <span class="var">cur</span>.next = <span class="var">l2</span>
+                <span class="var">l2</span>       = <span class="var">l2</span>.next
+            <span class="var">cur</span> = <span class="var">cur</span>.next
+
+        <span class="var">cur</span>.next = <span class="var">l1</span> <span class="kw">if</span> <span class="var">l1</span> <span class="kw">else</span> <span class="var">l2</span>  <span class="cm"># attach the remaining tail</span>
+        <span class="kw">return</span> <span class="var">dummy</span>.next               <span class="cm"># skip the sentinel</span></code></pre>
+    </div>
+
+    <!-- Key Tips -->
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li>The <strong>dummy head</strong> pattern eliminates all "is this the first node?" branching — always use it for list construction.</li>
+        <li>Use <code>&lt;=</code> not <code>&lt;</code> when comparing values so equal elements from both lists are handled correctly without bugs.</li>
+        <li>After the loop, one list might still have nodes — <code>cur.next = l1 if l1 else l2</code> attaches the entire remaining tail in one line.</li>
+        <li>Always return <code>dummy.next</code>, never <code>dummy</code> — the sentinel is a scaffold, not part of the answer.</li>
+        <li>This is the exact merge step inside merge sort — mentioning that connection shows algorithmic breadth.</li>
+        <li>The recursive version is elegant but costs O(n+m) stack space — prefer iterative when space matters.</li>
+      </ul>
+    </div>
+
+    <a href="ll-141-linked-list-cycle.html" class="back-link" style="margin-top:24px;">Next: #141 Linked List Cycle →</a>
+
+  </main>
+
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+</div>
+
+<script>
+(function () {
+  const tocLinks = document.querySelectorAll('.toc-link[data-id]');
+  const headings = Array.from(tocLinks).map(l => document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id) { tocLinks.forEach(l => l.classList.toggle('toc-active', l.dataset.id === id)); }
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting).map(e => e.target);
+    if (visible.length) { visible.sort((a,b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top); setActive(visible[0].id); }
+  }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+  headings.forEach(h => observer.observe(h));
+  if (headings.length) setActive(headings[0].id);
+})();
+</script>
+</body>
+</html>

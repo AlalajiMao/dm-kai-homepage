@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#19 Remove Nth Node From End — Mock Interview</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Home</a>
+    <a href="../index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="../stack.html" class="sidebar-item"><span class="icon">📚</span> Stack <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="../linked-list.html" class="sidebar-item"><span class="icon">🔗</span> Linked List <span class="sidebar-badge badge-active">Ready</span></a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;"><span class="icon">🌳</span> Trees <span class="sidebar-badge badge-soon">Soon</span></a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Easy</div>
+      <a href="ll-206-reverse-linked-list.html" class="sidebar-item"><span class="icon">🔄</span> #206 Reverse List</a>
+      <a href="ll-21-merge-two-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #21 Merge Two Lists</a>
+      <a href="ll-141-linked-list-cycle.html" class="sidebar-item"><span class="icon">🔁</span> #141 LL Cycle</a>
+      <a href="ll-876-middle-of-linked-list.html" class="sidebar-item"><span class="icon">🐢</span> #876 Middle of List</a>
+      <a href="ll-234-palindrome-linked-list.html" class="sidebar-item"><span class="icon">🔃</span> #234 Palindrome LL</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Medium</div>
+      <a href="ll-19-remove-nth-from-end.html" class="sidebar-item active"><span class="icon">✂️</span> #19 Remove Nth</a>
+      <a href="ll-2-add-two-numbers.html" class="sidebar-item"><span class="icon">➕</span> #2 Add Two Numbers</a>
+      <a href="ll-92-reverse-linked-list-ii.html" class="sidebar-item"><span class="icon">↩️</span> #92 Reverse LL II</a>
+      <a href="ll-143-reorder-list.html" class="sidebar-item"><span class="icon">🔀</span> #143 Reorder List</a>
+      <a href="ll-142-linked-list-cycle-ii.html" class="sidebar-item"><span class="icon">🎯</span> #142 Cycle II</a>
+      <a href="ll-138-copy-list-with-random-pointer.html" class="sidebar-item"><span class="icon">📋</span> #138 Copy Random</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Hard</div>
+      <a href="ll-23-merge-k-sorted-lists.html" class="sidebar-item"><span class="icon">🔀</span> #23 Merge k Lists</a>
+      <a href="ll-25-reverse-nodes-in-k-group.html" class="sidebar-item"><span class="icon">🔄</span> #25 Reverse k-Group</a>
+      <a href="ll-146-lru-cache.html" class="sidebar-item"><span class="icon">💾</span> #146 LRU Cache</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">On this page</div>
+      <a href="#problem"   class="sidebar-item"><span class="icon">📋</span> Problem</a>
+      <a href="#interview" class="sidebar-item"><span class="icon">💬</span> Mock Interview</a>
+      <a href="#solution"  class="sidebar-item"><span class="icon">✅</span> Full Solution</a>
+      <a href="#tips"      class="sidebar-item"><span class="icon">💡</span> Key Tips</a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <a href="../linked-list.html" class="back-link">← Back to Linked List</a>
+
+    <!-- Problem Header -->
+    <div class="problem-header" id="problem">
+      <div>
+        <div class="problem-num">LeetCode #19 · <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener">View on LeetCode ↗</a></div>
+        <div class="problem-title-big">Remove Nth Node From End of List</div>
+        <div class="problem-meta">
+          <span class="tag tag-medium">Medium</span>
+          <span class="tag tag-pattern">Dummy Head + Two Pointers</span>
+          <span class="tag tag-pattern">Linked List</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Statement -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Problem Statement</div>
+      <p>Given the <code>head</code> of a linked list, remove the <strong>n-th node from the end</strong>
+      of the list and return its head.</p>
+    </div>
+
+    <div style="margin:16px 0;">
+      <strong style="font-size:13px;color:var(--text-muted);">EXAMPLES</strong>
+      <div style="font-family:var(--mono);font-size:14px;margin-top:8px;line-height:2;">
+        Input: <code>1 → 2 → 3 → 4 → 5</code>, n=2 &nbsp;→&nbsp; Output: <code>1 → 2 → 3 → 5</code><br>
+        Input: <code>1</code>, n=1 &nbsp;→&nbsp; Output: <code>[]</code>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">
+        For the first example, the 2nd node from the end is node 4 (1-indexed from the tail).
+        Removing it yields <code>1 → 2 → 3 → 5</code>.
+        The second example removes the only node, returning an empty list.
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Mock Interview ──────────────────────────────── -->
+    <h2 id="interview" style="border:none;margin-top:8px;">💬 Mock Interview</h2>
+    <p class="section-intro">
+      A realistic interview dialogue covering the dummy-head trick, the n+1 gap nuance,
+      and why this pattern handles removing the head node cleanly.
+    </p>
+
+    <!-- Stage 1 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 1 — Problem Introduction</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Given a linked list and an integer n, remove the n-th node from the end and return the head.
+          Can you do it in one pass?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Yes — this is a classic two-pointer gap problem. The key insight is that if I keep two pointers
+          separated by exactly n nodes, when the front pointer reaches the end, the back pointer
+          is sitting at the n-th node from the end. I can then do the deletion.
+          But there's an important edge case I want to nail: removing the head node itself.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 2 — Clarifying Questions</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          A few things I want to confirm:
+          <ul style="margin-top:8px;margin-left:18px;">
+            <li>Is n guaranteed to be valid — i.e., 1 ≤ n ≤ list length?</li>
+            <li>Can n equal the length of the list, meaning we remove the head?</li>
+            <li>Is this a singly linked list with no tail pointer?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Yes — n is always valid. Yes — n can equal the list length (removing the head).
+          Singly linked list. The constraints are: 1 ≤ n ≤ sz ≤ 30, and node values are 0–100.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 3 — Approach Discussion</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Brute force — two passes:</strong> First traverse to count the total length L.
+          Then traverse again to the (L − n)th node (0-indexed), which is the predecessor of our target.
+          Set <code>predecessor.next = predecessor.next.next</code>. Simple but two passes.<br><br>
+          <strong>Optimal — one pass with a dummy head and gap of n+1:</strong><br>
+          I'll prepend a dummy node before head. Both <code>fast</code> and <code>slow</code> start at dummy.<br>
+          Advance <code>fast</code> exactly n+1 steps (not n!). Then advance both until <code>fast</code> is None.<br>
+          Now <code>slow</code> is the predecessor of the target. Execute the deletion.<br>
+          Return <code>dummy.next</code> (handles the case where head was removed).
+        </div>
+      </div>
+    </div>
+
+    <div class="thought">
+      Why n+1 and not n? I need slow to stop at the PREDECESSOR (the node just before the target),
+      not at the target itself, because I need to rewire slow.next to skip the target.
+      Moving fast n+1 steps creates a gap of n+1 between fast and slow,
+      so when fast is None (off the end), slow is n+1 steps behind — at the predecessor.
+      If I used n steps, slow would land ON the target, not before it.
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          The dummy node is the other critical piece. Without it, removing the head node requires
+          a special case — there's no predecessor to rewire. With the dummy as a sentinel predecessor,
+          the general case handles head removal automatically: slow stays at dummy,
+          and <code>dummy.next = dummy.next.next</code> skips the original head.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. Walk me through the code.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 4 — Pseudocode &amp; Trace</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Here's the pseudocode:
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">removeNthFromEnd</span>(<span class="var">head</span>, <span class="var">n</span>):
+    <span class="var">dummy</span> = <span class="fn">ListNode</span>(<span class="num">0</span>, <span class="var">head</span>)       <span class="cm"># sentinel before head</span>
+    <span class="var">fast</span> = <span class="var">slow</span> = <span class="var">dummy</span>
+
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="var">n</span> + <span class="num">1</span>):           <span class="cm"># advance fast n+1 steps</span>
+        <span class="var">fast</span> = <span class="var">fast</span>.next
+
+    <span class="kw">while</span> <span class="var">fast</span>:                       <span class="cm"># move both until fast falls off</span>
+        <span class="var">fast</span> = <span class="var">fast</span>.next
+        <span class="var">slow</span> = <span class="var">slow</span>.next
+
+    <span class="cm"># slow is now the predecessor of the target</span>
+    <span class="var">slow</span>.next = <span class="var">slow</span>.next.next        <span class="cm"># skip the target node</span>
+
+    <span class="kw">return</span> <span class="var">dummy</span>.next                 <span class="cm"># head may have changed</span></code></pre>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Let me trace through <code>1 → 2 → 3 → 4 → 5</code>, n=2.<br><br>
+
+          <strong>Setup:</strong> dummy → 1 → 2 → 3 → 4 → 5<br>
+          fast=dummy, slow=dummy<br><br>
+
+          <strong>Advance fast n+1 = 3 steps:</strong><br>
+          Step 1: fast → node[1]<br>
+          Step 2: fast → node[2]<br>
+          Step 3: fast → node[3]<br>
+          After loop: fast=node[3], slow=dummy<br><br>
+
+          <strong>Move both until fast is None:</strong><br>
+          Iteration 1: fast=node[4], slow=node[1]<br>
+          Iteration 2: fast=node[5], slow=node[2]<br>
+          Iteration 3: fast=None,   slow=node[3]<br>
+          Loop ends.<br><br>
+
+          <strong>Delete:</strong> slow=node[3]. slow.next=node[4]. slow.next.next=node[5].<br>
+          Set slow.next = node[5] → node[3] now points directly to node[5]. Node[4] is removed.<br>
+          Result: <code>1 → 2 → 3 → 5</code> ✅<br>
+          Return dummy.next = node[1] ✅
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Good. Now trace through the edge case: a single-node list <code>[1]</code> with n=1.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Setup:</strong> dummy → 1 → None<br>
+          fast=dummy, slow=dummy<br><br>
+
+          <strong>Advance fast n+1 = 2 steps:</strong><br>
+          Step 1: fast → node[1]<br>
+          Step 2: fast → None<br><br>
+
+          <strong>While fast loop:</strong> fast is already None → loop body never runs.<br>
+          slow stays at dummy.<br><br>
+
+          <strong>Delete:</strong> slow=dummy. slow.next=node[1]. slow.next.next=None.<br>
+          Set dummy.next = None. Node[1] is unlinked.<br>
+          Return dummy.next = None ✅ (empty list)
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Perfect. That's exactly the head-removal case working cleanly through the dummy.
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 5 — Complexity Analysis</div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          <strong>Time:</strong> O(n_list) where n_list is the list length — fast traverses the entire list once,
+          slow traverses at most n_list − n steps. Total: one pass. Abbreviated as O(n).<br><br>
+          <strong>Space:</strong> O(1) — only the dummy node and two pointer variables. No recursion, no auxiliary storage.
+        </div>
+      </div>
+    </div>
+
+    <div class="complexity-box">
+      <div class="cx-cell hd">Metric</div>
+      <div class="cx-cell hd">Value</div>
+      <div class="cx-cell hd">Reason</div>
+      <div class="cx-cell">Time</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(n)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Single pass — fast traverses the full list</div>
+      <div class="cx-cell">Space</div>
+      <div class="cx-cell"><strong style="color:var(--green);">O(1)</strong></div>
+      <div class="cx-cell" style="color:var(--text-secondary);">Dummy node + two pointers only</div>
+    </div>
+
+    <!-- Stage 6 -->
+    <div class="stage-label"><span class="stage-dot"></span> Stage 6 — Follow-up Questions</div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          Why is the dummy node necessary here? Couldn't you just handle the head case with an if-statement?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          Technically yes — you could check at the end whether n equals the list length and if so return <code>head.next</code>.
+          But the dummy node is cleaner: it eliminates the special case entirely and keeps the logic uniform.
+          The dummy acts as a sentinel predecessor for the head node,
+          so the same "slow.next = slow.next.next" code works regardless of which node is being deleted.
+          In production code and in interviews, preferring uniform logic over branching is usually better style.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          How would you solve this if you didn't know the list length in advance and wanted to use two passes instead?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          First pass: traverse the whole list, count the length L.<br>
+          Second pass: advance to the (L − n)th node (1-indexed from the start), which is the predecessor.
+          Then do slow.next = slow.next.next.<br><br>
+          Again, a dummy node at the front simplifies the predecessor logic — if L − n is 0,
+          the dummy is the predecessor and we remove the original head by returning dummy.next.
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble">
+      <div class="avatar av-int">IV</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Interviewer</div>
+        <div class="btext int-b">
+          One more: what changes if this were a doubly linked list?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-bubble cand">
+      <div class="avatar av-cand">Me</div>
+      <div class="bubble-wrap">
+        <div class="bubble-name">Candidate</div>
+        <div class="btext cand-b">
+          With a doubly linked list, you can traverse backwards — so you could just walk n steps back from the tail
+          to find the target node directly, then unlink it by updating both its predecessor's <code>next</code>
+          and its successor's <code>prev</code>. You wouldn't need the two-pointer gap trick at all.
+          That's one of the main practical advantages of doubly linked lists over singly linked ones.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Full Solution -->
+    <h2 id="solution" style="border:none;margin-top:0;">✅ Full Python Solution</h2>
+
+    <div class="code-block">
+      <div class="code-block-header">
+        <span>Python 3</span>
+        <span style="color:var(--green)">O(n) time · O(1) space</span>
+      </div>
+      <pre><code><span class="kw">class</span> <span class="fn">Solution</span>:
+    <span class="kw">def</span> <span class="fn">removeNthFromEnd</span>(<span class="var">self</span>, <span class="var">head</span>: <span class="bi">Optional</span>[<span class="fn">ListNode</span>], <span class="var">n</span>: <span class="bi">int</span>) -> <span class="bi">Optional</span>[<span class="fn">ListNode</span>]:
+        <span class="var">dummy</span> = <span class="fn">ListNode</span>(<span class="num">0</span>, <span class="var">head</span>)
+        <span class="var">fast</span> = <span class="var">slow</span> = <span class="var">dummy</span>
+
+        <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="var">n</span> + <span class="num">1</span>):        <span class="cm"># advance fast n+1 steps from dummy</span>
+            <span class="var">fast</span> = <span class="var">fast</span>.next
+
+        <span class="kw">while</span> <span class="var">fast</span>:                    <span class="cm"># move both until fast is None</span>
+            <span class="var">fast</span> = <span class="var">fast</span>.next
+            <span class="var">slow</span> = <span class="var">slow</span>.next
+
+        <span class="var">slow</span>.next = <span class="var">slow</span>.next.next     <span class="cm"># unlink the target node</span>
+        <span class="kw">return</span> <span class="var">dummy</span>.next              <span class="cm"># return real head (may have changed)</span></code></pre>
+    </div>
+
+    <div class="callout callout-green" id="tips">
+      <div class="callout-label">Key Interview Tips 💡</div>
+      <ul style="margin-top:6px;margin-left:18px;">
+        <li><strong>n+1, not n:</strong> You need slow to stop at the predecessor so you can rewire. This off-by-one is the most common mistake — always verify with a trace.</li>
+        <li><strong>Dummy node is non-negotiable:</strong> Without it, removing the head requires a special-case branch. The dummy eliminates that entirely — use it any time you might delete the head.</li>
+        <li>Return <code>dummy.next</code>, not <code>head</code> — when the original head is removed, <code>head</code> is stale but <code>dummy.next</code> always points to the real new head.</li>
+        <li>The two-pointer gap pattern generalises: "find the k-th from end" problems all use the same setup with different gap sizes.</li>
+        <li>Always trace both a middle-node removal and a head-node removal in your explanation — it proves you understand the edge cases.</li>
+      </ul>
+    </div>
+
+    <a href="ll-2-add-two-numbers.html" class="back-link" style="margin-top:24px;">Next: #2 Add Two Numbers →</a>
+
+  </main>
+
+  <!-- ── TOC Rail ──────────────────────────────────────── -->
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav><ul class="toc-nav">
+      <li><a href="#problem"   class="toc-link" data-id="problem">Problem</a></li>
+      <li><a href="#interview" class="toc-link" data-id="interview">Mock Interview</a></li>
+      <li><a href="#solution"  class="toc-link" data-id="solution">Solution</a></li>
+      <li><a href="#tips"      class="toc-link" data-id="tips">Key Tips</a></li>
+    </ul></nav>
+  </aside>
+
+</div>
+
+<script>
+(function () {
+  const tocLinks = document.querySelectorAll('.toc-link[data-id]');
+  const headings = Array.from(tocLinks).map(l => document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id) { tocLinks.forEach(l => l.classList.toggle('toc-active', l.dataset.id === id)); }
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting).map(e => e.target);
+    if (visible.length) { visible.sort((a,b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top); setActive(visible[0].id); }
+  }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+  headings.forEach(h => observer.observe(h));
+  if (headings.length) setActive(headings[0].id);
+})();
+</script>
+
+</body>
+</html>
