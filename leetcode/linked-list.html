@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linked List — LeetCode Notes</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────── -->
+<header class="site-header">
+  <a href="../index.html" class="site-logo"><span class="logo-icon">⚡</span> DM Kai</a>
+  <nav class="header-nav">
+    <a href="../index.html">Home</a>
+    <a href="index.html" class="active">LeetCode</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Data Structures</div>
+      <a href="stack.html" class="sidebar-item">
+        <span class="icon">📚</span> Stack
+        <span class="sidebar-badge badge-active">Ready</span>
+      </a>
+      <a href="linked-list.html" class="sidebar-item active">
+        <span class="icon">🔗</span> Linked List
+        <span class="sidebar-badge badge-active">Ready</span>
+      </a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;">
+        <span class="icon">🌳</span> Trees
+        <span class="sidebar-badge badge-soon">Soon</span>
+      </a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;">
+        <span class="icon">🗺️</span> Graphs
+        <span class="sidebar-badge badge-soon">Soon</span>
+      </a>
+      <a href="#" class="sidebar-item" style="pointer-events:none;opacity:.45;">
+        <span class="icon">🔍</span> Binary Search
+        <span class="sidebar-badge badge-soon">Soon</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content">
+
+    <!-- ── Title ──── -->
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+      <h1 id="intro" style="margin:0;">🔗 Linked List</h1>
+      <button class="btn" onclick="downloadMarkdown()" title="Export this page as Markdown">↓ Export .md</button>
+    </div>
+    <p class="topic-subtitle">
+      A sequence of nodes where each node holds a value and a pointer to the next — built for O(1) insert/delete once you have the location.
+      <br><span style="color:var(--text-muted);font-size:13px;">链表 — 指针操作是核心，画图再写代码</span>
+    </p>
+
+    <!-- ── Core Concept ──── -->
+    <div class="callout callout-blue">
+      <div class="callout-label">Core Idea 核心思路</div>
+      Unlike arrays, linked lists have <strong>no index-based random access</strong> (traversal is O(n)), but support
+      <strong>O(1) insert/delete</strong> once you hold a reference to the target node.
+      Nearly every linked list problem reduces to <em>careful pointer re-wiring</em> —
+      always draw the before/after state before writing a single line of code.
+      <br><span style="color:var(--text-muted);font-style:italic;font-size:13px;">动笔画图再写代码，是链表题的黄金法则</span>
+    </div>
+
+    <div style="display:flex;gap:32px;flex-wrap:wrap;margin:20px 0;">
+      <div style="flex:1;min-width:260px;">
+        <h4>Node Definition &amp; Core Operations</h4>
+        <div class="code-block">
+          <div class="code-block-header"><span>Python</span></div>
+          <pre><code><span class="kw">class</span> <span class="fn">ListNode</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">val</span>=<span class="num">0</span>, <span class="var">next</span>=<span class="bi">None</span>):
+        <span class="var">self</span>.val  = <span class="var">val</span>
+        <span class="var">self</span>.next = <span class="var">next</span>
+
+<span class="cm"># Build: 1 → 2 → 3 → None</span>
+<span class="var">head</span> = <span class="fn">ListNode</span>(<span class="num">1</span>, <span class="fn">ListNode</span>(<span class="num">2</span>, <span class="fn">ListNode</span>(<span class="num">3</span>)))
+
+<span class="cm"># Traverse — O(n)</span>
+<span class="var">cur</span> = <span class="var">head</span>
+<span class="kw">while</span> <span class="var">cur</span>:
+    <span class="bi">print</span>(<span class="var">cur</span>.val)
+    <span class="var">cur</span> = <span class="var">cur</span>.next
+
+<span class="cm"># Insert after node p — O(1)</span>
+<span class="var">new_node</span>.next = <span class="var">p</span>.next
+<span class="var">p</span>.next = <span class="var">new_node</span>
+
+<span class="cm"># Delete node after p — O(1)</span>
+<span class="var">p</span>.next = <span class="var">p</span>.next.next  <span class="cm"># GC handles memory</span></code></pre>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:6px;">
+          Traverse <strong>O(n)</strong> · Insert/Delete at known position <strong>O(1)</strong> · Search <strong>O(n)</strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- ── Interactive Demo ──── -->
+    <h3>Interactive Demo — Visualise a Linked List</h3>
+    <div class="stack-demo">
+      <div style="flex:1;min-width:280px;">
+        <div class="stack-visual-label" id="llLabel">list = [ ]</div>
+        <div id="llViz" style="display:flex;align-items:center;gap:0;flex-wrap:wrap;min-height:52px;margin-bottom:6px;"></div>
+        <div class="stack-base" style="width:100%;max-width:520px;"></div>
+      </div>
+      <div class="stack-controls">
+        <div class="stack-input-row" style="flex-wrap:wrap;gap:6px;">
+          <input class="stack-input" id="llInput" type="text" placeholder="val" maxlength="3" />
+          <button class="btn btn-push" onclick="llAppend()">Append →</button>
+          <button class="btn btn-push" onclick="llPrepend()">← Prepend</button>
+          <button class="btn btn-pop"  onclick="llRemoveHead()">Remove Head</button>
+          <button class="btn btn-step" onclick="llReverse()">↺ Reverse</button>
+        </div>
+        <div class="stack-log" id="llLog"><span class="log-info">— ready —</span></div>
+      </div>
+    </div>
+
+    <!-- ── Patterns ──── -->
+    <h2 id="patterns">Problem Patterns</h2>
+    <p class="section-intro">
+      Linked list problems cluster into five recognisable patterns.
+      Spot the right one early and the solution structure becomes obvious.
+      <span style="color:var(--text-muted)">（认出模式，解法自然浮现）</span>
+    </p>
+
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <div class="pattern-icon">🐢🐇</div>
+        <div class="pattern-title">Fast &amp; Slow Pointers</div>
+        <div class="pattern-zh">快慢指针</div>
+        <div class="pattern-desc">
+          Two pointers advance at different speeds (1× and 2×). When fast reaches the end, slow is at the middle.
+          If fast ever equals slow again, there's a cycle.
+        </div>
+        <div class="pattern-keywords">
+          <span class="kchip">cycle</span><span class="kchip">middle of list</span>
+          <span class="kchip">detect loop</span><span class="kchip">palindrome</span>
+        </div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-icon">🔄</div>
+        <div class="pattern-title">In-place Reversal</div>
+        <div class="pattern-zh">原地反转</div>
+        <div class="pattern-desc">
+          Rewire <code>next</code> pointers while traversing with <code>prev / cur / nxt</code>.
+          Works for full reversal, partial reversal (between positions m and n), and k-group reversal.
+        </div>
+        <div class="pattern-keywords">
+          <span class="kchip">reverse</span><span class="kchip">flip</span>
+          <span class="kchip">k-group</span><span class="kchip">between positions</span>
+        </div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-icon">🪆</div>
+        <div class="pattern-title">Dummy Head Node</div>
+        <div class="pattern-zh">哨兵节点</div>
+        <div class="pattern-desc">
+          Prepend a fake node before <code>head</code> so every real node has a predecessor.
+          Eliminates all "is this the head?" special cases in delete, insert, and merge operations.
+        </div>
+        <div class="pattern-keywords">
+          <span class="kchip">delete node</span><span class="kchip">merge</span>
+          <span class="kchip">remove duplicates</span><span class="kchip">swap pairs</span>
+        </div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-icon">🔀</div>
+        <div class="pattern-title">Merge &amp; Divide</div>
+        <div class="pattern-zh">合并与分治</div>
+        <div class="pattern-desc">
+          Merge two sorted lists in O(m+n) using a pointer race. Scale to k lists via a min-heap or
+          divide-and-conquer. Sort a list with merge sort (natural fit for linked lists).
+        </div>
+        <div class="pattern-keywords">
+          <span class="kchip">merge sorted</span><span class="kchip">merge k lists</span>
+          <span class="kchip">sort list</span>
+        </div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-icon">🗺️</div>
+        <div class="pattern-title">HashMap + Pointer</div>
+        <div class="pattern-zh">哈希辅助</div>
+        <div class="pattern-desc">
+          Use a hash map to record visited nodes (cycle entry), build node mappings (deep copy),
+          or achieve O(1) operations on a structured list (LRU Cache).
+        </div>
+        <div class="pattern-keywords">
+          <span class="kchip">cycle entry</span><span class="kchip">copy with random</span>
+          <span class="kchip">LRU</span><span class="kchip">intersection</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         PATTERN 1 — Fast & Slow Pointers
+         ════════════════════════════════════════ -->
+    <h2 id="fastslow">Pattern 1 — Fast &amp; Slow Pointers</h2>
+
+    <div class="callout callout-yellow">
+      <div class="callout-label">Trigger Keywords 触发关键词</div>
+      "middle of linked list", "detect cycle", "find cycle entry", "palindrome linked list",
+      "nth from end" — any problem that needs two positions in the list simultaneously without extra space.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Core Insight 核心思路</div>
+      <p>Move <code>slow</code> one step and <code>fast</code> two steps per iteration.</p>
+      <ul style="margin-top:8px;margin-left:18px;">
+        <li><strong>Find middle:</strong> when <code>fast</code> hits the end, <code>slow</code> is at the midpoint.</li>
+        <li><strong>Detect cycle:</strong> if a cycle exists, fast will lap slow and they'll meet inside the loop.</li>
+        <li><strong>Find cycle entry (LC #142):</strong> after meeting, reset one pointer to <code>head</code> and advance both at speed 1 — they meet at the entry node.</li>
+      </ul>
+      <span style="color:var(--text-muted);font-style:italic;font-size:13px;">快指针跑两步，慢指针跑一步，相遇即为中点</span>
+    </div>
+
+    <h3>Core Template</h3>
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Fast &amp; Slow (Find Middle)</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">findMiddle</span>(<span class="var">head</span>):
+    <span class="var">slow</span>, <span class="var">fast</span> = <span class="var">head</span>, <span class="var">head</span>
+
+    <span class="kw">while</span> <span class="var">fast</span> <span class="kw">and</span> <span class="var">fast</span>.next:
+        <span class="var">slow</span> = <span class="var">slow</span>.next          <span class="cm"># 1 step</span>
+        <span class="var">fast</span> = <span class="var">fast</span>.next.next    <span class="cm"># 2 steps</span>
+
+    <span class="kw">return</span> <span class="var">slow</span>                  <span class="cm"># slow is at the middle</span>
+
+<span class="cm"># ── Cycle detection variant ──────────────────────────────</span>
+<span class="kw">function</span> <span class="fn">hasCycle</span>(<span class="var">head</span>):
+    <span class="var">slow</span>, <span class="var">fast</span> = <span class="var">head</span>, <span class="var">head</span>
+    <span class="kw">while</span> <span class="var">fast</span> <span class="kw">and</span> <span class="var">fast</span>.next:
+        <span class="var">slow</span> = <span class="var">slow</span>.next
+        <span class="var">fast</span> = <span class="var">fast</span>.next.next
+        <span class="kw">if</span> <span class="var">slow</span> == <span class="var">fast</span>: <span class="kw">return</span> <span class="bi">True</span>   <span class="cm"># they met — cycle!</span>
+    <span class="kw">return</span> <span class="bi">False</span></code></pre>
+    </div>
+
+    <h3>Step-by-step Walkthrough — Find Middle of 1→2→3→4→5</h3>
+    <div class="walkthrough" id="fsWalkthrough">
+      <div class="walkthrough-title">Fast &amp; Slow Pointer Trace — 5-node list</div>
+      <div style="overflow-x:auto;">
+        <div id="fsViz" style="display:flex;align-items:center;gap:0;margin:14px 0;min-width:320px;"></div>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:10px;font-size:12px;color:var(--text-muted);">
+        <span>🟠 slow pointer</span>
+        <span>🔵 fast pointer</span>
+        <span>🟢 both pointers / answer</span>
+      </div>
+      <div class="wt-msg" id="fsMsg">Press <strong>Next Step</strong> to begin the trace.</div>
+      <div style="margin-top:8px;font-size:13px;color:var(--text-secondary);font-family:var(--mono);">
+        slow=<span id="fsSlowIdx">0</span> &nbsp;|&nbsp; fast=<span id="fsFastIdx">0</span>
+      </div>
+      <div class="walkthrough-controls">
+        <button class="btn btn-step" id="fsPrev" onclick="fsStep(-1)" disabled>◀ Prev</button>
+        <button class="btn btn-step" id="fsNext" onclick="fsStep(1)">Next ▶</button>
+        <button class="btn btn-play" id="fsPlay" onclick="fsAutoPlay()">▶ Auto</button>
+        <button class="btn btn-step" onclick="fsReset()">↺ Reset</button>
+        <span class="step-counter" id="fsCounter">0 / 0</span>
+      </div>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">Complexity 复杂度</div>
+      <strong>O(n)</strong> time — each pointer traverses at most n nodes.
+      <strong>O(1)</strong> space — only two pointer variables, no extra data structure.
+    </div>
+
+    <!-- ════════════════════════════════════════
+         PATTERN 2 — In-place Reversal
+         ════════════════════════════════════════ -->
+    <h2 id="reversal">Pattern 2 — In-place Reversal</h2>
+
+    <div class="callout callout-yellow">
+      <div class="callout-label">Trigger Keywords 触发关键词</div>
+      "reverse a linked list", "reverse between positions m and n", "reverse in k-group",
+      "palindrome linked list" — any problem requiring the direction of <code>next</code> pointers to be flipped.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Core Insight 核心思路</div>
+      Use three pointers: <code>prev</code>, <code>cur</code>, <code>nxt</code>.
+      At each step: save <code>nxt = cur.next</code>, flip <code>cur.next = prev</code>, then advance both.
+      The invariant is that everything to the left of <code>cur</code> is already reversed.
+      <br><span style="color:var(--text-muted);font-style:italic;font-size:13px;">三指针法：保存下一个，翻转当前，整体右移</span>
+    </div>
+
+    <h3>Core Template</h3>
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Iterative Reversal</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">reverseList</span>(<span class="var">head</span>):
+    <span class="var">prev</span>, <span class="var">cur</span> = <span class="bi">None</span>, <span class="var">head</span>
+
+    <span class="kw">while</span> <span class="var">cur</span>:
+        <span class="var">nxt</span>      = <span class="var">cur</span>.next     <span class="cm"># ① save next before overwriting</span>
+        <span class="var">cur</span>.next = <span class="var">prev</span>         <span class="cm"># ② flip pointer</span>
+        <span class="var">prev</span>     = <span class="var">cur</span>          <span class="cm"># ③ advance prev</span>
+        <span class="var">cur</span>      = <span class="var">nxt</span>          <span class="cm"># ④ advance cur</span>
+
+    <span class="kw">return</span> <span class="var">prev</span>                  <span class="cm"># prev is now the new head</span>
+
+<span class="cm"># ── Partial reversal (between left and right) ─────────────</span>
+<span class="kw">function</span> <span class="fn">reverseBetween</span>(<span class="var">head</span>, <span class="var">left</span>, <span class="var">right</span>):
+    <span class="var">dummy</span> = <span class="fn">ListNode</span>(<span class="num">0</span>, <span class="var">head</span>)   <span class="cm"># dummy head eliminates edge cases</span>
+    <span class="var">pre</span>   = <span class="var">dummy</span>
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="bi">range</span>(<span class="var">left</span> - <span class="num">1</span>): <span class="var">pre</span> = <span class="var">pre</span>.next  <span class="cm"># stop at node before left</span>
+
+    <span class="var">cur</span> = <span class="var">pre</span>.next
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="bi">range</span>(<span class="var">right</span> - <span class="var">left</span>):
+        <span class="var">nxt</span>      = <span class="var">cur</span>.next
+        <span class="var">cur</span>.next = <span class="var">nxt</span>.next
+        <span class="var">nxt</span>.next = <span class="var">pre</span>.next      <span class="cm"># insert nxt right after pre</span>
+        <span class="var">pre</span>.next = <span class="var">nxt</span>
+
+    <span class="kw">return</span> <span class="var">dummy</span>.next</code></pre>
+    </div>
+
+    <h3>Step-by-step Walkthrough — Reverse 1→2→3→4→5</h3>
+    <div class="walkthrough" id="revWalkthrough">
+      <div class="walkthrough-title">Iterative Reversal Trace</div>
+      <div style="overflow-x:auto;">
+        <div id="revViz" style="display:flex;align-items:center;gap:0;margin:14px 0;min-width:320px;"></div>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:10px;font-size:12px;color:var(--text-muted);">
+        <span>🟣 prev</span><span>🟡 cur</span><span>⬜ nxt</span><span>↔ reversed arrow</span>
+      </div>
+      <div class="wt-msg" id="revMsg">Press <strong>Next Step</strong> to begin the trace.</div>
+      <div style="margin-top:8px;font-size:13px;color:var(--text-secondary);font-family:var(--mono);" id="revState">
+        prev=None &nbsp;|&nbsp; cur=1
+      </div>
+      <div class="walkthrough-controls">
+        <button class="btn btn-step" id="revPrev" onclick="revStep(-1)" disabled>◀ Prev</button>
+        <button class="btn btn-step" id="revNext" onclick="revStep(1)">Next ▶</button>
+        <button class="btn btn-play" id="revPlay" onclick="revAutoPlay()">▶ Auto</button>
+        <button class="btn btn-step" onclick="revReset()">↺ Reset</button>
+        <span class="step-counter" id="revCounter">0 / 0</span>
+      </div>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">Complexity 复杂度</div>
+      <strong>O(n)</strong> time — single pass through all n nodes.
+      <strong>O(1)</strong> space — three pointer variables only, no recursion stack.
+    </div>
+
+    <!-- ════════════════════════════════════════
+         PATTERN 3 — Dummy Head Node
+         ════════════════════════════════════════ -->
+    <h2 id="dummy">Pattern 3 — Dummy Head Node</h2>
+
+    <div class="callout callout-yellow">
+      <div class="callout-label">Trigger Keywords 触发关键词</div>
+      "remove nth node", "delete node", "remove duplicates", "swap pairs", "merge two sorted lists" —
+      any problem where the <em>head itself might be deleted or replaced</em>, or where you need a
+      consistent predecessor for every node.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Core Insight 核心思路</div>
+      Create a <code>dummy = ListNode(0, head)</code> before the real head.
+      Now every node in the original list (including the first) has a predecessor,
+      so deletion and insertion are always "delete/insert <em>after</em> some node" — no special-case for head.
+      Return <code>dummy.next</code> at the end (the real head may have changed).
+      <br><span style="color:var(--text-muted);font-style:italic;font-size:13px;">哨兵消灭边界情况，dummy.next 就是真实头</span>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Dummy Head (Remove Nth From End)</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">removeNthFromEnd</span>(<span class="var">head</span>, <span class="var">n</span>):
+    <span class="var">dummy</span>       = <span class="fn">ListNode</span>(<span class="num">0</span>, <span class="var">head</span>)   <span class="cm"># fake node before head</span>
+    <span class="var">fast</span>, <span class="var">slow</span>  = <span class="var">dummy</span>, <span class="var">dummy</span>
+
+    <span class="cm"># advance fast by n+1 steps to create a gap of n</span>
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="bi">range</span>(<span class="var">n</span> + <span class="num">1</span>): <span class="var">fast</span> = <span class="var">fast</span>.next
+
+    <span class="cm"># move both until fast hits the end</span>
+    <span class="kw">while</span> <span class="var">fast</span>:
+        <span class="var">fast</span> = <span class="var">fast</span>.next
+        <span class="var">slow</span> = <span class="var">slow</span>.next
+
+    <span class="cm"># slow is now at the node BEFORE the one to delete</span>
+    <span class="var">slow</span>.next = <span class="var">slow</span>.next.next
+
+    <span class="kw">return</span> <span class="var">dummy</span>.next            <span class="cm"># head might have changed!</span></code></pre>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">Trace — Remove 2nd from end of 1→2→3→4→5 (n=2)</div>
+      <div style="font-family:var(--mono);font-size:13px;line-height:2;">
+        dummy → 1 → 2 → 3 → 4 → 5 → None<br>
+        Advance fast 3 steps (n+1=3): fast points to 3<br>
+        Move both until fast=None: slow=3, fast=None<br>
+        slow.next (4) is the target → slow.next = slow.next.next (5)<br>
+        Result: 1 → 2 → 3 → <strong>5</strong> → None ✓
+      </div>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">Complexity 复杂度</div>
+      <strong>O(n)</strong> time — one pass with the two-pointer gap technique.
+      <strong>O(1)</strong> space — dummy node + two pointers only.
+    </div>
+
+    <!-- ════════════════════════════════════════
+         PATTERN 4 — Merge & Divide
+         ════════════════════════════════════════ -->
+    <h2 id="merge">Pattern 4 — Merge &amp; Divide</h2>
+
+    <div class="callout callout-yellow">
+      <div class="callout-label">Trigger Keywords 触发关键词</div>
+      "merge two sorted lists", "merge k sorted lists", "sort a linked list" —
+      whenever you need to combine or sort linked list structures efficiently.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Core Insight 核心思路</div>
+      <p>Merging two sorted linked lists is O(m+n) with a pointer race — no extra array needed.
+      Merge sort on a linked list is optimal (O(n log n)) because splitting at the middle is O(n) via fast/slow, and no extra space is needed for merging.</p>
+      <p style="margin-top:8px;">For k lists, use a <strong>min-heap of size k</strong> (O(n log k)) or pair-wise merge with divide-and-conquer.</p>
+      <span style="color:var(--text-muted);font-style:italic;font-size:13px;">链表的归并排序比数组更自然，不需要额外空间合并</span>
+    </div>
+
+    <h3>Core Template — Merge Two Sorted Lists</h3>
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Merge Two Sorted (LC #21)</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">mergeTwoLists</span>(<span class="var">l1</span>, <span class="var">l2</span>):
+    <span class="var">dummy</span> = <span class="fn">ListNode</span>(<span class="num">0</span>)        <span class="cm"># dummy head → no edge-case for first node</span>
+    <span class="var">cur</span>   = <span class="var">dummy</span>
+
+    <span class="kw">while</span> <span class="var">l1</span> <span class="kw">and</span> <span class="var">l2</span>:
+        <span class="kw">if</span> <span class="var">l1</span>.val &lt;= <span class="var">l2</span>.val:
+            <span class="var">cur</span>.next = <span class="var">l1</span>;  <span class="var">l1</span> = <span class="var">l1</span>.next
+        <span class="kw">else</span>:
+            <span class="var">cur</span>.next = <span class="var">l2</span>;  <span class="var">l2</span> = <span class="var">l2</span>.next
+        <span class="var">cur</span> = <span class="var">cur</span>.next
+
+    <span class="var">cur</span>.next = <span class="var">l1</span> <span class="kw">if</span> <span class="var">l1</span> <span class="kw">else</span> <span class="var">l2</span>   <span class="cm"># attach remaining tail</span>
+    <span class="kw">return</span> <span class="var">dummy</span>.next</code></pre>
+    </div>
+
+    <h3>Walkthrough — Merge [1→3→5] and [2→4→6]</h3>
+    <div class="walkthrough" id="mergeWalkthrough">
+      <div class="walkthrough-title">Merge Two Sorted Lists Trace</div>
+      <div style="overflow-x:auto;">
+        <div id="mergeViz" style="font-family:var(--mono);font-size:13px;line-height:2;color:var(--text-secondary);min-height:120px;padding:8px 0;"></div>
+      </div>
+      <div class="wt-msg" id="mergeMsg">Press <strong>Next Step</strong> to begin.</div>
+      <div class="walkthrough-controls">
+        <button class="btn btn-step" id="mergePrev" onclick="mergeStep(-1)" disabled>◀ Prev</button>
+        <button class="btn btn-step" id="mergeNext" onclick="mergeStep(1)">Next ▶</button>
+        <button class="btn btn-play" id="mergePlay" onclick="mergeAutoPlay()">▶ Auto</button>
+        <button class="btn btn-step" onclick="mergeReset()">↺ Reset</button>
+        <span class="step-counter" id="mergeCounter">0 / 0</span>
+      </div>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">Complexity 复杂度</div>
+      Merge Two Lists: <strong>O(m+n)</strong> time, <strong>O(1)</strong> space (re-wiring only).<br>
+      Merge k Lists (heap): <strong>O(n log k)</strong> time, <strong>O(k)</strong> space for the heap.<br>
+      Sort List (merge sort): <strong>O(n log n)</strong> time, <strong>O(log n)</strong> space for recursion.
+    </div>
+
+    <!-- ════════════════════════════════════════
+         PATTERN 5 — HashMap + Pointer
+         ════════════════════════════════════════ -->
+    <h2 id="hashmap">Pattern 5 — HashMap + Pointer</h2>
+
+    <div class="callout callout-yellow">
+      <div class="callout-label">Trigger Keywords 触发关键词</div>
+      "copy list with random pointer", "detect cycle entry point", "intersection of two linked lists",
+      "LRU cache" — problems where you need to track identity of nodes (not just values)
+      or achieve O(1) lookup on a list structure.
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Core Insight 核心思路</div>
+      <p>Hash maps let you move from O(n) search to O(1) lookup by mapping node identity → metadata.</p>
+      <ul style="margin-top:8px;margin-left:18px;">
+        <li><strong>Deep copy:</strong> map <code>old_node → new_node</code>; then rewire <code>next</code> and <code>random</code> in a second pass.</li>
+        <li><strong>Cycle entry:</strong> store visited nodes; first repeat is the entry. (O(n) space — Floyd's is the O(1) alternative.)</li>
+        <li><strong>LRU Cache:</strong> doubly-linked list (O(1) evict) + hash map (O(1) lookup) = O(1) get/put.</li>
+      </ul>
+      <span style="color:var(--text-muted);font-style:italic;font-size:13px;">哈希表换空间换时间，链表+哈希 = LRU的核心</span>
+    </div>
+
+    <div class="code-block">
+      <div class="code-block-header"><span>Pseudocode — Copy List with Random Pointer (LC #138)</span></div>
+      <pre><code><span class="kw">function</span> <span class="fn">copyRandomList</span>(<span class="var">head</span>):
+    <span class="kw">if</span> <span class="kw">not</span> <span class="var">head</span>: <span class="kw">return</span> <span class="bi">None</span>
+    <span class="var">old_to_new</span> = {}    <span class="cm"># maps original node → its copy</span>
+
+    <span class="cm"># Pass 1: create all new nodes</span>
+    <span class="var">cur</span> = <span class="var">head</span>
+    <span class="kw">while</span> <span class="var">cur</span>:
+        <span class="var">old_to_new</span>[<span class="var">cur</span>] = <span class="fn">Node</span>(<span class="var">cur</span>.val)
+        <span class="var">cur</span> = <span class="var">cur</span>.next
+
+    <span class="cm"># Pass 2: wire next and random pointers</span>
+    <span class="var">cur</span> = <span class="var">head</span>
+    <span class="kw">while</span> <span class="var">cur</span>:
+        <span class="kw">if</span> <span class="var">cur</span>.next:
+            <span class="var">old_to_new</span>[<span class="var">cur</span>].next   = <span class="var">old_to_new</span>[<span class="var">cur</span>.next]
+        <span class="kw">if</span> <span class="var">cur</span>.random:
+            <span class="var">old_to_new</span>[<span class="var">cur</span>].random = <span class="var">old_to_new</span>[<span class="var">cur</span>.random]
+        <span class="var">cur</span> = <span class="var">cur</span>.next
+
+    <span class="kw">return</span> <span class="var">old_to_new</span>[<span class="var">head</span>]</code></pre>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">Complexity 复杂度</div>
+      Deep Copy (hash map): <strong>O(n)</strong> time, <strong>O(n)</strong> space for the map.<br>
+      LRU Cache get/put: <strong>O(1)</strong> amortised — doubly-linked list + hash map combo.<br>
+      Cycle entry (hash set): <strong>O(n)</strong> time, <strong>O(n)</strong> space — use Floyd's for O(1) space.
+    </div>
+
+    <!-- ════════════════════════════════════════
+         PROBLEM LIST
+         ════════════════════════════════════════ -->
+    <h2 id="problems">Practice Problem List</h2>
+    <p class="section-intro">
+      ⭐ = must-know classic &nbsp;|&nbsp; 🔥 = frequently seen in recent interviews (2023–2025)
+    </p>
+
+    <!-- Progress tracker -->
+    <div class="prob-progress">
+      <span class="prob-progress-label">Linked List progress</span>
+      <div class="prob-progress-track">
+        <div class="prob-progress-fill" id="probFill"></div>
+      </div>
+      <span class="prob-progress-count" id="probCount">0 / 14</span>
+      <button class="btn-reset" onclick="resetProgress()" title="Clear all progress">↺ Reset</button>
+    </div>
+
+    <h3 style="margin-top:20px;">Easy</h3>
+    <table class="problem-table">
+      <thead>
+        <tr><th style="width:38px;"></th><th>#</th><th>Problem</th><th>Pattern</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="206"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">206</td>
+          <td><a href="problems/ll-206-reverse-linked-list.html" class="prob-link">Reverse Linked List</a>
+            <span class="tag tag-easy" style="margin-left:6px;">Easy</span></td>
+          <td><span class="tag tag-pattern">In-place Reversal</span></td>
+          <td><span class="star">⭐</span> Foundation — learn this first</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="21"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">21</td>
+          <td><a href="problems/ll-21-merge-two-sorted-lists.html" class="prob-link">Merge Two Sorted Lists</a>
+            <span class="tag tag-easy" style="margin-left:6px;">Easy</span></td>
+          <td><span class="tag tag-pattern">Merge</span></td>
+          <td><span class="star">⭐</span> Dummy head + pointer race</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="141"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">141</td>
+          <td><a href="problems/ll-141-linked-list-cycle.html" class="prob-link">Linked List Cycle</a>
+            <span class="tag tag-easy" style="margin-left:6px;">Easy</span></td>
+          <td><span class="tag tag-pattern">Fast &amp; Slow</span></td>
+          <td><span class="star">⭐</span> Floyd's cycle detection</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="876"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">876</td>
+          <td><a href="problems/ll-876-middle-of-linked-list.html" class="prob-link">Middle of the Linked List</a>
+            <span class="tag tag-easy" style="margin-left:6px;">Easy</span></td>
+          <td><span class="tag tag-pattern">Fast &amp; Slow</span></td>
+          <td>Classic fast/slow intro problem</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="234"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">234</td>
+          <td><a href="problems/ll-234-palindrome-linked-list.html" class="prob-link">Palindrome Linked List</a>
+            <span class="tag tag-easy" style="margin-left:6px;">Easy</span></td>
+          <td><span class="tag tag-pattern">Fast &amp; Slow</span></td>
+          <td>Combines find-middle + reversal</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Medium</h3>
+    <table class="problem-table">
+      <thead>
+        <tr><th style="width:38px;"></th><th>#</th><th>Problem</th><th>Pattern</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="19"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">19</td>
+          <td><a href="problems/ll-19-remove-nth-from-end.html" class="prob-link">Remove Nth Node From End of List</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">Dummy Head</span></td>
+          <td><span class="star">⭐</span> 🔥 Two-pointer gap classic</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="2"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">2</td>
+          <td><a href="problems/ll-2-add-two-numbers.html" class="prob-link">Add Two Numbers</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">Simulation</span></td>
+          <td><span class="star">⭐</span> Carry propagation simulation</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="92"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">92</td>
+          <td><a href="problems/ll-92-reverse-linked-list-ii.html" class="prob-link">Reverse Linked List II</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">In-place Reversal</span></td>
+          <td>Partial reversal between m and n</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="143"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">143</td>
+          <td><a href="problems/ll-143-reorder-list.html" class="prob-link">Reorder List</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">Fast &amp; Slow + Reversal</span></td>
+          <td>🔥 Multi-step combo problem</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="142"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">142</td>
+          <td><a href="problems/ll-142-linked-list-cycle-ii.html" class="prob-link">Linked List Cycle II</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">Fast &amp; Slow</span></td>
+          <td>🔥 Floyd's cycle — find entry point</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="138"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">138</td>
+          <td><a href="problems/ll-138-copy-list-with-random-pointer.html" class="prob-link">Copy List with Random Pointer</a>
+            <span class="tag tag-medium" style="margin-left:6px;">Medium</span></td>
+          <td><span class="tag tag-pattern">HashMap</span></td>
+          <td>🔥 Deep copy + random pointer wiring</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Hard</h3>
+    <table class="problem-table">
+      <thead>
+        <tr><th style="width:38px;"></th><th>#</th><th>Problem</th><th>Pattern</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="23"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">23</td>
+          <td><a href="problems/ll-23-merge-k-sorted-lists.html" class="prob-link">Merge k Sorted Lists</a>
+            <span class="tag tag-hard" style="margin-left:6px;">Hard</span></td>
+          <td><span class="tag tag-pattern">Merge + Heap</span></td>
+          <td><span class="star">⭐</span> 🔥 FAANG classic — heap or D&amp;C</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="25"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">25</td>
+          <td><a href="problems/ll-25-reverse-nodes-in-k-group.html" class="prob-link">Reverse Nodes in k-Group</a>
+            <span class="tag tag-hard" style="margin-left:6px;">Hard</span></td>
+          <td><span class="tag tag-pattern">In-place Reversal</span></td>
+          <td>🔥 Hard reversal — Google favourite</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="prob-check" data-id="146"></td>
+          <td style="color:var(--text-muted);font-family:var(--mono);">146</td>
+          <td><a href="problems/ll-146-lru-cache.html" class="prob-link">LRU Cache</a>
+            <span class="tag tag-hard" style="margin-left:6px;">Hard</span></td>
+          <td><span class="tag tag-pattern">HashMap + DLL</span></td>
+          <td><span class="star">⭐</span> 🔥 Design — doubly-linked list + dict</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </main><!-- end main-content -->
+
+  <!-- ── Right TOC Rail ──────────────────────────────── -->
+  <aside class="toc-rail">
+    <div class="toc-rail-title">On this page</div>
+    <nav>
+      <ul class="toc-nav">
+        <li><a href="#intro"    class="toc-link" data-id="intro">Introduction</a></li>
+        <li><a href="#patterns" class="toc-link" data-id="patterns">Problem Patterns</a></li>
+        <li><a href="#fastslow" class="toc-link toc-l3" data-id="fastslow">Fast &amp; Slow</a></li>
+        <li><a href="#reversal" class="toc-link toc-l3" data-id="reversal">Reversal</a></li>
+        <li><a href="#dummy"    class="toc-link toc-l3" data-id="dummy">Dummy Head</a></li>
+        <li><a href="#merge"    class="toc-link toc-l3" data-id="merge">Merge &amp; Divide</a></li>
+        <li><a href="#hashmap"  class="toc-link toc-l3" data-id="hashmap">HashMap + Pointer</a></li>
+        <li><a href="#problems" class="toc-link" data-id="problems">Problem List</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+</div><!-- end page-layout -->
+
+<!-- ════════════════════════════════════════════════════
+     JAVASCRIPT
+     ════════════════════════════════════════════════════ -->
+<script>
+/* ══════════════════════════════════════════════════════
+   ── Interactive Linked List Demo ─────────────────────
+   ══════════════════════════════════════════════════════ */
+let llList = [1, 2, 3, 4, 5];
+
+function llRenderNode(val, isLast) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;align-items:center;gap:0;';
+  const box = document.createElement('div');
+  box.style.cssText = [
+    'min-width:44px;height:44px;padding:0 8px;',
+    'display:flex;align-items:center;justify-content:center;',
+    'background:rgba(52,116,176,.09);border:1.5px solid var(--blue);',
+    'border-radius:7px;font-family:var(--mono);font-size:15px;',
+    'font-weight:700;color:var(--blue);transition:all .2s;'
+  ].join('');
+  box.textContent = val;
+  wrap.appendChild(box);
+  if (!isLast) {
+    const arrow = document.createElement('div');
+    arrow.style.cssText = 'font-size:18px;color:var(--border);padding:0 2px;line-height:1;user-select:none;';
+    arrow.textContent = '→';
+    wrap.appendChild(arrow);
+  } else {
+    const nil = document.createElement('div');
+    nil.style.cssText = 'font-size:11px;color:var(--text-muted);font-family:var(--mono);padding:0 6px;';
+    nil.textContent = '→ null';
+    wrap.appendChild(nil);
+  }
+  return wrap;
+}
+
+function llRender() {
+  const viz = document.getElementById('llViz');
+  viz.innerHTML = '';
+  if (llList.length === 0) {
+    const empty = document.createElement('div');
+    empty.style.cssText = 'font-size:12px;color:var(--text-muted);font-family:var(--mono);padding:14px 4px;';
+    empty.textContent = 'null  (empty list)';
+    viz.appendChild(empty);
+  } else {
+    llList.forEach((val, i) => viz.appendChild(llRenderNode(val, i === llList.length - 1)));
+  }
+  document.getElementById('llLabel').textContent = 'list = [' + llList.join(' → ') + ']';
+}
+
+function llLog(msg, cls) {
+  const log = document.getElementById('llLog');
+  log.innerHTML = `<span class="${cls}">${msg}</span>`;
+}
+
+function llAppend() {
+  const v = document.getElementById('llInput').value.trim() || String(Math.floor(Math.random() * 90) + 1);
+  llList.push(v);
+  document.getElementById('llInput').value = '';
+  llRender();
+  llLog('Appended ' + v + ' → tail.  [' + llList.join('→') + ']', 'log-push');
+}
+
+function llPrepend() {
+  const v = document.getElementById('llInput').value.trim() || String(Math.floor(Math.random() * 90) + 1);
+  llList.unshift(v);
+  document.getElementById('llInput').value = '';
+  llRender();
+  llLog('Prepended ' + v + ' → head.  [' + llList.join('→') + ']', 'log-push');
+}
+
+function llRemoveHead() {
+  if (llList.length === 0) { llLog('List is empty!', 'log-info'); return; }
+  const v = llList.shift();
+  llRender();
+  llLog('Removed head (' + v + ').  [' + (llList.length ? llList.join('→') : 'empty') + ']', 'log-pop');
+}
+
+function llReverse() {
+  if (llList.length === 0) { llLog('Nothing to reverse!', 'log-info'); return; }
+  llList.reverse();
+  llRender();
+  llLog('Reversed!  [' + llList.join('→') + ']', 'log-peek');
+}
+
+llRender();
+
+/* ══════════════════════════════════════════════════════
+   ── Fast & Slow Pointer Walkthrough ──────────────────
+   ══════════════════════════════════════════════════════ */
+const FS_VALS = [1, 2, 3, 4, 5];
+
+function buildFsSteps() {
+  const steps = [];
+  steps.push({ slow: -1, fast: -1, done: false, msg: 'Ready. Both pointers start at index 0 (head). Fast moves 2 steps, slow moves 1 step.' });
+  let s = 0, f = 0;
+  steps.push({ slow: s, fast: f, done: false, msg: `Both start at node <strong>${FS_VALS[s]}</strong> (index 0).` });
+  while (f < FS_VALS.length && f + 1 < FS_VALS.length) {
+    s += 1;
+    f += 2;
+    const fActual = Math.min(f, FS_VALS.length - 1);
+    const atEnd   = f >= FS_VALS.length;
+    steps.push({
+      slow: s,
+      fast: fActual,
+      done: atEnd,
+      msg: atEnd
+        ? `Fast reached end. <strong>slow = node ${FS_VALS[s]}</strong> (index ${s}) — this is the <strong>middle</strong>! ✅`
+        : `slow → node <strong>${FS_VALS[s]}</strong> (index ${s}), fast → node <strong>${FS_VALS[fActual]}</strong> (index ${fActual}).`
+    });
+    if (atEnd) break;
+  }
+  return steps;
+}
+
+const fsSteps = buildFsSteps();
+let fsCur = 0, fsTimer = null;
+
+function fsRenderViz() {
+  const s = fsSteps[fsCur];
+  const viz = document.getElementById('fsViz');
+  viz.innerHTML = '';
+  FS_VALS.forEach((val, i) => {
+    const isSlow = s.slow === i;
+    const isFast = s.fast === i;
+    const isBoth = isSlow && isFast;
+    const isDone = s.done && isSlow;
+
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:4px;';
+
+    const box = document.createElement('div');
+    let bg = 'rgba(52,116,176,.09)', bc = 'var(--blue)', fc = 'var(--blue)';
+    if (isDone)  { bg = 'rgba(40,120,74,.15)'; bc = 'var(--green)'; fc = 'var(--green)'; }
+    else if (isBoth) { bg = 'rgba(94,62,154,.15)'; bc = 'var(--purple)'; fc = 'var(--purple)'; }
+    else if (isSlow) { bg = 'rgba(158,84,22,.15)'; bc = 'var(--orange)'; fc = 'var(--orange)'; }
+    else if (isFast) { bg = 'rgba(52,116,176,.2)'; bc = 'var(--blue)'; fc = 'var(--blue)'; }
+
+    box.style.cssText = [
+      `min-width:42px;height:42px;padding:0 8px;`,
+      `display:flex;align-items:center;justify-content:center;`,
+      `background:${bg};border:2px solid ${bc};`,
+      `border-radius:7px;font-family:var(--mono);font-size:15px;`,
+      `font-weight:700;color:${fc};transition:all .25s;`
+    ].join('');
+    box.textContent = val;
+
+    const lbl = document.createElement('div');
+    lbl.style.cssText = `font-size:10px;font-family:var(--mono);color:var(--text-muted);min-height:14px;text-align:center;`;
+    const labels = [];
+    if (isSlow) labels.push(isDone ? '🟢 mid' : '🟠 slow');
+    if (isFast && !isSlow) labels.push('🔵 fast');
+    if (isBoth && !isDone) labels.push('🟣 both');
+    lbl.textContent = labels.join(' ');
+
+    wrap.appendChild(box);
+    wrap.appendChild(lbl);
+
+    viz.appendChild(wrap);
+    if (i < FS_VALS.length - 1) {
+      const arr = document.createElement('div');
+      arr.style.cssText = 'font-size:18px;color:var(--border);padding:0 2px;line-height:1;align-self:center;margin-bottom:18px;user-select:none;';
+      arr.textContent = '→';
+      viz.appendChild(arr);
+    }
+  });
+
+  document.getElementById('fsMsg').innerHTML = s.msg;
+  const slowTxt = s.slow < 0 ? 'start' : FS_VALS[s.slow];
+  const fastTxt = s.fast < 0 ? 'start' : FS_VALS[s.fast];
+  document.getElementById('fsSlowIdx').textContent = slowTxt;
+  document.getElementById('fsFastIdx').textContent = fastTxt;
+  document.getElementById('fsCounter').textContent = fsCur + ' / ' + (fsSteps.length - 1);
+  document.getElementById('fsPrev').disabled = fsCur === 0;
+  document.getElementById('fsNext').disabled = fsCur === fsSteps.length - 1;
+}
+
+function fsStep(dir) {
+  fsCur = Math.max(0, Math.min(fsSteps.length - 1, fsCur + dir));
+  fsRenderViz();
+}
+function fsReset() {
+  clearInterval(fsTimer); fsTimer = null;
+  document.getElementById('fsPlay').textContent = '▶ Auto';
+  fsCur = 0; fsRenderViz();
+}
+function fsAutoPlay() {
+  if (fsTimer) { clearInterval(fsTimer); fsTimer = null; document.getElementById('fsPlay').textContent = '▶ Auto'; return; }
+  document.getElementById('fsPlay').textContent = '⏸ Pause';
+  fsTimer = setInterval(() => {
+    if (fsCur >= fsSteps.length - 1) { clearInterval(fsTimer); fsTimer = null; document.getElementById('fsPlay').textContent = '▶ Auto'; return; }
+    fsStep(1);
+  }, 1100);
+}
+fsRenderViz();
+
+/* ══════════════════════════════════════════════════════
+   ── Reversal Walkthrough ──────────────────────────────
+   ══════════════════════════════════════════════════════ */
+const REV_VALS = [1, 2, 3, 4, 5];
+
+function buildRevSteps() {
+  const steps = [];
+  // state: prev index (-1 = None), cur index
+  steps.push({ prev: -1, cur: 0, reversed: [], msg: 'Ready. prev=None, cur points to head (node 1).' });
+
+  let prev = -1, cur = 0;
+  const reversedSoFar = [];
+  while (cur < REV_VALS.length) {
+    reversedSoFar.unshift(REV_VALS[cur]);
+    const nxt = cur + 1;
+    steps.push({
+      prev: cur,
+      cur: nxt < REV_VALS.length ? nxt : -1,
+      reversed: [...reversedSoFar],
+      msg: `cur=${REV_VALS[cur]}: save nxt, flip cur.next → prev (${prev < 0 ? 'None' : REV_VALS[prev]}), advance.`
+        + (nxt >= REV_VALS.length ? `  All nodes reversed! New head = <strong>${REV_VALS[cur]}</strong> ✅` : '')
+    });
+    prev = cur;
+    cur = nxt;
+  }
+  return steps;
+}
+
+const revSteps = buildRevSteps();
+let revCur = 0, revTimer = null;
+
+function revRenderViz() {
+  const s = revSteps[revCur];
+  const viz = document.getElementById('revViz');
+  viz.innerHTML = '';
+
+  // Show reversed portion (right-to-left arrows) + remaining portion
+  const revLen = s.reversed.length;
+  // reversed part
+  s.reversed.forEach((val, i) => {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:4px;';
+    const box = document.createElement('div');
+    const isPrev = (s.prev >= 0 && REV_VALS[s.prev] === val && i === 0);
+    const bg = isPrev ? 'rgba(94,62,154,.15)' : 'rgba(40,120,74,.08)';
+    const bc = isPrev ? 'var(--purple)' : 'var(--green)';
+    box.style.cssText = [
+      'min-width:42px;height:42px;padding:0 8px;',
+      `display:flex;align-items:center;justify-content:center;`,
+      `background:${bg};border:2px solid ${bc};`,
+      'border-radius:7px;font-family:var(--mono);font-size:15px;font-weight:700;',
+      `color:${isPrev ? 'var(--purple)' : 'var(--green)'};transition:all .25s;`
+    ].join('');
+    box.textContent = val;
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'font-size:10px;font-family:var(--mono);color:var(--text-muted);min-height:14px;';
+    lbl.textContent = isPrev ? '🟣 prev' : '';
+    wrap.appendChild(box); wrap.appendChild(lbl);
+    viz.appendChild(wrap);
+    if (i < revLen - 1) {
+      const arr = document.createElement('div');
+      arr.style.cssText = 'font-size:18px;color:var(--green);padding:0 1px;line-height:1;align-self:center;margin-bottom:18px;user-select:none;';
+      arr.textContent = '←';
+      viz.appendChild(arr);
+    }
+  });
+
+  // remaining (not yet reversed)
+  const remaining = REV_VALS.slice(revLen);
+  if (remaining.length > 0) {
+    if (revLen > 0) {
+      const sep = document.createElement('div');
+      sep.style.cssText = 'font-size:11px;color:var(--text-muted);font-family:var(--mono);padding:0 6px;align-self:center;margin-bottom:18px;';
+      sep.textContent = '|';
+      viz.appendChild(sep);
+    }
+    remaining.forEach((val, i) => {
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:4px;';
+      const isCur = (s.cur >= 0 && i === 0);
+      const box = document.createElement('div');
+      const bg = isCur ? 'rgba(138,106,26,.15)' : 'rgba(52,116,176,.07)';
+      const bc = isCur ? 'var(--yellow)' : 'var(--border)';
+      box.style.cssText = [
+        'min-width:42px;height:42px;padding:0 8px;',
+        'display:flex;align-items:center;justify-content:center;',
+        `background:${bg};border:2px solid ${bc};`,
+        'border-radius:7px;font-family:var(--mono);font-size:15px;font-weight:700;',
+        `color:${isCur ? 'var(--yellow)' : 'var(--text-secondary)'};transition:all .25s;`
+      ].join('');
+      box.textContent = val;
+      const lbl = document.createElement('div');
+      lbl.style.cssText = 'font-size:10px;font-family:var(--mono);color:var(--text-muted);min-height:14px;';
+      lbl.textContent = isCur ? '🟡 cur' : '';
+      wrap.appendChild(box); wrap.appendChild(lbl);
+      viz.appendChild(wrap);
+      if (i < remaining.length - 1) {
+        const arr = document.createElement('div');
+        arr.style.cssText = 'font-size:18px;color:var(--border);padding:0 1px;line-height:1;align-self:center;margin-bottom:18px;user-select:none;';
+        arr.textContent = '→';
+        viz.appendChild(arr);
+      }
+    });
+  }
+
+  document.getElementById('revMsg').innerHTML = s.msg;
+  const prevTxt = s.prev < 0 ? 'None' : REV_VALS[s.prev];
+  const curTxt  = s.cur  < 0 ? 'None' : REV_VALS[s.cur];
+  document.getElementById('revState').innerHTML = `prev=<strong>${prevTxt}</strong> &nbsp;|&nbsp; cur=<strong>${curTxt}</strong>`;
+  document.getElementById('revCounter').textContent = revCur + ' / ' + (revSteps.length - 1);
+  document.getElementById('revPrev').disabled = revCur === 0;
+  document.getElementById('revNext').disabled = revCur === revSteps.length - 1;
+}
+
+function revStep(dir) {
+  revCur = Math.max(0, Math.min(revSteps.length - 1, revCur + dir));
+  revRenderViz();
+}
+function revReset() {
+  clearInterval(revTimer); revTimer = null;
+  document.getElementById('revPlay').textContent = '▶ Auto';
+  revCur = 0; revRenderViz();
+}
+function revAutoPlay() {
+  if (revTimer) { clearInterval(revTimer); revTimer = null; document.getElementById('revPlay').textContent = '▶ Auto'; return; }
+  document.getElementById('revPlay').textContent = '⏸ Pause';
+  revTimer = setInterval(() => {
+    if (revCur >= revSteps.length - 1) { clearInterval(revTimer); revTimer = null; document.getElementById('revPlay').textContent = '▶ Auto'; return; }
+    revStep(1);
+  }, 1100);
+}
+revRenderViz();
+
+/* ══════════════════════════════════════════════════════
+   ── Merge Walkthrough ────────────────────────────────
+   ══════════════════════════════════════════════════════ */
+const ML1 = [1, 3, 5], ML2 = [2, 4, 6];
+
+function buildMergeSteps() {
+  const steps = [];
+  let i = 0, j = 0;
+  const merged = [];
+  steps.push({ i, j, merged: [], msg: 'Ready. l1=[1,3,5], l2=[2,4,6]. Compare heads and pick smaller.' });
+  while (i < ML1.length && j < ML2.length) {
+    if (ML1[i] <= ML2[j]) {
+      merged.push(ML1[i]);
+      steps.push({ i: i+1, j, merged: [...merged], msg: `l1[${i}]=${ML1[i]} ≤ l2[${j}]=${ML2[j]} → pick <strong>${ML1[i]}</strong> from l1. Merged: [${merged.join('→')}]` });
+      i++;
+    } else {
+      merged.push(ML2[j]);
+      steps.push({ i, j: j+1, merged: [...merged], msg: `l2[${j}]=${ML2[j]} &lt; l1[${i}]=${ML1[i]} → pick <strong>${ML2[j]}</strong> from l2. Merged: [${merged.join('→')}]` });
+      j++;
+    }
+  }
+  while (i < ML1.length) { merged.push(ML1[i]); steps.push({ i: i+1, j, merged: [...merged], msg: `l2 exhausted — attach remaining l1[${i}]=${ML1[i]}.` }); i++; }
+  while (j < ML2.length) { merged.push(ML2[j]); steps.push({ i, j: j+1, merged: [...merged], msg: `l1 exhausted — attach remaining l2[${j}]=${ML2[j]}.` }); j++; }
+  steps.push({ i: ML1.length, j: ML2.length, merged: [...merged], msg: `✅ Done! Merged: [${merged.join(' → ')}]` });
+  return steps;
+}
+
+const mergeSteps = buildMergeSteps();
+let mergeCur = 0, mergeTimer = null;
+
+function mergeRenderViz() {
+  const s = mergeSteps[mergeCur];
+  const viz = document.getElementById('mergeViz');
+
+  const l1Str = ML1.map((v,i) => i >= s.i ? `<strong style="color:var(--blue)">${v}</strong>` : `<span style="color:var(--text-muted);text-decoration:line-through">${v}</span>`).join(' → ');
+  const l2Str = ML2.map((v,i) => i >= s.j ? `<strong style="color:var(--orange)">${v}</strong>` : `<span style="color:var(--text-muted);text-decoration:line-through">${v}</span>`).join(' → ');
+  const mgStr = s.merged.length ? s.merged.join(' → ') : '(empty)';
+
+  viz.innerHTML = `
+    <div>l1: &nbsp;${l1Str} → null</div>
+    <div>l2: &nbsp;${l2Str} → null</div>
+    <div style="margin-top:8px;color:var(--green);font-weight:600;">merged: ${mgStr}${s.merged.length < ML1.length + ML2.length ? ' → ...' : ' → null'}</div>
+  `;
+
+  document.getElementById('mergeMsg').innerHTML = s.msg;
+  document.getElementById('mergeCounter').textContent = mergeCur + ' / ' + (mergeSteps.length - 1);
+  document.getElementById('mergePrev').disabled = mergeCur === 0;
+  document.getElementById('mergeNext').disabled = mergeCur === mergeSteps.length - 1;
+}
+
+function mergeStep(dir) {
+  mergeCur = Math.max(0, Math.min(mergeSteps.length - 1, mergeCur + dir));
+  mergeRenderViz();
+}
+function mergeReset() {
+  clearInterval(mergeTimer); mergeTimer = null;
+  document.getElementById('mergePlay').textContent = '▶ Auto';
+  mergeCur = 0; mergeRenderViz();
+}
+function mergeAutoPlay() {
+  if (mergeTimer) { clearInterval(mergeTimer); mergeTimer = null; document.getElementById('mergePlay').textContent = '▶ Auto'; return; }
+  document.getElementById('mergePlay').textContent = '⏸ Pause';
+  mergeTimer = setInterval(() => {
+    if (mergeCur >= mergeSteps.length - 1) { clearInterval(mergeTimer); mergeTimer = null; document.getElementById('mergePlay').textContent = '▶ Auto'; return; }
+    mergeStep(1);
+  }, 1000);
+}
+mergeRenderViz();
+
+/* ══════════════════════════════════════════════════════
+   ── TOC Scroll Spy ────────────────────────────────────
+   ══════════════════════════════════════════════════════ */
+(function () {
+  const tocLinks = document.querySelectorAll('.toc-link[data-id]');
+  const headings = Array.from(tocLinks).map(l => document.getElementById(l.dataset.id)).filter(Boolean);
+  function setActive(id) { tocLinks.forEach(l => l.classList.toggle('toc-active', l.dataset.id === id)); }
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries.filter(e => e.isIntersecting).map(e => e.target);
+    if (visible.length) {
+      visible.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+      setActive(visible[0].id);
+    }
+  }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+  headings.forEach(h => observer.observe(h));
+  if (headings.length) setActive(headings[0].id);
+})();
+
+/* ══════════════════════════════════════════════════════
+   ── Problem Progress (localStorage) ──────────────────
+   ══════════════════════════════════════════════════════ */
+const STORAGE_KEY = 'lc-ll-done';
+function getSolved() { return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')); }
+function saveSolved(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify([...s])); }
+function updateProgressBar() {
+  const total = document.querySelectorAll('.prob-check').length;
+  const done  = document.querySelectorAll('.prob-check:checked').length;
+  document.getElementById('probCount').textContent = done + ' / ' + total;
+  document.getElementById('probFill').style.width  = total ? (done / total * 100) + '%' : '0%';
+}
+function initProgress() {
+  const solved = getSolved();
+  document.querySelectorAll('.prob-check').forEach(cb => {
+    if (solved.has(cb.dataset.id)) { cb.checked = true; cb.closest('tr').classList.add('solved'); }
+    cb.addEventListener('change', () => {
+      const s = getSolved();
+      if (cb.checked) { s.add(cb.dataset.id); cb.closest('tr').classList.add('solved'); }
+      else { s.delete(cb.dataset.id); cb.closest('tr').classList.remove('solved'); }
+      saveSolved(s); updateProgressBar();
+    });
+  });
+  updateProgressBar();
+}
+function resetProgress() {
+  if (!confirm('Clear all Linked List progress?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  document.querySelectorAll('.prob-check').forEach(cb => { cb.checked = false; cb.closest('tr').classList.remove('solved'); });
+  updateProgressBar();
+}
+initProgress();
+
+/* ══════════════════════════════════════════════════════
+   ── Export as Markdown ────────────────────────────────
+   ══════════════════════════════════════════════════════ */
+function downloadMarkdown() {
+  const main = document.querySelector('.main-content');
+  const lines = [];
+  const SKIP = ['walkthrough', 'stack-demo', 'prob-progress', 'back-link'];
+  function txt(el) { return el.textContent.replace(/\s+/g, ' ').trim(); }
+  function processEl(el) {
+    if (el.nodeType !== Node.ELEMENT_NODE) return;
+    const tag = el.tagName.toLowerCase();
+    const cls = el.className || '';
+    if (SKIP.some(c => cls.includes(c))) { lines.push('> *(Interactive element — see web version)*\n'); return; }
+    if (tag === 'h1') { lines.push(`# ${txt(el)}\n`); return; }
+    if (tag === 'h2') { lines.push(`\n## ${txt(el)}\n`); return; }
+    if (tag === 'h3') { lines.push(`\n### ${txt(el)}\n`); return; }
+    if (tag === 'h4') { lines.push(`\n#### ${txt(el)}\n`); return; }
+    if (tag === 'p')  { const t = txt(el); if (t) lines.push(`${t}\n`); return; }
+    if (tag === 'ul' || tag === 'ol') {
+      el.querySelectorAll(':scope > li').forEach(li => lines.push(`- ${txt(li)}`));
+      lines.push(''); return;
+    }
+    if (cls.includes('callout')) {
+      const labelEl = el.querySelector('.callout-label');
+      const label = labelEl ? labelEl.textContent.trim() : '';
+      const clone = el.cloneNode(true);
+      const lc = clone.querySelector('.callout-label'); if (lc) lc.remove();
+      const body = clone.textContent.replace(/\s+/g, ' ').trim();
+      lines.push(`> **${label}**`);
+      if (body) lines.push(`> ${body}`);
+      lines.push(''); return;
+    }
+    if (cls.includes('code-block')) {
+      const hdr  = el.querySelector('.code-block-header span');
+      const lang = hdr && hdr.textContent.includes('Python') ? 'python' : '';
+      const code = el.querySelector('pre code');
+      if (code) { lines.push(`\`\`\`${lang}`, code.textContent.trim(), '```\n'); }
+      return;
+    }
+    if (cls.includes('pattern-grid')) {
+      el.querySelectorAll('.pattern-card').forEach(card => {
+        const title = card.querySelector('.pattern-title')?.textContent.trim() ?? '';
+        const zh    = card.querySelector('.pattern-zh')?.textContent.trim() ?? '';
+        const desc  = card.querySelector('.pattern-desc')?.textContent.trim() ?? '';
+        const kws   = [...card.querySelectorAll('.kchip')].map(k => k.textContent.trim()).join(', ');
+        lines.push(`**${title}** *(${zh})*`, desc, `Keywords: \`${kws}\`\n`);
+      });
+      return;
+    }
+    if (tag === 'table') {
+      el.querySelectorAll('tr').forEach((row, ri) => {
+        const cells = [...row.querySelectorAll('th,td')].slice(1);
+        const vals  = cells.map(td => td.textContent.replace(/\s+/g, ' ').trim());
+        lines.push('| ' + vals.join(' | ') + ' |');
+        if (ri === 0) lines.push('| ' + vals.map(() => '---').join(' | ') + ' |');
+      });
+      lines.push(''); return;
+    }
+    for (const child of el.childNodes) processEl(child);
+  }
+  lines.push('# Linked List — LeetCode Notes\n', '> Exported from dm-kai-homepage\n');
+  for (const child of main.childNodes) processEl(child);
+  const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = Object.assign(document.createElement('a'), { href: url, download: 'linked-list-notes.md' });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>
