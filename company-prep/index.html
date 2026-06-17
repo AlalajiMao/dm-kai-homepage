@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Databricks Interview Prep — DM Kai</title>
+  <link rel="stylesheet" href="../leetcode/style.css" />
+  <style>
+    /* ── Company Prep extras ── */
+    .company-header {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 22px; margin-bottom: 20px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; box-shadow: 0 1px 4px rgba(27,43,26,.06);
+    }
+    .company-logo { font-size: 42px; line-height: 1; flex-shrink: 0; }
+    .company-name { font-size: var(--f-h2); font-weight: 700; margin-bottom: 3px; }
+    .company-meta { font-size: var(--f-sm); color: var(--text-muted); }
+
+    .source-strip {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      margin: 12px 0 20px;
+      font-size: 11.5px; color: var(--text-muted);
+    }
+    .source-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--bg-secondary); border: 1px solid var(--border);
+      border-radius: 20px; padding: 3px 10px;
+      font-size: 11px; color: var(--text-secondary);
+    }
+    .source-chip a { color: var(--blue); text-decoration: none; }
+    .source-chip a:hover { text-decoration: underline; }
+
+    .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .stat-pill {
+      background: var(--bg-secondary); border: 1px solid var(--border);
+      border-radius: 20px; padding: 4px 12px;
+      font-size: var(--f-xs); color: var(--text-secondary);
+    }
+    .stat-pill strong { color: var(--text-primary); }
+
+    /* section group rows */
+    .prob-group-row td {
+      padding: 14px 12px 6px;
+      font-size: var(--f-xs); font-weight: 700;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: var(--text-muted); background: var(--bg-primary) !important;
+      border-bottom: 1px solid var(--border);
+    }
+    .prob-section-header {
+      margin-top: 40px; margin-bottom: 6px;
+      font-size: var(--f-h3); font-weight: 600;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .prob-section-header .section-pill {
+      font-size: var(--f-xs); font-weight: 600; padding: 2px 10px;
+      border-radius: 10px; background: rgba(52,116,176,.10);
+      color: var(--blue); border: 1px solid rgba(52,116,176,.22);
+    }
+
+    /* variant / follow-up sub-rows */
+    .variant-row td { background: rgba(52,116,176,.03) !important; }
+    .variant-row td:first-child { border-left: 3px solid rgba(52,116,176,.25); }
+    .variant-label {
+      font-size: 10px; font-weight: 700; padding: 1px 6px;
+      border-radius: 6px; background: rgba(52,116,176,.10);
+      color: var(--blue); border: 1px solid rgba(52,116,176,.22);
+      white-space: nowrap; margin-right: 4px;
+    }
+    .custom-label {
+      font-size: 10px; font-weight: 700; padding: 1px 6px;
+      border-radius: 6px; background: rgba(94,62,154,.10);
+      color: var(--purple); border: 1px solid rgba(94,62,154,.22);
+      white-space: nowrap; display: inline-block; margin-bottom: 3px;
+    }
+    .design-label {
+      font-size: 10px; font-weight: 700; padding: 1px 6px;
+      border-radius: 6px; background: rgba(40,120,74,.10);
+      color: var(--green); border: 1px solid rgba(40,120,74,.22);
+      white-space: nowrap; display: inline-block; margin-bottom: 3px;
+    }
+
+    .note-cell { font-size: 11.5px; color: var(--text-muted); line-height: 1.6; }
+    .note-cell strong { color: var(--text-secondary); font-weight: 600; }
+    .note-cell code {
+      font-family: var(--mono); font-size: 10.5px;
+      background: var(--bg-secondary); border: 1px solid var(--border);
+      border-radius: 3px; padding: 0 4px; color: var(--orange);
+    }
+    .warn-note {
+      display: inline-block; margin-top: 4px;
+      background: rgba(138,106,26,.07); border: 1px solid rgba(138,106,26,.25);
+      border-radius: 4px; padding: 2px 8px;
+      font-size: 10.5px; color: var(--yellow);
+    }
+
+    .lc-num {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--text-muted); white-space: nowrap;
+    }
+
+    /* sidebar progress */
+    .progress-sidebar { padding: 8px 20px 12px; }
+    .progress-sidebar .prob-progress-track { margin: 5px 0 8px; }
+    .sidebar-section + .sidebar-section {
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 4px; padding-top: 4px;
+    }
+
+    /* progress summary cards */
+    .prog-cards { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0 24px; }
+    .prog-card {
+      flex: 1; min-width: 110px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px; text-align: center;
+    }
+    .prog-card .pc-num {
+      font-size: 26px; font-weight: 700; font-family: var(--mono);
+      color: var(--blue); line-height: 1;
+    }
+    .prog-card .pc-label { font-size: var(--f-xs); color: var(--text-muted); margin-top: 4px; }
+
+    /* overall progress bar */
+    .overall-progress {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 16px; margin-bottom: 24px;
+    }
+    .overall-progress-label {
+      display: flex; justify-content: space-between;
+      font-size: var(--f-sm); color: var(--text-secondary); margin-bottom: 8px;
+    }
+    .overall-progress-label strong { color: var(--green); }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────── -->
+<header class="site-header">
+  <a href="../index.html" class="site-logo">
+    <span class="logo-icon">⚡</span> DM Kai
+  </a>
+  <nav class="header-nav">
+    <a href="../index.html">Home</a>
+    <a href="../leetcode/index.html">LeetCode</a>
+    <a href="index.html" class="active">Company Prep</a>
+  </nav>
+</header>
+
+<div class="page-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Companies</div>
+      <a href="#top" class="sidebar-item active">
+        <span class="icon">🧱</span> Databricks
+        <span class="sidebar-badge badge-active" id="sb-total"></span>
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Coding — by Pattern</div>
+      <a href="#pat-intervals" class="sidebar-item">
+        <span class="icon">↔️</span> Intervals
+      </a>
+      <a href="#pat-sliding" class="sidebar-item">
+        <span class="icon">🪟</span> Sliding Window
+      </a>
+      <a href="#pat-dp" class="sidebar-item">
+        <span class="icon">💡</span> Dynamic Prog.
+      </a>
+      <a href="#pat-tree" class="sidebar-item">
+        <span class="icon">🌳</span> Tree / Math
+      </a>
+      <a href="#pat-graph" class="sidebar-item">
+        <span class="icon">🗺️</span> Graph / BFS
+      </a>
+      <a href="#pat-design-coding" class="sidebar-item">
+        <span class="icon">⚙️</span> Design (coding)
+      </a>
+      <a href="#pat-bits" class="sidebar-item">
+        <span class="icon">🔢</span> Bit Manip.
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Design / OOD</div>
+      <a href="#des-revenue" class="sidebar-item">
+        <span class="icon">💰</span> Revenue System
+      </a>
+      <a href="#des-lazy" class="sidebar-item">
+        <span class="icon">😴</span> Lazy Array
+      </a>
+      <a href="#des-cb" class="sidebar-item">
+        <span class="icon">⚡</span> Circuit Breaker
+      </a>
+      <a href="#des-enc" class="sidebar-item">
+        <span class="icon">🗜️</span> Encoding
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">My Progress</div>
+      <div class="progress-sidebar">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">
+          <span id="solved-count">0</span> / <span id="total-count">0</span> checked
+        </div>
+        <div class="prob-progress-track">
+          <div class="prob-progress-fill" id="progress-fill"></div>
+        </div>
+        <button class="btn-reset" onclick="resetProgress()">Reset all</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ─────────────────────────────────── -->
+  <main class="main-content" id="top">
+
+    <p class="section-intro" style="margin-bottom:14px;">
+      <a href="../index.html" style="color:var(--text-muted);">← Home</a>
+      &nbsp;/&nbsp; Company Prep
+    </p>
+
+    <!-- Company header -->
+    <div class="company-header">
+      <div class="company-logo">🧱</div>
+      <div>
+        <div class="company-name">Databricks</div>
+        <div class="company-meta">Software Engineering · Phone Screen + Onsite (Coding + Design)</div>
+      </div>
+    </div>
+
+    <!-- Sources -->
+    <div class="source-strip">
+      <span style="font-weight:600;">Sources:</span>
+      <span class="source-chip">📄 Personal MD notes (databricks-interview-questions.md)</span>
+      <span class="source-chip">🔗 <a href="https://www.1point3acres.com/bbs/thread-1132748-1-1.html" target="_blank">1point3acres #1132748</a> (login required)</span>
+      <span class="source-chip">🔗 <a href="https://www.1point3acres.com/bbs/thread-1108942-1-1.html" target="_blank">1point3acres #1108942</a> (login required)</span>
+      <span class="source-chip">📅 Reports: 2023–2025</span>
+    </div>
+
+    <!-- Stat row -->
+    <div class="stat-row">
+      <span class="stat-pill"><strong id="stat-coding">13</strong> coding problems</span>
+      <span class="stat-pill"><strong>4</strong> design / OOD problems</span>
+      <span class="stat-pill"><strong>3</strong> DB-original (no LC#)</span>
+    </div>
+
+    <!-- Overall progress -->
+    <div class="overall-progress">
+      <div class="overall-progress-label">
+        <span>Overall progress</span>
+        <strong id="progress-pct">0%</strong>
+      </div>
+      <div class="prob-progress-track" style="height:8px;">
+        <div class="prob-progress-fill" id="progress-fill-main" style="height:8px;"></div>
+      </div>
+    </div>
+
+    <div class="callout callout-yellow">
+      <div class="callout-label">Databricks Interview Style</div>
+      Coding rounds often have <strong>multiple edge cases pushed during the interview</strong> — the
+      expectation is a clean, correct first pass. Design problems frequently extend into
+      <strong>concurrency + durability</strong> (locks, WAL, snapshots). Always ask thread-safety
+      and scale requirements upfront. Problems marked
+      <span class="custom-label">DB Original</span> have no public LC link.
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         SECTION I — CODING / ALGORITHM
+    ═══════════════════════════════════════════════════ -->
+    <div class="prob-section-header">
+      <span>Section I — Coding / Algorithm</span>
+      <span class="section-pill">13 problems</span>
+    </div>
+
+    <table class="problem-table">
+      <thead>
+        <tr>
+          <th style="width:36px;text-align:center;">✓</th>
+          <th style="width:50px;">LC #</th>
+          <th>Problem</th>
+          <th>Difficulty</th>
+          <th>Pattern</th>
+          <th>Key insight &amp; Databricks angle</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- ── Intervals ── -->
+        <tr class="prob-group-row">
+          <td colspan="6" id="pat-intervals">Intervals</td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="1272"></td>
+          <td><span class="lc-num">1272</span></td>
+          <td><a class="prob-link" href="https://leetcode.com/problems/remove-interval/" target="_blank">Remove Interval</a></td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">Intervals</span></td>
+          <td class="note-cell">
+            Iterate each interval; emit <strong>non-overlapping fragments</strong>.
+            Three cases: fully before <code>toRemove</code> → keep whole;
+            fully after → keep whole; overlapping → emit left stub <code>[start, toRemove[0])</code>
+            and/or right stub <code>(toRemove[1], end]</code> if non-empty.
+            Watch open vs. closed boundary — both endpoints are inclusive in this problem.
+          </td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="db-del-idx"></td>
+          <td><span class="lc-num" style="color:var(--purple);">DB</span></td>
+          <td>
+            <span class="custom-label">DB Original</span>
+            Delete Index from Interval
+          </td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">Intervals</span></td>
+          <td class="note-cell">
+            Given non-overlapping intervals and an <em>index</em> into their flattened coverage list,
+            delete that element and return the updated interval array.<br>
+            <strong>Example:</strong> <code>[(4,7),(10,11),(13,15)]</code>, index 2 →
+            covered[2] = 6 → output <code>[(4,5),(7,7),(10,11),(13,15)]</code><br>
+            <strong>Clean O(n) approach:</strong> walk intervals accumulating <code>count</code>;
+            when <code>count + size &gt; index</code>, found the target interval.
+            <code>offset = index − count</code>; split into
+            <code>[start, start+offset−1]</code> and <code>[start+offset+1, end]</code>
+            (skip empty fragments).<br>
+            <span class="warn-note">⚠ Edge cases pushed live: offset == 0 (no left frag), offset == size−1 (no right frag), single-point interval disappears. Write clean, first-pass correct code.</span>
+          </td>
+        </tr>
+
+        <!-- ── Sliding Window ── -->
+        <tr class="prob-group-row">
+          <td colspan="6" id="pat-sliding">Sliding Window</td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="438"></td>
+          <td><span class="lc-num">438</span></td>
+          <td><a class="prob-link" href="https://leetcode.com/problems/find-all-anagrams-in-a-string/" target="_blank">Find All Anagrams in a String</a>
+            <div style="font-size:10.5px;color:var(--text-muted);margin-top:2px;">aka "Anagrammed indexOf"</div>
+          </td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">Sliding Window</span></td>
+          <td class="note-cell">
+            Fixed window of <code>len(p)</code>; maintain a <strong>char-count diff counter</strong>
+            (<code>need</code> = number of unsatisfied chars).
+            Add right char (decrement need if count hits 0), evict left char (increment need if count
+            drops below 0). Record index when <code>need == 0</code>.
+          </td>
+        </tr>
+
+        <!-- ── Dynamic Programming ── -->
+        <tr class="prob-group-row">
+          <td colspan="6" id="pat-dp">Dynamic Programming</td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="198"></td>
+          <td><span class="lc-num">198</span></td>
+          <td><a class="prob-link" href="https://leetcode.com/problems/house-robber/" target="_blank">House Robber</a></td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">DP (1-D)</span></td>
+          <td class="note-cell">
+            <code>dp[i] = max(dp[i−1], dp[i−2] + nums[i])</code>.
+            Space-optimize to two rolling variables.
+          </td>
+        </tr>
+        <tr class="variant-row">
+          <td></td>
+          <td><span class="lc-num">213</span></td>
+          <td>
+            <span class="variant-label">Follow-up 1</span>
+            <a class="prob-link" href="https://leetcode.com/problems/house-robber-ii/" target="_blank">House Robber II (circular)</a>
+          </td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">DP (1-D)</span></td>
+          <td class="note-cell">
+            Run House Robber <strong>twice</strong>: on <code>nums[0..n−2]</code> and
+            <code>nums[1..n−1]</code>, return the max. Handles "can't rob first and last."
+          </td>
+        </tr>
+        <tr class="variant-row">
+          <td></td>
+          <td><span class="lc-num" style="color:var(--purple);">—</span></td>
+          <td>
+            <span class="variant-label">Follow-up 2</span>
+            House Robber with gap-k
+          </td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">DP (1-D)</span></td>
+          <td class="note-cell">
+            Must leave at least <code>k</code> houses between each robbery.
+            Transition: <code>dp[i] = max(dp[i−1], dp[i−k−1] + nums[i])</code>.
+            Base cases: <code>dp[j] = nums[j]</code> for <code>j &lt; k+1</code>.
+          </td>
+        </tr>
+
+        <!-- ── Tree / Math ── -->
+        <tr class="prob-group-row">
+          <td colspan="6" id="pat-tree">Tree / Math</td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="fib-tree"></td>
+          <td><span class="lc-num" style="color:var(--purple);">DB</span></td>
+          <td>
+            <span class="custom-label">DB Original</span>
+            Find Path in Fibonacci Tree
+          </td>
+          <td><span class="tag tag-hard">Hard</span></td>
+          <td><span class="tag tag-pattern">Tree / Recursion</span></td>
+          <td class="note-cell">
+            <strong>Tree definition:</strong> <code>T(1)</code> and <code>T(2)</code> are single nodes.
+            <code>T(k)</code> has <code>T(k−1)</code> as left subtree and <code>T(k−2)</code> as right.
+            Nodes are labeled by pre-order index. Given two pre-order indices <em>a</em>, <em>b</em>,
+            return the path between them <strong>without building the tree</strong>.<br>
+            <strong>O(k) approach:</strong> compute <code>size(k) = 1 + size(k−1) + size(k−2)</code>
+            (Fibonacci-like). For any node index, recurse: if index == 1 → root;
+            if index ≤ left-size+1 → go left; else → go right.
+            Reconstruct root-to-<em>a</em> and root-to-<em>b</em> paths, find LCA, concatenate.
+          </td>
+        </tr>
+
+        <!-- ── Graph / BFS / DFS ── -->
+        <tr class="prob-group-row">
+          <td colspan="6" id="pat-graph">Graph / BFS / DFS</td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="695"></td>
+          <td><span class="lc-num">695</span></td>
+          <td><a class="prob-link" href="https://leetcode.com/problems/max-area-of-island/" target="_blank">Max Area of Island</a></td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">BFS / DFS</span></td>
+          <td class="note-cell">
+            Flood-fill BFS/DFS; mark visited by zeroing the cell.
+            Return max connected area of 1s.
+            If interviewer says "don't mutate input" → use a <code>visited</code> set instead.
+          </td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="787"></td>
+          <td><span class="lc-num">787</span></td>
+          <td><a class="prob-link" href="https://leetcode.com/problems/cheapest-flights-within-k-stops/" target="_blank">Cheapest Flights Within K Stops</a></td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">Graph (Bellman-Ford)</span></td>
+          <td class="note-cell">
+            Bellman-Ford for exactly <code>k+1</code> relaxation rounds; <strong>copy cost array
+            each round</strong> to prevent intra-round chaining.
+            BFS with state <code>(node, stops_left, cost)</code> also works.
+            Dijkstra requires state <code>(node, stops_remaining)</code> to avoid revisiting.
+          </td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="db-commute"></td>
+          <td><span class="lc-num" style="color:var(--purple);">DB</span></td>
+          <td>
+            <span class="custom-label">DB Original</span>
+            HQ → SF Commute (BFS travel modes)
+          </td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">BFS / Graph</span></td>
+          <td class="note-cell">
+            Graph where each edge has a travel-mode (walk / bike / transit) with a cost.
+            Optimize: <strong>shortest time first</strong>, then lowest cost as tiebreak.<br>
+            <span class="warn-note">⚠ Interviewer emphasis: confirm edge weights are fixed before reaching for Dijkstra. Fixed weights → plain BFS. Variable weights → priority queue.</span><br>
+            State = <code>(node, time, cost)</code>; keep visited map to avoid re-expanding with worse state.
+          </td>
+        </tr>
+
+        <!-- ── Design (coding) ── -->
+        <tr class="prob-group-row">
+          <td colspan="6" id="pat-design-coding">Design (coding)</td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="1146"></td>
+          <td><span class="lc-num">1146</span></td>
+          <td>
+            <a class="prob-link" href="https://leetcode.com/problems/snapshot-array/" target="_blank">Snapshot Array</a>
+            <div style="font-size:10.5px;color:var(--text-muted);margin-top:2px;">+ SnapshotSet variant</div>
+          </td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">Design / Binary Search</span></td>
+          <td class="note-cell">
+            <strong>LC 1146:</strong> per-index list of <code>(snap_id, val)</code>;
+            <code>get(idx, snap_id)</code> uses <code>bisect_right</code> on snap_ids.<br>
+            <strong>Databricks SnapshotSet variant:</strong> supports <code>put(x)</code>,
+            <code>remove(x)</code>, <code>snapshot() → Iterator</code>.
+            The iterator must be <strong>isolated</strong>: later <code>put/remove</code> calls
+            on the live set must not affect any already-created iterator.
+            Implement with <strong>copy-on-write</strong>: <code>snapshot()</code> freezes the current
+            set and returns an iterator over the frozen copy.
+          </td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="981"></td>
+          <td><span class="lc-num">981</span></td>
+          <td><a class="prob-link" href="https://leetcode.com/problems/time-based-key-value-store/" target="_blank">Time Based Key-Value Store</a>
+            <div style="font-size:10.5px;color:var(--text-muted);margin-top:2px;">aka "KV Store"</div>
+          </td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">Design / Binary Search</span></td>
+          <td class="note-cell">
+            <code>dict[key]</code> → sorted list of <code>(timestamp, value)</code>.
+            <code>get(key, t)</code>: <code>bisect_right(timestamps, t) − 1</code>;
+            return <code>""</code> if index &lt; 0.
+            Expect follow-up on <strong>persistence and concurrent writes</strong>.
+          </td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="348"></td>
+          <td><span class="lc-num">348</span></td>
+          <td><a class="prob-link" href="https://leetcode.com/problems/design-tic-tac-toe/" target="_blank">Design Tic-Tac-Toe</a></td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">Design</span></td>
+          <td class="note-cell">
+            <code>rows[n], cols[n], diag, anti_diag</code> counters — player 1 adds +1, player 2 −1.
+            Win when any counter reaches <code>±n</code>. O(1) per move, O(n) space.<br>
+            <strong>Databricks variant:</strong> board size <em>n</em> and win-length <em>k</em>
+            are both configurable (not necessarily n×n win-all-in-row).
+            Extend: maintain <code>rows[n]</code> etc. but check against <em>k</em>, not <em>n</em>.
+          </td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="362"></td>
+          <td><span class="lc-num">362</span></td>
+          <td><a class="prob-link" href="https://leetcode.com/problems/design-hit-counter/" target="_blank">Design Hit Counter</a>
+            <div style="font-size:10.5px;color:var(--text-muted);margin-top:2px;">aka "HashMap with QPS"</div>
+          </td>
+          <td><span class="tag tag-medium">Medium</span></td>
+          <td><span class="tag tag-pattern">Design</span></td>
+          <td class="note-cell">
+            <strong>Coding part:</strong> circular buffer of size 300;
+            <code>hits[t % 300] = (timestamp, count)</code>.
+            For sparse/high-precision: deque of timestamps, pop stale from left.<br>
+            <strong>System-design follow-up (durable KV + high QPS):</strong><br>
+            (1) Fine-grained locks on the in-memory map (per-key or striped locks).<br>
+            (2) WAL: every write appended to log before in-memory apply; entries = <code>(key, value, seq)</code>.<br>
+            (3) Snapshot coordination: after a successful snapshot, <strong>open a new WAL file</strong>;
+            recovery = load latest snapshot + replay only the newest WAL file.
+          </td>
+        </tr>
+
+        <!-- ── Bit Manipulation ── -->
+        <tr class="prob-group-row">
+          <td colspan="6" id="pat-bits">Bit Manipulation</td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="ip-cidr"></td>
+          <td><span class="lc-num" style="color:var(--purple);">DB</span></td>
+          <td>
+            <span class="custom-label">DB Original</span>
+            IP CIDR Firewall Rule Matching
+          </td>
+          <td><span class="tag tag-hard">Hard</span></td>
+          <td><span class="tag tag-pattern">Bit Manipulation</span></td>
+          <td class="note-cell">
+            Ordered rules of <code>(CIDR, ALLOW|DENY)</code>; return whether target IP is allowed.
+            <strong>CIDR match:</strong> <code>mask = ~0 &lt;&lt; (32 − prefix_len)</code>;
+            match iff <code>(ip &amp; mask) == (network &amp; mask)</code>.
+            Iterate rules in order — <strong>first match wins</strong>.<br>
+            <strong>Follow-up:</strong> given a new CIDR block, determine if it is
+            <em>entirely</em> allowed (all IPs it covers are allowed). Requires range arithmetic:
+            check that no DENY rule's range overlaps the new block before any covering ALLOW rule.
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════════════════════
+         SECTION II — DESIGN / OOD
+    ═══════════════════════════════════════════════════ -->
+    <div class="prob-section-header" style="margin-top:52px;">
+      <span>Section II — Design / OOD</span>
+      <span class="section-pill">4 problems</span>
+    </div>
+
+    <div class="callout callout-blue" style="margin-bottom:18px;">
+      <div class="callout-label">Design Round Tips</div>
+      These are open-ended OOD questions — start with data structures and interfaces,
+      then layer in concurrency. Always propose a simple single-threaded version first,
+      then discuss locking strategy.
+    </div>
+
+    <table class="problem-table">
+      <thead>
+        <tr>
+          <th style="width:36px;text-align:center;">✓</th>
+          <th>Problem</th>
+          <th>Core Challenge</th>
+          <th>Description &amp; Key Points</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="des-revenue"></td>
+          <td id="des-revenue" style="white-space:nowrap;">
+            <span class="design-label">Concurrency</span><br>
+            <strong>Revenue System</strong>
+          </td>
+          <td><span class="tag tag-hard">Hard</span><br>
+            <span class="tag tag-pattern" style="margin-top:4px;display:inline-block;">Heap / Graph</span>
+          </td>
+          <td class="note-cell">
+            <strong>API:</strong>
+            <code>insert(revenue) → customer_id</code> (no referrer),
+            <code>insert(revenue, referrer) → customer_id</code>,
+            <code>get_top_k_revenue(k, min_revenue) → Set[int]</code>.<br>
+            <strong>Revenue definition:</strong> total = own revenue + sum of <em>direct</em>
+            referees' revenues (one hop only).<br>
+            <strong>Key design questions:</strong>
+            (1) How to maintain top-k efficiently under frequent inserts?
+            Options: min-heap of size k (O(log k) per insert), sorted structure, or recompute on query.
+            (2) Thread-safety: concurrent <code>insert</code> calls must not corrupt the referrer map
+            or revenue sums — use per-customer locks or a read-write lock on the referrer graph.
+          </td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="des-lazy"></td>
+          <td id="des-lazy" style="white-space:nowrap;">
+            <span class="design-label">Lazy Eval</span><br>
+            <strong>Lazy Array</strong>
+          </td>
+          <td><span class="tag tag-medium">Medium</span><br>
+            <span class="tag tag-pattern" style="margin-top:4px;display:inline-block;">Functional</span>
+          </td>
+          <td class="note-cell">
+            <strong>API:</strong> <code>map(fn) → LazyArray</code>,
+            <code>indexOf(target) → int</code>.<br>
+            <code>map()</code> appends <code>fn</code> to an <em>unevaluated</em> operation chain
+            and returns a <strong>new</strong> LazyArray (original unchanged, chains are independent).<br>
+            <code>indexOf()</code> is the only terminal operation — it applies the full chain to each
+            element in order until a match is found.<br>
+            <strong>Example:</strong>
+            <code>arr.map(x→x*2).indexOf(40) → 1</code>;
+            <code>arr.map(x→x*2).map(x→x*3).indexOf(240) → 3</code><br>
+            <span class="warn-note">⚠ Core test: use a mock/counter wrapper to prove <code>map()</code>
+            makes zero function calls. If the interviewer sees eager evaluation you fail the laziness
+            requirement.</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="des-cb"></td>
+          <td id="des-cb" style="white-space:nowrap;">
+            <span class="design-label">Concurrency</span><br>
+            <strong>Circuit Breaker</strong>
+          </td>
+          <td><span class="tag tag-hard">Hard</span><br>
+            <span class="tag tag-pattern" style="margin-top:4px;display:inline-block;">State Machine</span>
+          </td>
+          <td class="note-cell">
+            Three states: <strong>CLOSED</strong> (normal), <strong>OPEN</strong> (fail-fast after
+            N consecutive failures), <strong>HALF_OPEN</strong> (one probe request after
+            <code>recoveryTimeout</code> elapses).<br>
+            HALF_OPEN probe succeeds → back to CLOSED, reset failure counter.<br>
+            HALF_OPEN probe fails → back to OPEN, reset timer.<br>
+            <strong>Concurrency critical path:</strong> in HALF_OPEN, exactly <em>one</em> thread
+            must get the probe slot; all others must still be rejected.
+            Use <code>AtomicReference</code> + CAS for the state transition, or a
+            <code>ReentrantLock</code> with a "probing" flag.
+            Naive <code>synchronized</code> on the whole method creates a thundering-herd problem
+            when OPEN expires.
+          </td>
+        </tr>
+
+        <tr>
+          <td style="text-align:center;"><input type="checkbox" class="prob-check" data-id="des-enc"></td>
+          <td id="des-enc" style="white-space:nowrap;">
+            <span class="design-label">Compression</span><br>
+            <strong>Encoding &amp; Decoding</strong>
+          </td>
+          <td><span class="tag tag-medium">Medium</span><br>
+            <span class="tag tag-pattern" style="margin-top:4px;display:inline-block;">Bit Manipulation</span>
+          </td>
+          <td class="note-cell">
+            Mixed encoding for integer arrays (mirrors Parquet / Databricks Delta columnar encoding):<br>
+            • If a run of identical values has length ≥ 8 → encode as
+            <strong>RLE run</strong>: <code>(value, count)</code>.<br>
+            • Otherwise → pack up to 8 consecutive values into a
+            <strong>BP (bit-pack) literal run</strong>.<br>
+            <code>decode(runs) → original array</code> must perfectly invert both run types.<br>
+            <strong>Follow-ups:</strong> compute compression ratio; handle trailing chunk &lt; 8 values;
+            extend to streaming/incremental encoding (can't look ahead).
+            Mention that this is close to the RLE+BP hybrid used in Apache Parquet's
+            <em>RLE_DICTIONARY</em> encoding.
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <div style="margin-top:40px;padding-top:20px;border-top:1px solid var(--border);">
+      <p class="section-intro">
+        <strong>Sources:</strong> Personal interview notes (databricks-interview-questions.md),
+        <a href="https://www.1point3acres.com/bbs/thread-1132748-1-1.html" target="_blank">1point3acres #1132748</a>,
+        <a href="https://www.1point3acres.com/bbs/thread-1108942-1-1.html" target="_blank">1point3acres #1108942</a>
+        (both require login). Problem frequencies reflect 2023–2025 reports.
+      </p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const STORAGE_KEY = 'company-prep-db-v2';
+
+function getSolved() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+  catch(_) { return {}; }
+}
+
+function save(id, checked) {
+  const s = getSolved();
+  if (checked) s[id] = true; else delete s[id];
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+  updateProgress();
+}
+
+function resetProgress() {
+  if (!confirm('Reset all progress?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  document.querySelectorAll('.prob-check').forEach(cb => {
+    cb.checked = false;
+    cb.closest('tr').classList.remove('solved');
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  const solved = getSolved();
+  const checks = document.querySelectorAll('.prob-check');
+  const total  = checks.length;
+  const count  = Object.keys(solved).filter(id =>
+    [...checks].some(cb => cb.dataset.id === id)
+  ).length;
+
+  document.getElementById('solved-count').textContent = count;
+  document.getElementById('total-count').textContent  = total;
+  const pct = total ? Math.round(count / total * 100) : 0;
+  document.getElementById('progress-fill').style.width      = pct + '%';
+  document.getElementById('progress-fill-main').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent       = pct + '%';
+
+  // sidebar total badge
+  const sb = document.getElementById('sb-total');
+  if (sb) sb.textContent = total;
+}
+
+function init() {
+  const solved = getSolved();
+  document.querySelectorAll('.prob-check').forEach(cb => {
+    const id = cb.dataset.id;
+    if (solved[id]) {
+      cb.checked = true;
+      cb.closest('tr').classList.add('solved');
+    }
+    cb.addEventListener('change', e => {
+      e.target.closest('tr').classList.toggle('solved', e.target.checked);
+      save(id, e.target.checked);
+    });
+  });
+  updateProgress();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
