@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Agent Developer Guide — DM Kai</title>
+  <link rel="stylesheet" href="../leetcode/style.css" />
+  <style>
+    /* ── Q&A block ── */
+    .qa-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+    .qa-item { display: flex; gap: 10px; align-items: flex-start; }
+    .qa-check { flex-shrink: 0; margin-top: 14px; }
+    .qa-check input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--green, #28784a); cursor: pointer; }
+    .qa-details { flex: 1; border: 1px solid var(--border-color, #c4d0c0); border-radius: 8px; overflow: hidden; background: #fff; }
+    .qa-details summary {
+      cursor: pointer; padding: 12px 16px;
+      font-weight: 600; font-size: 14px; color: var(--text-color, #1b2b1a);
+      list-style: none; display: flex; align-items: center; gap: 8px;
+      user-select: none;
+    }
+    .qa-details summary::before { content: "▶"; font-size: 10px; color: var(--muted, #4a6248); transition: transform .2s; flex-shrink: 0; }
+    .qa-details[open] summary::before { transform: rotate(90deg); }
+    .qa-details summary::-webkit-details-marker { display: none; }
+    .qa-answer { padding: 4px 16px 16px 16px; font-size: 14px; line-height: 1.75; color: var(--text-color, #1b2b1a); }
+    .qa-answer p { margin: 8px 0; }
+    .qa-answer ul, .qa-answer ol { margin: 8px 0 8px 20px; }
+    .qa-answer li { margin-bottom: 4px; }
+    .qa-answer .key-rule {
+      margin-top: 12px; padding: 8px 12px;
+      background: rgba(52, 116, 176, .08); border-left: 3px solid #3474b0;
+      border-radius: 0 6px 6px 0; font-style: italic; font-size: 13px;
+    }
+    .qa-answer .warn-rule {
+      margin-top: 12px; padding: 8px 12px;
+      background: rgba(158, 84, 22, .08); border-left: 3px solid #9e5416;
+      border-radius: 0 6px 6px 0; font-size: 13px;
+    }
+    .qa-item.understood .qa-details summary { color: var(--muted, #4a6248); }
+
+    /* ── Module headings ── */
+    .module { margin-bottom: 52px; }
+    .module-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 18px; padding-bottom: 10px;
+      border-bottom: 2px solid var(--border-color, #c4d0c0);
+    }
+    .module-num {
+      background: var(--green, #28784a); color: #fff;
+      font-size: 11px; font-weight: 700; padding: 3px 8px;
+      border-radius: 5px; letter-spacing: .06em; flex-shrink: 0;
+    }
+    .module-header h2 { font-size: 20px; font-weight: 700; margin: 0; }
+
+    .qa-section-label {
+      font-size: 12px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted, #4a6248);
+      margin: 24px 0 10px;
+    }
+
+    /* ── Comparison blocks ── */
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+    .compare-col { border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.6; }
+    .compare-col.bad { background: rgba(158,84,22,.07); border: 1px solid rgba(158,84,22,.25); }
+    .compare-col.good { background: rgba(40,120,74,.07); border: 1px solid rgba(40,120,74,.25); }
+    .compare-col .col-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+    .compare-col.bad .col-label { color: #9e5416; }
+    .compare-col.good .col-label { color: #28784a; }
+
+    /* ── Stat pills ── */
+    .stat-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 14px 0; }
+    .stat-pill {
+      background: rgba(52,116,176,.08); border: 1px solid rgba(52,116,176,.2);
+      border-radius: 8px; padding: 10px 16px; text-align: center; flex: 1; min-width: 100px;
+    }
+    .stat-pill .stat-num { font-size: 22px; font-weight: 800; color: #3474b0; }
+    .stat-pill .stat-label { font-size: 11px; color: var(--muted, #4a6248); margin-top: 2px; }
+
+    /* ── Gate pipeline ── */
+    .gate-pipeline { display: flex; flex-direction: column; gap: 6px; margin: 14px 0; }
+    .gate-step {
+      display: flex; align-items: center; gap: 10px;
+      background: #f8faf7; border: 1px solid #c4d0c0;
+      border-radius: 7px; padding: 9px 14px; font-size: 13px;
+    }
+    .gate-num {
+      background: #3474b0; color: #fff; border-radius: 50%;
+      width: 22px; height: 22px; font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .gate-step.hitl .gate-num { background: #9e5416; }
+    .gate-step strong { margin-right: 4px; }
+
+    /* ── Overall progress ── */
+    .overall-progress { margin-top: 4px; }
+    .overall-progress .prog-label { font-size: 12px; color: var(--muted, #4a6248); margin-bottom: 5px; }
+    .overall-progress .prob-progress-track { height: 6px; }
+
+    /* mobile */
+    @media (max-width: 700px) {
+      .compare-grid { grid-template-columns: 1fr; }
+      .stat-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════ HEADER ══════════════════════════ -->
+<header class="site-header">
+  <a href="../index.html" class="site-logo">DM Kai</a>
+  <nav class="site-nav">
+    <a href="../leetcode/index.html">LeetCode</a>
+    <a href="../company-prep/index.html">Company Prep</a>
+    <a href="index.html" class="active">Agent Guide</a>
+  </nav>
+</header>
+
+<!-- ══════════════════════════ LAYOUT ══════════════════════════ -->
+<div class="page-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section-label">Modules</div>
+    <a class="sidebar-item" href="#m1">M1 · Agentic Loop</a>
+    <a class="sidebar-item" href="#m2">M2 · Context Engineering</a>
+    <a class="sidebar-item" href="#m3">M3 · RAG &amp; Retrieval</a>
+    <a class="sidebar-item" href="#m4">M4 · Tool Design</a>
+    <a class="sidebar-item" href="#m5">M5 · Multi-Agent Architecture</a>
+    <a class="sidebar-item" href="#m6">M6 · Agent Harness</a>
+    <a class="sidebar-item" href="#m7">M7 · Safety &amp; Evaluation</a>
+
+    <div class="sidebar-section-label" style="margin-top:24px;">Progress</div>
+    <div class="overall-progress">
+      <div class="prog-label" id="prog-label">0 / 42 understood</div>
+      <div class="prob-progress-track">
+        <div class="prob-progress-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <button class="btn-reset" id="btn-reset" style="margin-top:14px;">Reset All</button>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <div style="margin-bottom:32px;">
+      <h1 style="font-size:26px;font-weight:800;margin-bottom:8px;">AI Agent Developer Guide</h1>
+      <p style="font-size:14px;color:var(--muted,#4a6248);line-height:1.7;max-width:680px;">
+        A ground-up tutorial on building production AI agent systems — synthesized from Anthropic engineering blog posts and real production experience.
+        Each module covers the core concept and tests your understanding with Q&amp;A.
+        Check the box next to a question once you can answer it confidently.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         MODULE 1 — The Agentic Loop
+    ══════════════════════════════════════════════ -->
+    <section class="module" id="m1">
+      <div class="module-header">
+        <span class="module-num">M1</span>
+        <h2>The Agentic Loop — What Is an Agent?</h2>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>Summary</strong>
+        <p>
+          A simple LLM call is one-shot: you send a prompt, you get a response, done.
+          An <strong>agent</strong> adds a <strong>loop</strong>: it can call tools, observe results, and keep reasoning
+          — repeating until the task is complete or a budget limit is hit.
+        </p>
+        <p style="margin-top:8px;">
+          Every agent system has four elements: a <strong>system prompt</strong> (identity + rules),
+          <strong>tools</strong> (functions it can invoke), <strong>memory</strong> (the context window + external state),
+          and a <strong>loop controller</strong> (the harness that manages retries, limits, checkpointing).
+        </p>
+        <p style="margin-top:8px;">
+          The six architecture patterns, from simplest to most complex:
+        </p>
+        <ol style="margin:8px 0 0 18px;font-size:14px;line-height:1.8;">
+          <li><strong>Prompt Chaining</strong> — sequential steps, each feeds the next; gates check output before proceeding</li>
+          <li><strong>Routing</strong> — classify the input, dispatch to the right specialized handler</li>
+          <li><strong>Parallelization</strong> — independent subtasks run concurrently, or N independent votes are aggregated</li>
+          <li><strong>Orchestrator-Workers</strong> — a lead LLM dynamically determines which workers to call and with what tasks</li>
+          <li><strong>Evaluator-Optimizer</strong> — generate → evaluate → refine, repeat until quality threshold is met</li>
+          <li><strong>Fully Autonomous Agent</strong> — open-ended loop, number of steps unpredictable; used for SWE-bench-style tasks</li>
+        </ol>
+        <p style="margin-top:10px;font-style:italic;">
+          Core principle: start with the simplest pattern that meets your requirements.
+          Only add complexity when simpler approaches demonstrably fail.
+        </p>
+      </div>
+
+      <p class="qa-section-label">Q &amp; A</p>
+      <div class="qa-list">
+
+        <div class="qa-item">
+          <label class="qa-check" title="Mark as understood"><input type="checkbox" class="prob-check" data-id="m1q1"></label>
+          <details class="qa-details">
+            <summary>Q: What's the practical difference between a simple LLM call and an agent?</summary>
+            <div class="qa-answer">
+              <p>A simple LLM call produces <em>one</em> response from <em>one</em> prompt — the caller decides what to do next.
+              An agent wraps the LLM in a <strong>loop</strong>: it receives tool results as new observations, adds them to context, and calls the model again. This continues until the task succeeds or a hard limit is hit (step count, token budget, timeout).</p>
+              <p>The distinction matters for production: agents accumulate cost and latency across many LLM calls, and each call introduces a new point of failure. Every agent needs a loop controller — not just the model.</p>
+              <div class="key-rule">Use an agent when the path to the answer can't be predetermined. If you know the steps upfront, a prompt chain is cheaper and more predictable.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check" title="Mark as understood"><input type="checkbox" class="prob-check" data-id="m1q2"></label>
+          <details class="qa-details">
+            <summary>Q: A customer service system handles refunds, tech issues, and general inquiries. Which architecture?</summary>
+            <div class="qa-answer">
+              <p><strong>Routing</strong> is the right choice. The three request types have clear classification boundaries and require completely different handling: refunds need access to the orders system, tech issues need the product knowledge base, general inquiries are lighter. Optimizing one prompt for all three would degrade the others.</p>
+              <p>If refund logic is complex, you can nest <strong>Prompt Chaining</strong> inside the refund route (e.g., first check eligibility, then execute the refund). You don't need Orchestrator-Workers because the subtasks are predefined — you can enumerate them in code, you don't need the model to discover them at runtime.</p>
+              <div class="key-rule">Routing = you can enumerate the handlers in code. Orchestrator-Workers = the set of subtasks depends on the specific input and isn't known until the model analyzes it.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check" title="Mark as understood"><input type="checkbox" class="prob-check" data-id="m1q3"></label>
+          <details class="qa-details">
+            <summary>Q: Your code review agent misses some vulnerabilities. Should you add Voting or Evaluator-Optimizer?</summary>
+            <div class="qa-answer">
+              <p>They solve different problems:</p>
+              <ul>
+                <li><strong>Voting (Parallelization)</strong>: run 3 independent agents on the same code; flag any vulnerability that any one agent finds. Raises <em>recall</em> (fewer misses) but may add <em>false positives</em>.</li>
+                <li><strong>Evaluator-Optimizer</strong>: one agent does the initial review; a second evaluates how thorough it was and provides feedback; the first iterates. Raises <em>depth</em> of analysis per finding.</li>
+              </ul>
+              <p>Diagnostic: if misses are <em>random across diverse vulnerability types</em>, use Voting. If misses are consistently <em>shallow analysis of the same class</em>, use Evaluator-Optimizer.</p>
+              <p>Two signals that Evaluator-Optimizer will work: (1) output measurably improves with feedback, (2) the LLM can reliably provide that feedback.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check" title="Mark as understood"><input type="checkbox" class="prob-check" data-id="m1q4"></label>
+          <details class="qa-details">
+            <summary>Q: What's the difference between Orchestrator-Workers and Parallelization with sectioning?</summary>
+            <div class="qa-answer">
+              <p>The key distinction is <strong>whether subtasks are predefined or dynamically discovered</strong>.</p>
+              <ul>
+                <li><strong>Sectioning (Parallelization)</strong>: subtasks are hardcoded in the application — e.g., "one LLM writes the content, another simultaneously runs a compliance check." Fixed, predictable.</li>
+                <li><strong>Orchestrator-Workers</strong>: the lead LLM analyzes the input at runtime to decide which workers to invoke, with what parameters, and in what order. Used when you can't enumerate all possible subtasks combinations ahead of time.</li>
+              </ul>
+              <div class="key-rule">If you can write all the handler cases in an if-else or a config file, use Sectioning. If the set of subtasks depends on the specific input (e.g., fixing a bug requires analyzing which files to touch), use Orchestrator-Workers.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check" title="Mark as understood"><input type="checkbox" class="prob-check" data-id="m1q5"></label>
+          <details class="qa-details">
+            <summary>Q: When should you NOT use an agent (and just use a simple LLM call)?</summary>
+            <div class="qa-answer">
+              <p>Don't reach for an agent when:</p>
+              <ul>
+                <li>The task has a clear, fixed number of steps — use prompt chaining instead</li>
+                <li>Low latency is required — agents have multiple round-trips to the model</li>
+                <li>Cost must be minimal — each loop iteration consumes tokens</li>
+                <li>The task is a single, well-defined transformation (translation, summarization, classification)</li>
+              </ul>
+              <p>Agents earn their overhead when: the path is open-ended, the model needs to observe intermediate results to decide next steps, or the task genuinely exceeds a single context window.</p>
+              <div class="warn-rule">Every added step is a new failure mode. Start simple. Anthropic's observation from working with dozens of teams: the most successful production systems use simple, composable patterns — not complex frameworks.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check" title="Mark as understood"><input type="checkbox" class="prob-check" data-id="m1q6"></label>
+          <details class="qa-details">
+            <summary>Q: Describe the evaluator-optimizer loop and give a concrete example.</summary>
+            <div class="qa-answer">
+              <p>The pattern: a <strong>Generator</strong> produces an output; an <strong>Evaluator</strong> scores it against criteria and returns structured feedback; the Generator revises based on feedback; repeat until score meets threshold or a retry limit is hit.</p>
+              <p>Example — literary translation: Generator translates a passage. Evaluator checks fidelity, naturalness, and tone (scores 0–1 each). If any score &lt; 0.8, Evaluator returns specific feedback ("line 3 sounds stilted; use more idiomatic phrasing"). Generator revises. Repeat up to 3 times.</p>
+              <p>In production .NET modernization: the Debug agent runs <code>dotnet build</code>, the evaluator checks build errors, and the agent iterates. Hard limits: max 5 retries, max 10 minutes. If limits hit → escalate to human.</p>
+              <div class="key-rule">The Evaluator must be able to provide actionable, not just binary, feedback. "It's wrong" is useless. "Line 3 idiom, package version mismatch at src/Api.cs:42" is actionable.</div>
+            </div>
+          </details>
+        </div>
+
+      </div><!-- /qa-list -->
+    </section>
+
+    <!-- ══════════════════════════════════════════════
+         MODULE 2 — Context Engineering
+    ══════════════════════════════════════════════ -->
+    <section class="module" id="m2">
+      <div class="module-header">
+        <span class="module-num">M2</span>
+        <h2>Context Engineering</h2>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>Summary</strong>
+        <p>
+          Context is the agent's working memory — finite, precious, and physically degrading.
+          <strong>"Context rot"</strong>: the transformer's O(n²) attention mechanism means that as context grows,
+          recall and reasoning quality degrade gradually. This is physics, not a model bug.
+          Design for it from the start.
+        </p>
+        <p style="margin-top:10px;">Four strategies against context rot:</p>
+        <ol style="margin:8px 0 0 18px;font-size:14px;line-height:2;">
+          <li><strong>JIT Retrieval</strong> — maintain lightweight identifiers (file paths, zone IDs, URLs); load full data on-demand when actually needed</li>
+          <li><strong>Compaction</strong> — at a context threshold, summarize history and re-initialize with the summary; preserve decisions, discard raw tool outputs</li>
+          <li><strong>Structured Notes</strong> — agent writes key intermediate results to external persistent storage; reads them back at session start</li>
+          <li><strong>Sub-Agent Architecture</strong> — sub-agents explore in their own clean context windows; return only 500–2000 token distilled summaries to the orchestrator</li>
+        </ol>
+        <p style="margin-top:10px;">
+          System prompt design: start minimal. Only add instructions in response to observed failures.
+          Over-specified prompts are fragile; under-specified prompts lack signal. Find the minimum that produces correct behavior.
+        </p>
+      </div>
+
+      <p class="qa-section-label">Q &amp; A</p>
+      <div class="qa-list">
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m2q1"></label>
+          <details class="qa-details">
+            <summary>Q: What is "context rot" and why does it happen even with a capable model?</summary>
+            <div class="qa-answer">
+              <p>The transformer attention mechanism has O(n²) computational complexity over the context length. As the context window fills, the model's ability to reliably recall information from earlier in the context degrades — gradually, not as a cliff. Training data is also skewed toward shorter sequences, making models less reliable at extreme context lengths.</p>
+              <p>This means that a 200K token context window doesn't mean you reliably get 200K tokens of working memory. In practice, facts buried at context position 20K are recalled less reliably when you're at 180K tokens than they were at 50K tokens.</p>
+              <div class="key-rule">Context rot is a gradient, not a cliff. Design your system so critical information is near the recency end of context, or accessed via structured external state rather than raw context recall.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m2q2"></label>
+          <details class="qa-details">
+            <summary>Q: Your agent degrades noticeably after 100K tokens of context. Walk me through your diagnosis and fixes in order.</summary>
+            <div class="qa-answer">
+              <p>From lightest to heaviest intervention:</p>
+              <ol>
+                <li><strong>Trim tool output results</strong> — tool call results are often the largest context consumers with the lowest information density. Clear or truncate them after use.</li>
+                <li><strong>Compaction</strong> — when context hits a threshold (e.g., 80% of window), summarize and re-initialize. Keep: architecture decisions, open bugs, key numbers. Discard: redundant outputs, step-by-step narration.</li>
+                <li><strong>Structured notes</strong> — have the agent explicitly write important intermediate findings to external files, then read them at each session start rather than relying on context recall.</li>
+                <li><strong>Sub-agent decomposition</strong> — split the task so each sub-agent operates in a clean context; only summaries flow back to the orchestrator.</li>
+              </ol>
+              <p>Diagnosis first: is degradation "forgetting early decisions" (context recall problem) or "reasoning quality dropping" (attention overload)? They have different solutions — the former benefits most from notes; the latter from sub-agents.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m2q3"></label>
+          <details class="qa-details">
+            <summary>Q: What is JIT retrieval and how is it different from traditional RAG?</summary>
+            <div class="qa-answer">
+              <p><strong>Traditional RAG</strong>: before the agent starts, the system pre-retrieves relevant chunks based on the query and stuffs them into the initial context. It's passive and must guess relevance upfront.</p>
+              <p><strong>JIT retrieval</strong>: the agent maintains lightweight identifiers (zone IDs, file paths, URLs) in context. When it needs full data for a specific identifier, it calls a tool to load it on-demand. Information enters context <em>progressively</em> as the task demands it, not all at once.</p>
+              <p>JIT is better when: the task's direction isn't fully known at start (so you can't predict what to retrieve), the data is navigable (e.g., a codebase where you can <code>glob</code> for files then <code>read</code> specific ones), or you want to avoid bloating context with potentially irrelevant pre-retrieved chunks.</p>
+              <div class="key-rule">Claude Code exemplifies JIT retrieval: CLAUDE.md loads upfront; then the agent uses <code>glob</code> and <code>grep</code> to discover and load only what it needs as it works.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m2q4"></label>
+          <details class="qa-details">
+            <summary>Q: How do you design a compaction strategy? What should be preserved vs. discarded?</summary>
+            <div class="qa-answer">
+              <p>At a context threshold, summarize history and re-initialize with a compact summary. The quality of what you preserve determines how well the agent continues.</p>
+              <p><strong>Preserve:</strong></p>
+              <ul>
+                <li>Architecture decisions made and the reasoning behind them</li>
+                <li>Open bugs and unresolved blockers</li>
+                <li>Key measurements and numbers (success rate, latency, counts)</li>
+                <li>The current state of work (what's done, what's next)</li>
+              </ul>
+              <p><strong>Discard:</strong></p>
+              <ul>
+                <li>Raw tool call results (the data, not the decision made from it)</li>
+                <li>Step-by-step narration of already-completed actions</li>
+                <li>Redundant intermediate outputs</li>
+              </ul>
+              <div class="key-rule">Think of compaction like a good engineering handoff: the next engineer needs to know the decisions and open issues, not a transcript of every command you ran.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m2q5"></label>
+          <details class="qa-details">
+            <summary>Q: What's the "minimum viable system prompt" principle and why does over-specification hurt?</summary>
+            <div class="qa-answer">
+              <p>Start with the shortest system prompt that makes the agent functional. Add instructions <em>only when you observe specific failures</em> — not preemptively for hypothetical cases.</p>
+              <p>Over-specification fails in two ways:</p>
+              <ul>
+                <li><strong>Brittleness</strong>: hundreds of specific rules create contradictions. The model can't resolve conflicts reliably.</li>
+                <li><strong>Maintenance burden</strong>: every rule is a commitment. Changing product behavior requires auditing a large prompt for side effects.</li>
+              </ul>
+              <p>Under-specification fails by giving insufficient signal: the model lacks enough context about the environment, constraints, and expectations to behave consistently.</p>
+              <div class="key-rule">Treat the system prompt like production code: every line should justify its existence by fixing a specific observed problem. Delete anything that doesn't have a corresponding failure case it prevents.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m2q6"></label>
+          <details class="qa-details">
+            <summary>Q: What structured note pattern allows an agent to maintain continuity across sessions?</summary>
+            <div class="qa-answer">
+              <p>The agent writes critical information to external persistent storage (files, a database) during each session. At the start of every new session, reading these notes is part of the startup sequence — before any new work begins.</p>
+              <p>What to put in notes: key decisions made, current progress state, open issues with their status, any discovered constraints or invariants.</p>
+              <p>A real example: in a long codebase migration task, the agent writes <code>progress.txt</code> (plain language: what's done, what's blocked, what's next) and <code>feature_list.json</code> (structured: each feature with a <code>passes: boolean</code> field). The next session reads both files before starting any code changes.</p>
+              <div class="key-rule">Structured notes decouple the agent from context continuity. Even if the context is fully compacted or cleared, the agent can resume accurately from the notes — no information loss.</div>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════
+         MODULE 3 — RAG & Retrieval
+    ══════════════════════════════════════════════ -->
+    <section class="module" id="m3">
+      <div class="module-header">
+        <span class="module-num">M3</span>
+        <h2>RAG &amp; Retrieval</h2>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>Summary</strong>
+        <p>
+          RAG (Retrieval-Augmented Generation) solves the problem of knowledge that exceeds the context window.
+          But naive RAG fails: chunks lose their meaning when decontextualized.
+          <em>"Revenue grew 3% last quarter"</em> — which company? which quarter? The chunk doesn't say.
+        </p>
+        <p style="margin-top:8px;">
+          <strong>Contextual Retrieval</strong> fixes this with four layered optimizations, each independently deployable:
+        </p>
+        <ol style="margin:8px 0 0 18px;font-size:14px;line-height:2;">
+          <li><strong>BM25 + Embedding hybrid</strong> — semantic retrieval covers meaning; BM25 covers exact string matches; rank fusion combines both</li>
+          <li><strong>Contextual Chunk Enrichment</strong> — at index time, prepend a 50–100 token context blurb to each chunk using Claude (with prompt caching, cost ≈ $1.02 per million tokens)</li>
+          <li><strong>Prompt Caching</strong> — mark the document prefix with <code>cache_control</code>; KV matrix computed once, reused for N chunks; ~90% cost reduction, &gt;2× latency improvement</li>
+          <li><strong>Reranking</strong> — retrieve Top 150, reranker scores relevance, send only Top 20 to LLM; removes low-quality candidates before generation</li>
+        </ol>
+        <div class="stat-row" style="margin-top:14px;">
+          <div class="stat-pill"><div class="stat-num">−67%</div><div class="stat-label">Failure rate (5.7% → 1.9%)</div></div>
+          <div class="stat-pill"><div class="stat-num">−90%</div><div class="stat-label">Processing cost with caching</div></div>
+          <div class="stat-pill"><div class="stat-num">200K</div><div class="stat-label">Token threshold: skip RAG below this</div></div>
+        </div>
+        <p style="margin-top:10px;font-size:14px;">
+          <strong>Practical rule:</strong> if your knowledge base is under ~200K tokens (~500 pages), inject the full content directly with prompt caching.
+          It's simpler, often more accurate, and the cost difference is negligible.
+        </p>
+      </div>
+
+      <p class="qa-section-label">Q &amp; A</p>
+      <div class="qa-list">
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m3q1"></label>
+          <details class="qa-details">
+            <summary>Q: Your RAG system misses a critical chunk. How do you diagnose if it's a semantic or keyword retrieval problem?</summary>
+            <div class="qa-answer">
+              <p>Test each retrieval path independently:</p>
+              <ul>
+                <li>Run BM25 (exact keyword) retrieval alone — did it find the chunk?</li>
+                <li>Run embedding (semantic) retrieval alone — did it find the chunk?</li>
+              </ul>
+              <p>BM25 finds it but embedding doesn't → the semantic representation is poor. Consider a different embedding model or better chunk enrichment.</p>
+              <p>Neither finds it → the chunk itself lacks context. The enrichment blurb may be too vague, or the chunk granularity is wrong (too large = diluted signal; too small = missing context).</p>
+              <p>Both find it but it doesn't reach the final answer → check reranker scoring, Top-N cutoffs, or whether the chunk is being filtered by a post-retrieval step.</p>
+              <div class="key-rule">Diagnose each stage independently: retrieval quality, reranker quality, and generation quality are separate problems with separate fixes.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m3q2"></label>
+          <details class="qa-details">
+            <summary>Q: Prompt caching claims ~90% cost savings, but your experiment only showed 30%. What went wrong?</summary>
+            <div class="qa-answer">
+              <p>Common causes:</p>
+              <ul>
+                <li><strong>Cache miss due to inconsistent prefix</strong>: if timestamps, session IDs, or user-specific data appear before the cached document prefix, the cache key changes every request. The cached portion must be a <em>stable prefix</em>.</li>
+                <li><strong>Document too short</strong>: prompt caching requires a minimum of ~1,024 tokens to activate. Very short knowledge bases don't trigger caching.</li>
+                <li><strong>TTL expiry</strong>: the cache TTL is ~5 minutes. If requests are spaced out beyond that, you pay full price each time.</li>
+                <li><strong>Small cached-to-total ratio</strong>: if the per-request dynamic portion (user query + retrieved chunks) is much larger than the cached document portion, overall savings are diluted even with 100% cache hits.</li>
+              </ul>
+              <p>Diagnostic: check the API response's <code>cache_read_input_tokens</code> field. If it's 0 or low, you have a cache miss problem. If it's high but savings are low, check the total/cached ratio.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m3q3"></label>
+          <details class="qa-details">
+            <summary>Q: You have a 500K token knowledge base and RAG quality is poor. What do you try in order?</summary>
+            <div class="qa-answer">
+              <p>500K tokens is too large for direct injection (~1,300 pages), so RAG is appropriate. Optimize in priority order:</p>
+              <ol>
+                <li><strong>Add contextual chunk enrichment</strong> — prepend a Claude-generated 50-100 token context blurb to each chunk before indexing. Single biggest quality improvement (-49% failure rate).</li>
+                <li><strong>Switch to hybrid retrieval</strong> — add BM25 alongside embedding retrieval and combine with rank fusion. Covers different failure modes.</li>
+                <li><strong>Add a reranker</strong> — pass top 150 candidates through a reranker, select top 20 for generation. Removes noise from initial retrieval.</li>
+                <li><strong>Review chunk strategy</strong> — paragraph-boundary chunking usually outperforms fixed-character chunking. Verify your chunk size is appropriate for your content type.</li>
+                <li><strong>Check Top-N</strong> — too few (Top-3) → you miss relevant context; too many (Top-30) → noise drowns signal.</li>
+              </ol>
+              <div class="key-rule">Don't tune retrieval hyperparameters before fixing chunk quality. Bad chunks + perfect retrieval = bad answers. Fix the index quality first.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m3q4"></label>
+          <details class="qa-details">
+            <summary>Q: How does the contextual chunk enrichment work, and why does it fix the decontextualization problem?</summary>
+            <div class="qa-answer">
+              <p>At index-build time (not query time), you process each chunk through Claude with a prompt like: "Here is a document. Here is an excerpt from it. Write a brief 1-2 sentence context that explains what this excerpt is about in the context of the document."</p>
+              <p>The resulting 50-100 token context blurb is prepended to the chunk text before embedding and storing. Now instead of:</p>
+              <p style="font-style:italic;margin:6px 0 6px 16px;">"Revenue grew 3% last quarter"</p>
+              <p>You store and search:</p>
+              <p style="font-style:italic;margin:6px 0 6px 16px;">"This excerpt is from Acme Corp's Q3 2024 earnings report, discussing year-over-year revenue performance. Revenue grew 3% last quarter"</p>
+              <p>This fixes decontextualization because both the embedding vector and BM25 index now include the surrounding context. The chunk can be understood in isolation.</p>
+              <p>Cost: with prompt caching the document is computed once; enrichment costs about $1.02 per million tokens total.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m3q5"></label>
+          <details class="qa-details">
+            <summary>Q: When should you skip RAG entirely and just inject full context?</summary>
+            <div class="qa-answer">
+              <p>If the total knowledge base is under ~200K tokens (~500 pages), inject the entire thing directly into the system prompt using prompt caching. This is:</p>
+              <ul>
+                <li>Simpler to implement (no chunking, embedding pipeline, or retrieval logic)</li>
+                <li>More accurate (LLM sees everything, no retrieval misses)</li>
+                <li>Cost-comparable: with prompt caching, you pay for the KV matrix once per 5 minutes, not per token per request</li>
+              </ul>
+              <p>RAG is only necessary when: (1) the knowledge base genuinely exceeds the context window, (2) you need to retrieve from a corpus that grows dynamically and would be too expensive to cache in full, or (3) latency constraints prevent injecting large contexts.</p>
+              <div class="key-rule">RAG is a workaround for context window limits. When those limits aren't the constraint, the simpler approach wins.</div>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════
+         MODULE 4 — Tool Design
+    ══════════════════════════════════════════════ -->
+    <section class="module" id="m4">
+      <div class="module-header">
+        <span class="module-num">M4</span>
+        <h2>Tool Design — 5 Principles</h2>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>Summary</strong>
+        <p>
+          Tool design for agents is fundamentally different from API design for code.
+          Traditional APIs are called by deterministic code that always follows the schema.
+          Tools are called by an LLM that may misread schemas, hallucinate parameter values, or pick the wrong tool entirely.
+          <strong>Tool descriptions load directly into the agent's context — they ARE prompt engineering.</strong>
+        </p>
+        <p style="margin-top:10px;font-weight:600;">The 5 Principles:</p>
+        <ol style="margin:8px 0 0 18px;font-size:14px;line-height:2;">
+          <li><strong>Right abstraction level</strong> — consolidate multi-step SDK calls into one workflow tool; ask "would a human need this granularity?"</li>
+          <li><strong>Namespace your tools</strong> — prefix by service+resource: <code>nav_</code>, <code>manip_</code>, <code>sensor_</code>; agent's tool selection is influenced by prefix ordering</li>
+          <li><strong>Meaningful responses</strong> — return human-readable fields; replace UUIDs with 0-indexed integers or semantic names; expose <code>response_format</code> enum (concise vs detailed)</li>
+          <li><strong>Actionable errors</strong> — tell the agent what to do next, not just what failed; "use user_id (int), e.g. user_id=12345" beats "invalid parameter type"</li>
+          <li><strong>Prompt-engineer descriptions</strong> — write like onboarding a smart new hire: define terms, explain relationships, specify formats, include examples</li>
+        </ol>
+        <p style="margin-top:10px;font-style:italic;">
+          Proof point: fixing one web search tool description (Claude was appending "2025" to every query) corrected the behavior immediately — zero retraining.
+          Fixing the robot manipulation tool hierarchy reduced task time 40%.
+        </p>
+      </div>
+
+      <div class="compare-grid" style="margin-top:0;">
+        <div class="compare-col bad">
+          <div class="col-label">❌ Raw SDK Wrapping</div>
+          <code>navigate_to(zone)</code><br>
+          <code>locate_object(desc)</code><br>
+          <code>compute_grasp(config)</code><br>
+          <code>execute_grasp(params)</code><br>
+          <code>verify_grasp_success()</code><br>
+          <p style="margin-top:8px;font-size:12px;">5 calls, agent must orchestrate sequence, each call can fail in different ways</p>
+        </div>
+        <div class="compare-col good">
+          <div class="col-label">✅ Workflow Tool</div>
+          <code>manip_pick_object(<br>&nbsp;&nbsp;description="red box",<br>&nbsp;&nbsp;source_zone="zone_A",<br>&nbsp;&nbsp;grasp_strategy="auto"<br>)</code><br>
+          <code>→ {success, position, next_action}</code>
+          <p style="margin-top:8px;font-size:12px;">1 call, error handling inside tool, response guides next step</p>
+        </div>
+      </div>
+
+      <p class="qa-section-label">Q &amp; A</p>
+      <div class="qa-list">
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m4q1"></label>
+          <details class="qa-details">
+            <summary>Q: Your agent frequently calls the wrong tool. Without retraining the model, what do you do?</summary>
+            <div class="qa-answer">
+              <p>In priority order:</p>
+              <ol>
+                <li><strong>Audit descriptions for ambiguity</strong> — if a human engineer couldn't tell which tool to use from the description, the agent can't either. Rewrite to make the distinction explicit.</li>
+                <li><strong>Fix namespacing</strong> — similar tools with similar names cause confusion. Add prefixes (<code>asana_projects_search</code> vs <code>asana_users_search</code>). Tool selection is influenced by name similarity.</li>
+                <li><strong>Reduce total tool count</strong> — merge tools with overlapping functionality. Fewer choices = fewer wrong choices.</li>
+                <li><strong>Enable interleaved thinking</strong> — observe the reasoning between tool calls. The agent's own reasoning reveals which part of the description caused the misclassification.</li>
+                <li><strong>Run eval before and after</strong> — don't ship description changes without measuring the change in correct tool selection rate.</li>
+              </ol>
+              <div class="key-rule">Every tool description change is a prompt engineering change. Measure its effect on an eval set — don't guess whether it helped.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m4q2"></label>
+          <details class="qa-details">
+            <summary>Q: A tool returns UUID lists and the agent hallucinates in subsequent calls. How do you fix this?</summary>
+            <div class="qa-answer">
+              <p>Replace arbitrary UUID strings with 0-indexed integers or semantic names in tool responses.</p>
+              <p>Instead of: <code>{"{id": "550e8400-e29b-41d4-a716-446655440000", "name": "Alice"}"}</code></p>
+              <p>Return: <code>{"{id": 0, "name": "Alice"}"}</code></p>
+              <p>Why this works: LLMs process tokens positionally. A 36-character random UUID carries no positional signal — the model's attention mechanism can't reliably "remember" it and pass it back accurately. An integer like <code>0</code> is a short, positionally meaningful token the model is far less likely to corrupt.</p>
+              <p>Also consider: add a <code>response_format</code> parameter (concise vs detailed). Concise mode (~72 tokens) omits IDs entirely when the caller just needs content. Only include IDs in detailed mode when a downstream tool requires them.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m4q3"></label>
+          <details class="qa-details">
+            <summary>Q: What should a well-designed tool error message contain?</summary>
+            <div class="qa-answer">
+              <p>An error message should tell the agent <em>what to do next</em>, not just <em>what failed</em>.</p>
+              <div class="compare-grid">
+                <div class="compare-col bad">
+                  <div class="col-label">❌ Useless</div>
+                  <code>Error: invalid parameter 'user'</code>
+                </div>
+                <div class="compare-col good">
+                  <div class="col-label">✅ Actionable</div>
+                  <code>"user" is ambiguous. Use user_id (int) or username (str). Example: user_id=12345</code>
+                </div>
+              </div>
+              <p>The good error message: names the problem, specifies the correct parameter types, provides a concrete example. After reading this, the agent knows exactly how to fix the call — no additional reasoning required.</p>
+              <div class="key-rule">Think of tool errors as self-correcting instructions. The agent will put the error back into context and try again — the error's job is to make that retry successful.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m4q4"></label>
+          <details class="qa-details">
+            <summary>Q: What does "prompt-engineered descriptions" mean in practice? Write a good vs bad example.</summary>
+            <div class="qa-answer">
+              <p>A tool description should be written like you're onboarding a smart new colleague — explain what the tool does, when to use it vs. related tools, what the output means, and include concrete examples.</p>
+              <div class="compare-grid">
+                <div class="compare-col bad">
+                  <div class="col-label">❌ Developer-focused</div>
+                  <code>search_projects(query: str) -&gt; List[Project]</code><br>
+                  <span style="font-size:12px;">Searches for projects.</span>
+                </div>
+                <div class="compare-col good">
+                  <div class="col-label">✅ Agent-optimized</div>
+                  <span style="font-size:12px;">Searches Asana for projects by name or keyword. Use this to find a project before creating tasks or checking status. Returns a list of projects with their IDs and current status. To find tasks instead of projects, use <code>asana_tasks_search</code>. Example: search_projects("Q4 mobile launch")</span>
+                </div>
+              </div>
+              <p>The good description: defines what it returns, distinguishes it from related tools, provides a usage example. Every sentence answers a question the agent might otherwise get wrong.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m4q5"></label>
+          <details class="qa-details">
+            <summary>Q: How do you systematically improve your tool descriptions over time?</summary>
+            <div class="qa-answer">
+              <p>Build a <strong>self-improving tool agent</strong>:</p>
+              <ol>
+                <li>Create an eval set of 20 realistic task scenarios that use the tool</li>
+                <li>Enable interleaved thinking — capture the agent's reasoning between each tool call</li>
+                <li>Run the tool-testing agent: it uses the tool on all 20 scenarios and reads its own thinking to identify confusion points, ambiguous moments, and places where it nearly called the wrong tool</li>
+                <li>The agent rewrites the description based on what it found</li>
+                <li>Re-run the eval to measure the improvement</li>
+              </ol>
+              <p>Result from production: one round of this process produced a 40% reduction in task completion time — zero model changes, only description changes.</p>
+              <div class="key-rule">Tool descriptions are production code, not documentation. Version-control them. Test changes in eval before deployment. Measure continuously.</div>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════
+         MODULE 5 — Multi-Agent Architecture
+    ══════════════════════════════════════════════ -->
+    <section class="module" id="m5">
+      <div class="module-header">
+        <span class="module-num">M5</span>
+        <h2>Multi-Agent Architecture</h2>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>Summary</strong>
+        <p>
+          A multi-agent system uses multiple independent LLM contexts — each with its own system prompt and specialized role —
+          orchestrated to collaborate on a task. The defining trade-off: <strong>~15× token cost</strong> vs.
+          genuine parallelism and context isolation.
+        </p>
+        <p style="margin-top:10px;font-weight:600;">When multi-agent earns its cost:</p>
+        <ul style="margin:6px 0 0 18px;font-size:14px;line-height:1.9;">
+          <li>Task is <em>breadth-first</em> — explore many parallel directions simultaneously</li>
+          <li>Information exceeds a single context window</li>
+          <li>Subtasks have low path-dependency on each other</li>
+          <li>Specialist roles genuinely benefit from focused system prompts</li>
+        </ul>
+        <p style="margin-top:10px;font-weight:600;">When single-agent is better:</p>
+        <ul style="margin:6px 0 0 18px;font-size:14px;line-height:1.9;">
+          <li>All agents would need to share the same context (defeats the purpose)</li>
+          <li>Many dependencies between steps — most coding tasks are like this</li>
+          <li>Real-time requirements (coordination latency adds up)</li>
+          <li>Low-value tasks where 15× token cost isn't justified</li>
+        </ul>
+        <div class="stat-row" style="margin-top:14px;">
+          <div class="stat-pill"><div class="stat-num">+90%</div><div class="stat-label">Research quality vs single-agent</div></div>
+          <div class="stat-pill"><div class="stat-num">−90%</div><div class="stat-label">Research time with parallel calls</div></div>
+          <div class="stat-pill"><div class="stat-num">−40%</div><div class="stat-label">Task time via self-improving tools</div></div>
+          <div class="stat-pill"><div class="stat-num">15×</div><div class="stat-label">Token cost vs single agent</div></div>
+        </div>
+      </div>
+
+      <p class="qa-section-label">Q &amp; A</p>
+      <div class="qa-list">
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m5q1"></label>
+          <details class="qa-details">
+            <summary>Q: How do you write a good task description for a sub-agent? What are the four required elements?</summary>
+            <div class="qa-answer">
+              <p>A sub-agent task description must contain all four elements. Any missing element causes either duplication (other agents cover the same ground) or gaps (nobody covers it).</p>
+              <ol>
+                <li><strong>Objective</strong> — what specific question needs answering? Be precise, not broad.</li>
+                <li><strong>Output format</strong> — "Return a 300-word summary + key numbers list" (not "return your findings")</li>
+                <li><strong>Tools and sources</strong> — "search Reuters, Bloomberg, SEMI.org; avoid social media"</li>
+                <li><strong>Scope boundary</strong> — "do NOT cover European markets (another sub-agent handles that); do NOT analyze consumer electronics demand-side"</li>
+              </ol>
+              <div class="compare-grid">
+                <div class="compare-col bad">
+                  <div class="col-label">❌ Missing scope boundary</div>
+                  <span style="font-size:12px;">"Research the 2025 semiconductor industry"</span><br>
+                  <span style="font-size:12px;color:#9e5416;">→ three agents overlap on US-China chip war; European market uncovered</span>
+                </div>
+                <div class="compare-col good">
+                  <div class="col-label">✅ Complete 4-part task</div>
+                  <span style="font-size:12px;">Objective: US-China chip competition, export controls impact on TSMC and Nvidia revenue. Format: 300 words + key numbers. Sources: Reuters, Bloomberg, SEMI.org. Boundary: not Europe (Agent B), not consumer demand-side.</span>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m5q2"></label>
+          <details class="qa-details">
+            <summary>Q: Extended Thinking vs Interleaved Thinking — which agent gets which and why?</summary>
+            <div class="qa-answer">
+              <p>They serve different decision-making contexts and should be assigned to different roles:</p>
+              <ul>
+                <li><strong>Extended Thinking → Lead/Orchestrator agent</strong>: before taking any action, reasons deeply about the full plan — assessing task complexity, deciding how many sub-agents to spawn, defining each sub-agent's role and scope. One-time, upfront, strategic thinking done with minimal information.</li>
+                <li><strong>Interleaved Thinking → Sub-agents</strong>: after each tool call returns results, the sub-agent thinks: "Is this source high quality? Does it answer my objective? What should my next search be?" Reactive, continuous, tactical adaptation throughout execution.</li>
+              </ul>
+              <div class="key-rule">Lead agent: plan with limited information (extended, upfront). Sub-agents: adapt as information arrives (interleaved, continuous). Same thinking mode can't optimize both.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m5q3"></label>
+          <details class="qa-details">
+            <summary>Q: Multi-agent token cost is 15× vs single-agent. How do you justify it to a PM?</summary>
+            <div class="qa-answer">
+              <p>Use a three-part justification framework:</p>
+              <ol>
+                <li><strong>Does the task require genuine parallelism?</strong> If the work is inherently serial, multi-agent only adds coordination overhead, not speed. Example: "this research question has 5 independent sub-topics — we can answer all 5 simultaneously, not one at a time."</li>
+                <li><strong>Does the information exceed one context window?</strong> If a single agent could hold everything, you don't need the split. Example: "the source corpus is 2M tokens — no single context window can hold all of it."</li>
+                <li><strong>Does the value justify the cost?</strong> Compare LLM cost against the human time it replaces. Multi-agent research task: 90% faster, replaces 3 analyst-hours. Even at 15× LLM cost, the ROI is clear.</li>
+              </ol>
+              <p>Useful reframe: "How many analysts working in parallel would you need to do this manually?" If the answer is 5 and your 5 sub-agents each cost $0.50, $2.50 total is not a hard sell.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m5q4"></label>
+          <details class="qa-details">
+            <summary>Q: How do you prevent parallel sub-agents from conflicting when they edit shared state?</summary>
+            <div class="qa-answer">
+              <p>The core design principle: <strong>constrain the interface</strong> rather than coordinate edits.</p>
+              <ul>
+                <li><strong>Assign disjoint workspaces</strong>: each sub-agent gets exclusive ownership of specific files or data ranges. No two agents touch the same file. The orchestrator merges results.</li>
+                <li><strong>Use structured, minimal patches</strong>: agents output find+replace JSON patches instead of full-file rewrites. Patches are deterministic and auditable; the harness applies them sequentially. Overlapping patches are detected and escalated rather than silently merged.</li>
+                <li><strong>Constrain the change surface</strong>: decide upfront what kinds of changes are allowed in-flight vs. not. In the .NET migration system: agents can change code style preferences, but not the target .NET version mid-job. Unlimited mid-job changes = unbounded state machine complexity.</li>
+              </ul>
+              <div class="key-rule">"Constrained interface editing": limit what any agent can change to a predefined surface. Changes outside that surface are rejected, not silently accepted. Coordination is impossible to get right when agents have unbounded write access.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m5q5"></label>
+          <details class="qa-details">
+            <summary>Q: What is the "wide-to-narrow" search strategy and why does it matter for sub-agents?</summary>
+            <div class="qa-answer">
+              <p>Sub-agents naturally tend toward over-specific, long queries — which lead to dead ends. Wide-to-narrow is the counter-pattern:</p>
+              <ol>
+                <li>Start with short, broad queries to get a landscape view of what's available</li>
+                <li>Evaluate the initial results — what's covered, what's missing?</li>
+                <li>Progressively narrow and focus based on what you find</li>
+              </ol>
+              <p>Without explicit guidance in the task description, agents default to queries like "2025 Nvidia revenue impact from US export controls on H100 chips targeting Chinese datacenter customers" — if there's no exact match, the search returns nothing. Starting with "Nvidia 2025 China sales" first would reveal what sources exist, then narrow from there.</p>
+              <div class="key-rule">Embed wide-to-narrow guidance directly in the sub-agent's task description. Agents don't self-calibrate search strategy — you have to prescribe it.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m5q6"></label>
+          <details class="qa-details">
+            <summary>Q: What are "resource scaling rules" and why must they be hardcoded in the prompt?</summary>
+            <div class="qa-answer">
+              <p>Resource scaling rules tell sub-agents how many sub-agents <em>they</em> should spawn for different task complexities. Example rules embedded in a prompt:</p>
+              <ul>
+                <li>"For a simple factual lookup: 1 sub-agent, 3-10 tool calls"</li>
+                <li>"For complex multi-angle research: 5-10 sub-agents with distinct scope boundaries"</li>
+                <li>"Never spawn more than 10 sub-agents in a single level"</li>
+              </ul>
+              <p>Why hardcode them: agents cannot self-calibrate resource usage reliably. Without explicit rules, they either under-parallelize (too conservative) or over-spawn (exponential cost growth). The prompt is the only mechanism that reliably constrains this behavior across different inputs and task types.</p>
+              <p>This is an instance of the general principle: agents can't regulate themselves. Engineer the constraints into the environment.</p>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════
+         MODULE 6 — Agent Harness & State Management
+    ══════════════════════════════════════════════ -->
+    <section class="module" id="m6">
+      <div class="module-header">
+        <span class="module-num">M6</span>
+        <h2>Agent Harness &amp; State Management</h2>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>Summary</strong>
+        <p>
+          <em>"The harness is the product. The model is a component."</em>
+          The harness is everything around the LLM: the context pipeline, tool registry, memory system,
+          retry logic, checkpointing, safety gates, and lifecycle control.
+          A powerful model in a poorly-designed harness will fail repeatedly.
+          A capable harness makes even a mid-tier model reliable.
+        </p>
+        <p style="margin-top:10px;font-weight:600;">The 3-file pattern for long-running agents:</p>
+        <ul style="margin:6px 0 0 18px;font-size:14px;line-height:2;">
+          <li><strong><code>progress.txt</code></strong> — append-only plain-language log; what's done, what's blocked, what's next</li>
+          <li><strong><code>feature_list.json</code></strong> — structured checklist; each item has <code>passes: false</code> as default; only this field may be changed</li>
+          <li><strong><code>init.sh</code></strong> — startup script that establishes a known-good baseline (dev server, build, basic tests)</li>
+        </ul>
+        <p style="margin-top:10px;font-weight:600;">The 7-step startup sequence (run every session):</p>
+        <ol style="margin:6px 0 0 18px;font-size:14px;line-height:1.8;">
+          <li>Check working directory</li>
+          <li>Read <code>progress.txt</code></li>
+          <li>Read recent git log</li>
+          <li>Read <code>feature_list.json</code></li>
+          <li>Run <code>init.sh</code></li>
+          <li>Run end-to-end browser/environment verification</li>
+          <li>Begin first incomplete item</li>
+        </ol>
+        <p style="margin-top:10px;">
+          <strong>Why JSON not Markdown for checklists:</strong> empirically, LLMs are less likely to rewrite or consolidate JSON files.
+          Markdown has a natural "reorganize" tendency — the model may collapse similar items or remove "done" entries.
+          Format choice is a behavioral nudge, not just a data structure choice.
+        </p>
+      </div>
+
+      <p class="qa-section-label">Q &amp; A</p>
+      <div class="qa-list">
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m6q1"></label>
+          <details class="qa-details">
+            <summary>Q: Why use JSON for the feature list instead of Markdown? What principle does this illustrate?</summary>
+            <div class="qa-answer">
+              <p>Empirically, Claude is less likely to rewrite or collapse JSON files than Markdown files. Markdown has a natural "reorganization" tendency — the model may merge similar items, remove entries it considers "already done," or reformulate the list structure. JSON's rigid schema makes rewriting costly: every field has a type, every key must be preserved exactly.</p>
+              <p>The <code>feature_list.json</code> uses a strong instruction alongside the format choice: <em>"Deleting or editing test items is unacceptable. The only permitted change is setting passes: true."</em> The structural rigidity of JSON + the explicit instruction creates a behavioral forcing function.</p>
+              <div class="key-rule">This illustrates the broader harness principle: don't rely on agent self-discipline. Encode constraints in the environment — format, schema, explicit instructions. The agent operates within limits you engineer, not limits it sets for itself.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m6q2"></label>
+          <details class="qa-details">
+            <summary>Q: Why is discovering broken state at session start better than discovering it mid-implementation?</summary>
+            <div class="qa-answer">
+              <p>If the environment is broken when a new session starts and the agent doesn't check:</p>
+              <ul>
+                <li>The agent begins new work on a broken foundation</li>
+                <li>New failures mix with old failures — the agent can't distinguish which bugs it introduced vs. what was already broken</li>
+                <li>The new session's commits contaminate git history, making rollback complex</li>
+                <li>The next session inherits an even messier state</li>
+              </ul>
+              <p>With the startup sequence, the agent discovers broken state before touching any code. The fix: diagnose via <code>git log</code>, roll back the offending commit, verify the environment is clean, then proceed. No new work begins until the baseline is healthy.</p>
+              <div class="key-rule">The startup sequence is a pre-flight checklist. A pilot who finds a fault on the runway turns back — not at 30,000 feet.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m6q3"></label>
+          <details class="qa-details">
+            <summary>Q: What is "stateless iterative convergence" and how does it differ from trusting the agent's self-reports?</summary>
+            <div class="qa-answer">
+              <p>Stateless iterative convergence: re-derive ground truth from authoritative external tools each iteration, rather than believing the agent's description of current state.</p>
+              <p>Example: in a .NET migration agent, the debug loop runs <code>dotnet build</code> after every code change. The ground truth of "does the code build?" comes from the compiler, not from the agent's statement "I believe the fix is correct." The agent may be wrong about whether its fix worked — the compiler cannot be wrong about whether it compiles.</p>
+              <p>This generalizes: in a robot agent, ground truth about "did the arm grasp the object?" comes from the gripper sensor reading, not the agent's model of what should have happened. In a web agent, ground truth about "did the form submit?" comes from the HTTP response, not the agent's inference.</p>
+              <div class="key-rule">Never trust agent self-reports for safety-critical state. The ground truth must come from a deterministic external oracle. The agent's job is to take actions; verification is the harness's job.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m6q4"></label>
+          <details class="qa-details">
+            <summary>Q: What hard limits should every production agent harness enforce?</summary>
+            <div class="qa-answer">
+              <p>Every harness must have hard, non-negotiable ceilings. When any limit is hit, the behavior should be: escalate to a human, log full state, and stop cleanly. Never silently fail.</p>
+              <ul>
+                <li><strong>MAX_STEPS</strong>: maximum tool calls per task (e.g., 50). Prevents infinite loops.</li>
+                <li><strong>MAX_RETRIES</strong>: maximum retry attempts per failed operation (e.g., 3). Prevents a stuck evaluator-optimizer loop from burning the budget.</li>
+                <li><strong>TOKEN_BUDGET</strong>: maximum total tokens across all LLM calls in a task (e.g., 100K). Cost protection.</li>
+                <li><strong>TIMEOUT</strong>: wall-clock time limit (e.g., 10 minutes). Guards against slow tool calls or runaway loops.</li>
+              </ul>
+              <p>The limits themselves are parameterized by task type — a quick lookup has tighter limits than a deep research task. But every task type must have all four limits defined.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m6q5"></label>
+          <details class="qa-details">
+            <summary>Q: Why must end-to-end verification (browser automation equivalent) be used instead of unit tests?</summary>
+            <div class="qa-answer">
+              <p>LLMs have a strong tendency to mark a task as "done" after running unit tests or <code>curl</code> checks, even when the full user-facing feature doesn't work. Unit tests verify the code compiles and specific functions return expected values — they don't verify the end-to-end user experience.</p>
+              <p>End-to-end verification (e.g., Puppeteer for web apps, actual actuator commands for robots, dotnet build + runtime execution for .NET) verifies the complete system. Only a passing E2E test allows the agent to set <code>passes: true</code> on a feature.</p>
+              <p>This is especially important in multi-session tasks: an agent might complete "step 3" correctly in isolation but have it break "step 5" — unit tests on step 3 won't catch that. Only an E2E run through the full flow will.</p>
+              <div class="key-rule">Match verification to what the user actually experiences. Not to what's convenient to test. A feature isn't done until the thing it's supposed to do works end-to-end.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m6q6"></label>
+          <details class="qa-details">
+            <summary>Q: How do you handle an interruption/replan scenario in a long-running agent workflow?</summary>
+            <div class="qa-answer">
+              <p>The interruption pattern used in production multi-agent systems:</p>
+              <ol>
+                <li>A parallel user thread runs alongside the main agent pipeline. When the user submits a change request, a classifier agent determines: is this a query (just answer it) or a change request (requires replan)?</li>
+                <li>For a change request: set an interruption signal flag to <code>true</code> in shared state.</li>
+                <li>The lead agent checks the interruption signal at stage boundaries (between Planning → Assessment → Porting → Debug). When it detects <code>signal=true</code>: finish the current stage, then pause.</li>
+                <li>The lead agent reads the new user requirements, re-evaluates the plan, and resumes from the appropriate checkpoint — not from the beginning.</li>
+              </ol>
+              <p>Critical design: the interruption is checked at stage boundaries, not inside stages. This prevents partial-state corruption. Constrain what changes users can request mid-job (e.g., can't change the target .NET version after porting has started).</p>
+              <div class="key-rule">Define the allowed change surface before deployment. Unlimited mid-job changes = unbounded state machine complexity. Constrained changes = tractable replan logic.</div>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════
+         MODULE 7 — Safety, Reliability & Evaluation
+    ══════════════════════════════════════════════ -->
+    <section class="module" id="m7">
+      <div class="module-header">
+        <span class="module-num">M7</span>
+        <h2>Safety, Reliability &amp; Evaluation</h2>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>Summary</strong>
+        <p>
+          The core decision rule for LLM vs. deterministic logic:
+          <strong>"Use AI where the cost of being wrong is recoverable. Use deterministic systems where it isn't."</strong>
+        </p>
+        <p style="margin-top:8px;">
+          Example: package version compatibility checking. The LLM hallucinated package versions that didn't exist.
+          Rolled back to a deterministic database lookup. The LLM stayed only where its output was verified by
+          <code>dotnet build</code> — a deterministic oracle — before any consequences.
+        </p>
+        <p style="margin-top:12px;font-weight:600;">Safety gate layers for physical AI (generalizes to any high-stakes agent):</p>
+      </div>
+
+      <div class="gate-pipeline">
+        <div class="gate-step"><span class="gate-num">1</span><div><strong>Schema Validation</strong> — action_type ∈ whitelist; speed ≤ zone limit; payload ≤ 15kg; Pydantic model enforced</div></div>
+        <div class="gate-step"><span class="gate-num">2</span><div><strong>Physical Constraints</strong> — battery &gt; 20%; no humans within 2m; path clear; environment sensors</div></div>
+        <div class="gate-step"><span class="gate-num">3</span><div><strong>Risk Classification</strong> — <em>DETERMINISTIC, not LLM</em>: LOW → auto-execute; MEDIUM → log + execute; HIGH → HITL required</div></div>
+        <div class="gate-step hitl"><span class="gate-num">4</span><div><strong>HITL Gate</strong> — 60s approval window; timeout → safe stop; all decisions logged with reason</div></div>
+        <div class="gate-step"><span class="gate-num">5</span><div><strong>Execute + Guard</strong> — MAX_STEPS=50; MAX_RETRIES=3; token budget cap; abort on sensor anomaly</div></div>
+      </div>
+
+      <div class="callout callout-green" style="margin-top:18px;">
+        <strong>Evaluation Principles</strong>
+        <ul style="margin:8px 0 0 18px;font-size:14px;line-height:2;">
+          <li><strong>Start immediately</strong> — 20 real tasks now beats a perfect eval framework in 3 months</li>
+          <li><strong>Stratified sampling</strong> — sample by task category, not randomly; regressions in minority categories must surface</li>
+          <li><strong>LLM-as-judge with rubric</strong> — specific criteria (0.0–1.0), not binary; calibrate against human judgments; single judge is more consistent than multi-judge averaging</li>
+          <li><strong>End-state evaluation</strong> — was the final state correct? Not "did each intermediate step look reasonable?"</li>
+          <li><strong>Held-out test set</strong> — never evaluate on examples you optimized against; eval overfitting is real</li>
+          <li><strong>Self-improving tools</strong> — tool-testing agent reads interleaved thinking to find confusion, rewrites descriptions; −40% task time, zero model changes</li>
+        </ul>
+      </div>
+
+      <p class="qa-section-label">Q &amp; A</p>
+      <div class="qa-list">
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m7q1"></label>
+          <details class="qa-details">
+            <summary>Q: Why must risk classification be deterministic rather than LLM-based?</summary>
+            <div class="qa-answer">
+              <p>LLM outputs are probabilistic — they vary across runs, models, and context states. For risk classification, a false negative (classifying HIGH risk as LOW) can have physical consequences: a robot arm injures someone, a financial trade loses real money, infrastructure is deleted.</p>
+              <p>Deterministic logic (rule-based, table-lookup, or formula-based) has the property that the same input always produces the same output. You can reason about it, test it exhaustively, and audit it. A safety check that might miss HIGH risk 1% of the time is not a safety check.</p>
+              <p>The principle generalizes: any decision where the cost of being wrong is irreversible must use deterministic logic. LLMs stay where they do best — where output is verified by a downstream oracle (compiler, sensor, database query) or where errors are recoverable.</p>
+              <div class="warn-rule">Never use an LLM to determine whether to bypass a safety gate. That gate exists precisely because the LLM might be wrong.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m7q2"></label>
+          <details class="qa-details">
+            <summary>Q: Why use structured find/replace patches instead of letting the LLM rewrite files freely?</summary>
+            <div class="qa-answer">
+              <p>Free-form LLM rewrites of files introduce subtle errors that are hard to detect:</p>
+              <ul>
+                <li>Wrong indentation (syntactically valid but semantically wrong in Python)</li>
+                <li>Changed variable names (renamed <code>user_id</code> to <code>userId</code> silently)</li>
+                <li>Removed comments, altered formatting, restructured code the agent didn't need to touch</li>
+              </ul>
+              <p>Structured find+replace patches constrain the LLM to output: "replace <em>exactly this string</em> with <em>exactly this string</em> in <em>this file</em>." A deterministic tool applies the patch. The diff is minimal, auditable, and reversible.</p>
+              <p>Benefits: (1) the scope of change is bounded, (2) applying the patch is idempotent and verifiable, (3) git diffs are small and reviewable by humans, (4) if the patch fails to apply (source string not found), the error is explicit — no silent corruption.</p>
+              <div class="key-rule">Minimal, structured, reversible changes. The smaller the blast radius of each LLM action, the easier it is to recover from errors.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m7q3"></label>
+          <details class="qa-details">
+            <summary>Q: Why use stratified sampling instead of random sampling for your eval benchmark?</summary>
+            <div class="qa-answer">
+              <p>Random sampling is biased toward the most common category in your task distribution. If 70% of your examples are "Library" type, a random 100-sample eval will have ~70 Library examples. A regression in "WebForms" (10% of traffic) might produce 0 failures in a random eval that includes only 10 WebForms examples.</p>
+              <p>Stratified sampling forces proportional coverage: e.g., 25 examples × 4 categories = 100 evals with guaranteed 25 per category. A WebForms regression now appears in 25 of your eval runs — it's impossible to miss.</p>
+              <p>From the .NET migration system: WinForms fails for UI rendering reasons; WebForms for web pipeline reasons; Library for API surface reasons. These are distinct failure modes. Random sampling let Library success rates mask WebForms regressions until production caught them.</p>
+              <div class="key-rule">Stratified sampling is especially important when failure modes differ by category. Random sampling is acceptable only when all categories are homogeneous.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m7q4"></label>
+          <details class="qa-details">
+            <summary>Q: How do you use LLM-as-judge effectively? What are the failure modes?</summary>
+            <div class="qa-answer">
+              <p>LLM-as-judge uses a model to score agent outputs against a rubric. Done well, it scales human evaluation. Done poorly, it's noisy and unreliable.</p>
+              <p><strong>Best practices:</strong></p>
+              <ul>
+                <li>Use a <em>specific rubric</em> (0.0–1.0 per dimension: accuracy, completeness, format, tone) rather than a holistic "is this good?"</li>
+                <li>One judge is more consistent than averaging multiple judges (inter-judge variance adds noise)</li>
+                <li>Calibrate against human judgments on 20-50 examples before trusting at scale</li>
+                <li>Use chain-of-thought: ask the judge to reason before scoring (reduces positional bias)</li>
+                <li>Keep a held-out set the judge never saw during prompt development</li>
+              </ul>
+              <p><strong>Common failure modes:</strong></p>
+              <ul>
+                <li>Position bias: judge rates earlier responses higher regardless of quality</li>
+                <li>Verbosity bias: judge rates longer responses higher even when concise answers are better</li>
+                <li>Self-consistency bias: judge inflates scores for outputs that match its own prior outputs</li>
+              </ul>
+              <div class="key-rule">LLM-as-judge doesn't replace human evaluation — it scales it. Always have humans verify a random sample of judge scores to detect systematic biases.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m7q5"></label>
+          <details class="qa-details">
+            <summary>Q: Your success rate is 30%. How do you build an eval pipeline to improve it systematically?</summary>
+            <div class="qa-answer">
+              <p>Don't guess at improvements — measure everything and let data guide you.</p>
+              <ol>
+                <li><strong>Collect and stratify failures</strong>: categorize the 70% failure cases. Which task types fail most? What's the failure mode (wrong output, tool error, context overflow, timeout)?</li>
+                <li><strong>Build a golden dataset</strong>: for each failure category, collect 25 representative examples with ground truth. This is your held-out eval set. Never optimize against it directly.</li>
+                <li><strong>Create a development set</strong>: separate set for iterating on fixes (prompts, tools, harness).</li>
+                <li><strong>Set a hard quality gate</strong>: define the minimum acceptable success rate per category. Below threshold → pipeline is blocked; manual review required. No soft alerts that get ignored.</li>
+                <li><strong>Run eval on every change</strong>: daily automated benchmark; any prompt, tool, or harness change runs the eval before reaching production.</li>
+                <li><strong>Track trends</strong>: not just pass/fail but latency trends, token cost per task, tool error rates. Catching "we fixed accuracy by doing more work" is important — that's a latency regression.</li>
+              </ol>
+            </div>
+          </details>
+        </div>
+
+        <div class="qa-item">
+          <label class="qa-check"><input type="checkbox" class="prob-check" data-id="m7q6"></label>
+          <details class="qa-details">
+            <summary>Q: You were badly burned by an LLM hallucinating data. What's the systematic fix?</summary>
+            <div class="qa-answer">
+              <p>A real example: the LLM was used to check .NET package compatibility — which versions work in .NET 8. It confidently suggested package versions that didn't exist. This passed internal review and was caught only in the eval benchmark when success rate dropped.</p>
+              <p>The fix:</p>
+              <ol>
+                <li>Identify the failure domain: .NET package ecosystem data is too niche and too frequently updated for reliable LLM training coverage.</li>
+                <li>Roll back LLM from that decision point.</li>
+                <li>Replace with deterministic lookup: a database of verified package compatibility data, updated on a known schedule.</li>
+                <li>Keep LLM only in steps where its output is verified by a downstream oracle: code suggestions verified by <code>dotnet build</code>.</li>
+              </ol>
+              <p>The general pattern: when LLM hallucination is caught in eval, the fix isn't better prompting — it's removing the LLM from that decision point and replacing it with a deterministic source of truth where one exists.</p>
+              <div class="key-rule">"I use AI where the cost of being wrong is recoverable. Deterministic systems where it isn't." — and where a deterministic solution exists and is reliable, use it.</div>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </section>
+
+  </main><!-- /main-content -->
+</div><!-- /page-layout -->
+
+<script>
+(function() {
+  const KEY = 'agent-guide-v1';
+  const TOTAL = 42;
+  const progLabel = document.getElementById('prog-label');
+  const progFill  = document.getElementById('prog-fill');
+
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; }
+  }
+  function saveState(state) {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
+  }
+  function updateProgress() {
+    const state = loadState();
+    const count = Object.values(state).filter(Boolean).length;
+    progLabel.textContent = count + ' / ' + TOTAL + ' understood';
+    progFill.style.width  = Math.round(count / TOTAL * 100) + '%';
+  }
+
+  // Initialize checkboxes from stored state
+  const state = loadState();
+  document.querySelectorAll('.prob-check').forEach(function(cb) {
+    const id = cb.dataset.id;
+    if (state[id]) {
+      cb.checked = true;
+      cb.closest('.qa-item').classList.add('understood');
+    }
+    cb.addEventListener('change', function() {
+      const st = loadState();
+      st[cb.dataset.id] = cb.checked;
+      saveState(st);
+      cb.closest('.qa-item').classList.toggle('understood', cb.checked);
+      updateProgress();
+    });
+  });
+
+  updateProgress();
+
+  document.getElementById('btn-reset').addEventListener('click', function() {
+    if (!confirm('Reset all progress?')) return;
+    saveState({});
+    document.querySelectorAll('.prob-check').forEach(function(cb) {
+      cb.checked = false;
+      cb.closest('.qa-item').classList.remove('understood');
+    });
+    updateProgress();
+  });
+
+  // Smooth scroll for sidebar links
+  document.querySelectorAll('.sidebar-item[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
